@@ -1,0 +1,10 @@
+local.properties
+.idea/workspace.xml
+.idea/libraries
+.idea/modules.xml
+.idea/*
+*.iml
+.DS_Store
+build
+library/*/build
+app/fabric.properties
