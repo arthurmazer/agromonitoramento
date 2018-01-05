@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -40,6 +42,8 @@ public class LoginActivity extends AppCompatActivity  {
     private TextInputLayout layoutEmail;
     private TextInputLayout layoutPassword;
     private TextView loadingText;
+    private TextView developedBy;
+    private Animation slideUp;
     //private View mLoginFormView;
 
     @Override
@@ -50,6 +54,13 @@ public class LoginActivity extends AppCompatActivity  {
         layoutEmail = findViewById(R.id.text_email_input_layout);
         layoutPassword = findViewById(R.id.text_senha_input_layout);
         loadingText = findViewById(R.id.loading_text);
+        developedBy = findViewById(R.id.developedBy);
+        slideUp = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.slide_up);
+
+
+        developedBy.startAnimation(slideUp);
+        developedBy.setVisibility(View.VISIBLE);
         // Set up the login form.
         mEmailView = findViewById(R.id.email);
        // populateAutoComplete();
