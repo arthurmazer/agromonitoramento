@@ -12,4 +12,9 @@
     <string name="error_field_required">Este campo é obrigatório</string>
     <string name="permission_rationale">"Você não tem as permissões necessárias para o acesso"</string>
     <string name="develovped_by">GreenLab₢2017</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Planilha</string>
+    <string name="title_reports">Relatórios</string>
+    <string name="title_settings">Configurações</string>
 </resources>
