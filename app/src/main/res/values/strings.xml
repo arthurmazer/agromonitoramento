@@ -14,10 +14,12 @@
     <string name="develovped_by">GreenLab₢2017</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Planilha</string>
+    <string name="title_spreadsheet">Planilha</string>
     <string name="title_reports">Relatórios</string>
     <string name="title_settings">Configurações</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment2">Hello b223lank fragment</string>
+    <string name="hello_blank_fragment3">Hello blan3333k fragment</string>
 </resources>
