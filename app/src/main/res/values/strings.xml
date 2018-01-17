@@ -22,4 +22,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hello_blank_fragment2">Hello b223lank fragment</string>
     <string name="hello_blank_fragment3">Hello blan3333k fragment</string>
+
+    <string name="empty_projects">Você ainda não tem projetos</string>
+    <string name="start_new_project">Novo Projeto</string>
 </resources>

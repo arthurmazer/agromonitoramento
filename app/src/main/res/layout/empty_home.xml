@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/sad_icon_image"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="90dp"
+        android:layout_centerHorizontal="true"
+
+
+        app:srcCompat="@drawable/sad_icon" />
+
+    <TextView
+        android:id="@+id/text_empty_projects"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/sad_icon_image"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/neuton"
+        android:text="@string/empty_projects"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/neuton"
+        android:textSize="17sp"
+        android:textColor="@drawable/button_text_color"
+        android:background="@drawable/button_background"
+        android:text="@string/start_new_project"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp" />
+</RelativeLayout>
