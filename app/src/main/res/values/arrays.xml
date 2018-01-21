@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="culture_choice">
+        <item>Cana-de-açucar</item>
+        <item>Soja</item>
+    </string-array>
+</resources>

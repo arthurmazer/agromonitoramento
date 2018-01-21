@@ -33,7 +33,9 @@ public class SpreadsheetFragment extends Fragment {
         // Inflate the layout for this fragment
         this.mActivity = (HomeActivity)getActivity();
 
-        mActivity.displayErrorMessage();
+
+
+        //mActivity.displayErrorMessage();
         return inflater.inflate(R.layout.fragment_spreadsheet, container, false);
     }
 
