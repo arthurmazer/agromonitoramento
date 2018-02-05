@@ -6,5 +6,8 @@
     tools:context="com.greenlab.agromonitor.fragments.SpreadsheetFragment">
 
 
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_spreadsheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>
