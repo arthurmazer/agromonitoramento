@@ -3,6 +3,7 @@ package com.greenlab.agromonitor.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -21,22 +22,37 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     private ArrayList<Object> spreadsheetList;
-    private Context context;
-    private Activity mActivity;
+    private Context mContext;
 
     private static final int REQUEST = 112;
-    private final int PRODUCT_VALUE = 0, CATEGORY = 1;
+    public final int PRODUCT_VALUE = 0, CATEGORY = 1;
 
 
-    public SpreadsheetAdapter(ArrayList<Object> spreadsheetList, Context context, Activity annalsActivity) {
+    public SpreadsheetAdapter(ArrayList<Object> spreadsheetList) {
         this.spreadsheetList = spreadsheetList;
-        this.context = context;
-        this.mActivity = annalsActivity;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        this.mContext = parent.getContext();
+        RecyclerView.ViewHolder viewHolder = null;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
+        switch (viewType){
+            case PRODUCT_VALUE:
+                View v1 = inflater.from(parent.getContext()).inflate(R.layout.item_product_value,parent,false);
+                viewHolder = new ViewHolder(v1);
+                break;
+
+            case CATEGORY:
+                View v2 = inflater.from(parent.getContext()).inflate(R.layout.item_category_header,parent,false);
+                viewHolder = new ViewHolderCategoria(v2);
+                break;
+            default:
+                break;
+        }
+        return viewHolder;
+
     }
 
     @Override
@@ -81,21 +97,15 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView productValue;
-        public Context context;
-        public Activity activity;
 
 
-        public ViewHolder(View itemView, Context context, Activity activity) {
+        public ViewHolder(View itemView) {
             super(itemView);
             productValue = (TextView) itemView.findViewById(R.id.product_value);
-            this.activity = activity;
-            this.context = context;
-
         }
 
         @Override
         public void onClick(View v) {
-            // if (v.getId() == itemLayout.getId()){
 
         }
     }
@@ -108,7 +118,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public ViewHolderCategoria(View itemView) {
             super(itemView);
-            titleProduct = (TextView) itemView.findViewById(R.id.title_product);
+            titleProduct = itemView.findViewById(R.id.title_product);
         }
     }
 }
