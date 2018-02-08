@@ -60,11 +60,11 @@ public class SpreadsheetFragment extends Fragment {
 
                 switch(spreadsheetAdapter.getItemViewType(position)){
                     case PRODUCT_VALUE:
-                        return 6;
-                    case CATEGORY:
                         return 1;
+                    case CATEGORY:
+                        return 6;
                     default:
-                        return -1;
+                        return 1;
                 }
                 }
 
@@ -82,11 +82,11 @@ public class SpreadsheetFragment extends Fragment {
         recyclerSpreadsheet.setAdapter(spreadsheetAdapter);
 
 
-        for (int i = 0; i < 20; i++){
+        for (int i = 0; i < 40; i++){
             if ( i == 0){
                 spreadsheetList.add("PT");
             }else{
-                if ( i%5 == 0){
+                if ( i%15 == 0){
                     spreadsheetList.add("XXX");
                 }else{
                     Product p = new Product(1, "title", Float.parseFloat("1.677"));
