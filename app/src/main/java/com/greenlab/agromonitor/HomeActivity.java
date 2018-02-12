@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -16,7 +17,7 @@ import com.greenlab.agromonitor.fragments.HomeFragment;
 import com.greenlab.agromonitor.fragments.ReportFragment;
 import com.greenlab.agromonitor.fragments.SpreadsheetFragment;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
     private BottomNavigationView bottomNavigationView;
 
@@ -89,4 +90,10 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+
+    @Override
+    protected void onDestroy() {
+        Log.d("BaseActivity","destruiu aqui");
+        super.onDestroy();
+    }
 }

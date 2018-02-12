@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -21,6 +22,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.entity.User;
+import com.greenlab.agromonitor.managers.SessionManager;
+
+import java.util.ArrayList;
 
 /**
  * A login screen that offers login via email/password.
@@ -51,6 +58,10 @@ public class LoginActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SessionManager sessionManager = new SessionManager(this);
+        if (sessionManager.isUserLoggedIn())
+            callHomeActivity();
 
         layoutEmail = findViewById(R.id.text_email_input_layout);
         layoutPassword = findViewById(R.id.text_senha_input_layout);
@@ -211,10 +222,11 @@ public class LoginActivity extends AppCompatActivity  {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, User> {
 
         private final String mEmail;
         private final String mPassword;
+        //private final DbManager db;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -222,22 +234,17 @@ public class LoginActivity extends AppCompatActivity  {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+        protected User doInBackground(Void... params) {
 
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                return false;
+                return null;
             }
 
-            if ( DUMMY_CREDENTIALS[0] == "arthur@email.com" &&
-                    DUMMY_CREDENTIALS[1] == "123456"){
-                return true;
-            }else{
-                return false;
-            }
+            User user = new User(this.mEmail, this.mPassword);
+            return user.login(getApplicationContext());
 
         }
 
@@ -247,11 +254,13 @@ public class LoginActivity extends AppCompatActivity  {
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final User user) {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            if (user != null) {
+                SessionManager sessionManager = new SessionManager(getApplicationContext());
+                sessionManager.createUserSession(user);
                 callHomeActivity();
                 finish();
             } else {

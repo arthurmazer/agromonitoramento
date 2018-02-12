@@ -1,4 +1,7 @@
-package com.greenlab.agromonitor.models;
+package com.greenlab.agromonitor.entity;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
 
@@ -6,11 +9,14 @@ import java.util.Date;
  * Created by mazer on 1/19/2018.
  */
 
+@Entity
 public class Project {
 
+    @PrimaryKey
     private int id;
+
     private String projectName;
-    private Date creationDate;
+    private String creationDate;
     private int cultureType;
 
     public int getId() {
@@ -29,11 +35,11 @@ public class Project {
         this.projectName = projectName;
     }
 
-    public Date getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
