@@ -4,13 +4,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.greenlab.agromonitor.HomeActivity;
+import com.greenlab.agromonitor.NewProjectActivity;
 import com.greenlab.agromonitor.R;
+import com.greenlab.agromonitor.utils.Constants;
 
 
 public class HomeFragment extends Fragment {
@@ -42,16 +45,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                builder.setTitle(R.string.choose_an_culture);
-                builder.setItems(R.array.culture_choice, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.show();
-
+             Intent it = new Intent(getActivity(), NewProjectActivity.class);
+             getActivity().startActivityForResult(it, Constants.REQUEST_CODE_NEW_PROJECT);
             }
         });
 

@@ -12,5 +12,6 @@ public class Constants {
     public static final String SP_ISLOGGEDIN = "sp_isloggedin";
     public static final String SP_LOGIN = "sp_login";
 
+    public static final int REQUEST_CODE_NEW_PROJECT = 100;
 
 }

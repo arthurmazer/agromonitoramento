@@ -58,12 +58,11 @@
         android:id="@+id/btn_add_products"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Adicionar Produto"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_products"
+        app:layout_constraintTop_toBottomOf="@+id/add_product_label"
         android:layout_marginLeft="16dp" />
 
     <android.support.v7.widget.RecyclerView
@@ -75,5 +74,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_add_products" />
+
+    <EditText
+        android:id="@+id/add_product_label"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@+id/tv_products"
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup_culture"
+        android:layout_marginLeft="8dp" />
 
 </android.support.constraint.ConstraintLayout>
