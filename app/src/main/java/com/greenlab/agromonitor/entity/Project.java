@@ -3,6 +3,7 @@ package com.greenlab.agromonitor.entity;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -12,12 +13,17 @@ import java.util.Date;
 @Entity
 public class Project {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     private String projectName;
     private String creationDate;
-    private int cultureType;
+    private int cultureType; //0 - Cana, 1 - Soja
+    private ArrayList<String> listOfProducts;
+
+    public Project(){
+        listOfProducts = new ArrayList<>();
+    }
 
     public int getId() {
         return id;
@@ -49,5 +55,13 @@ public class Project {
 
     public void setCultureType(int cultureType) {
         this.cultureType = cultureType;
+    }
+
+    public ArrayList<String> getListOfProducts() {
+        return listOfProducts;
+    }
+
+    public void setListOfProducts(ArrayList<String> listOfProducts) {
+        this.listOfProducts = listOfProducts;
     }
 }

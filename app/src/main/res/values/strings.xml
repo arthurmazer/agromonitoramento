@@ -29,4 +29,6 @@
 
     <string name="culture_cana">Cana-de-açucar</string>
     <string name="culture_soja">Soja</string>
+
+    <string name="button_new_project">Salvar</string>
 </resources>

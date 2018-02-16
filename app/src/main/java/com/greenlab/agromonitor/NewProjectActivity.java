@@ -11,8 +11,15 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.greenlab.agromonitor.adapters.ProductListAdapter;
+import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.utils.Constants;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class NewProjectActivity extends AppCompatActivity {
 
@@ -22,6 +29,7 @@ public class NewProjectActivity extends AppCompatActivity {
     RecyclerView recyclerProducs;
     ProductListAdapter productListAdapter;
     Button btnAddProduct;
+    Button btnSaveProject;
     EditText productLabelText;
 
     @Override
@@ -33,6 +41,7 @@ public class NewProjectActivity extends AppCompatActivity {
         radioSoja = findViewById(R.id.radio_soja);
         recyclerProducs = findViewById(R.id.recycler_products);
         btnAddProduct = findViewById(R.id.btn_add_products);
+        btnSaveProject = findViewById(R.id.btn_new_project);
         productLabelText = findViewById(R.id.add_product_label);
         listProducts = new ArrayList<>();
 
@@ -54,6 +63,13 @@ public class NewProjectActivity extends AppCompatActivity {
             }
         });
 
+        btnSaveProject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveProject();
+            }
+        });
+
         populateFields();
 
     }
@@ -61,5 +77,23 @@ public class NewProjectActivity extends AppCompatActivity {
     public void populateFields(){
         this.listProducts.clear();
         this.radioCana.setChecked(true);
+    }
+
+    public void saveProject(){
+        Project project = new Project();
+        project.setProjectName("Teste 1");
+
+        if ( this.radioCana.isChecked())
+            project.setCultureType(Constants.PROJECT_TYPE_CANA_DE_ACUCAR);
+        else
+            project.setCultureType(Constants.PROJECT_TYPE_SOJA);
+
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        String dateNow = dateFormat.format(date);
+
+        project.setCreationDate(dateNow);
+        project.getListOfProducts().addAll(listProducts);
+
     }
 }

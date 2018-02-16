@@ -68,7 +68,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_products"
         android:layout_width="368dp"
-        android:layout_height="308dp"
+        android:layout_height="158dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,5 +87,17 @@
         app:layout_constraintStart_toEndOf="@+id/tv_products"
         app:layout_constraintTop_toBottomOf="@+id/radiogroup_culture"
         android:layout_marginLeft="8dp" />
+
+    <Button
+        android:id="@+id/btnSaveNewProject"
+        android:layout_width="354dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/button_new_project"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

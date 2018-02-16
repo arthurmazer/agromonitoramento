@@ -14,4 +14,7 @@ public class Constants {
 
     public static final int REQUEST_CODE_NEW_PROJECT = 100;
 
+    public static final int PROJECT_TYPE_CANA_DE_ACUCAR = 0;
+    public static final int PROJECT_TYPE_SOJA = 1;
+
 }
