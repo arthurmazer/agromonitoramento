@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.greenlab.agromonitor.entity.User;
 import com.greenlab.agromonitor.managers.SessionManager;
 
 /**
@@ -32,5 +33,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         Log.d("BaseActivity-Destroyed","user logged out");
         sessionManager.logout();
+    }
+
+    public User getSessionUser(){
+        sessionManager = new SessionManager(this);
+        User user = new User();
+        user.setLogin(sessionManager.getUserName());
+        user.setId(sessionManager.getUserId());
+        return user;
     }
 }

@@ -93,7 +93,6 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        Log.d("BaseActivity","destruiu aqui");
         super.onDestroy();
     }
 }

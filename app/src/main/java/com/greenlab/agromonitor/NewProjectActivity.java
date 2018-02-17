@@ -10,8 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import com.google.gson.Gson;
 import com.greenlab.agromonitor.adapters.ProductListAdapter;
 import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.entity.User;
+import com.greenlab.agromonitor.managers.UserManager;
 import com.greenlab.agromonitor.utils.Constants;
 
 import java.text.DateFormat;
@@ -21,8 +24,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class NewProjectActivity extends AppCompatActivity {
+public class NewProjectActivity extends BaseActivity {
 
+    UserManager userManager;
     ArrayList<String> listProducts;
     RadioButton radioCana;
     RadioButton radioSoja;
@@ -44,6 +48,7 @@ public class NewProjectActivity extends AppCompatActivity {
         btnSaveProject = findViewById(R.id.btn_new_project);
         productLabelText = findViewById(R.id.add_product_label);
         listProducts = new ArrayList<>();
+        userManager =  new UserManager(getApplicationContext());
 
         productListAdapter = new ProductListAdapter(listProducts);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -93,7 +98,13 @@ public class NewProjectActivity extends AppCompatActivity {
         String dateNow = dateFormat.format(date);
 
         project.setCreationDate(dateNow);
-        project.getListOfProducts().addAll(listProducts);
+        String jsonProducts = new Gson().toJson(this.listProducts);
+        project.setListOfProducts(jsonProducts);
+
+        User user = getSessionUser();
+        user.getListOfProjects().add(project);
+        userManager.update(user);
+        //user.getListOfProjects().
 
     }
 }

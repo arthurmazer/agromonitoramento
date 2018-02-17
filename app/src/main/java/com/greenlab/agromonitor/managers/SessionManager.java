@@ -16,6 +16,7 @@ public class SessionManager {
     SharedPreferences sharedPreferences;
     Editor editor;
     Context mContext;
+    static final int NO_ID = -1;
 
     public SessionManager(Context context){
         this.mContext = context;
@@ -24,26 +25,28 @@ public class SessionManager {
     }
 
     public void createUserSession(User user){
-        editor.putBoolean(Constants.SP_ISLOGGEDIN,true);
-        editor.putString(Constants.SP_LOGIN, user.getLogin());
+        editor.putBoolean(Constants.SP_IS_LOGGED_IN,true);
+        editor.putString(Constants.SP_USER_LOGIN, user.getLogin());
+        editor.putInt(Constants.SP_USER_ID, user.getId());
         editor.commit();
     }
 
     public boolean isUserLoggedIn(){
-        if (sharedPreferences.getBoolean(Constants.SP_ISLOGGEDIN,false)){
-            return true;
-        }else{
-            return false;
-        }
+        return sharedPreferences.getBoolean(Constants.SP_IS_LOGGED_IN,false);
     }
 
     public String getUserName(){
-        return sharedPreferences.getString(Constants.SP_LOGIN, "");
+        return sharedPreferences.getString(Constants.SP_USER_LOGIN, "");
+    }
+
+    public int getUserId(){
+        return sharedPreferences.getInt(Constants.SP_USER_ID, NO_ID);
     }
 
     public void logout(){
-        editor.putBoolean(Constants.SP_ISLOGGEDIN,false);
-        editor.putString(Constants.SP_LOGIN, "");
+        editor.putBoolean(Constants.SP_IS_LOGGED_IN,false);
+        editor.putString(Constants.SP_USER_LOGIN, "");
+        editor.putInt(Constants.SP_USER_ID, NO_ID);
         editor.commit();
     }
 

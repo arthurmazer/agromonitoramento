@@ -19,10 +19,10 @@ public class Project {
     private String projectName;
     private String creationDate;
     private int cultureType; //0 - Cana, 1 - Soja
-    private ArrayList<String> listOfProducts;
+    private String listOfProducts; //Json
 
     public Project(){
-        listOfProducts = new ArrayList<>();
+
     }
 
     public int getId() {
@@ -57,11 +57,11 @@ public class Project {
         this.cultureType = cultureType;
     }
 
-    public ArrayList<String> getListOfProducts() {
+    public String getListOfProducts() {
         return listOfProducts;
     }
 
-    public void setListOfProducts(ArrayList<String> listOfProducts) {
+    public void setListOfProducts(String listOfProducts) {
         this.listOfProducts = listOfProducts;
     }
 }

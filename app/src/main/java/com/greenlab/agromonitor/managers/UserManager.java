@@ -20,7 +20,6 @@ public class UserManager {
 
     public boolean login(User user){
         if(this.dbManager.userDAO().login(user.login,user.password) != null){
-            Log.d("aqui", "what??? " + user.login + "/" + user.password);
          return true;
         }else{
             return false;
@@ -29,5 +28,9 @@ public class UserManager {
 
     public void insert(User user){
         this.dbManager.userDAO().insertUser(user);
+    }
+
+    public void update(User user){
+        this.dbManager.userDAO().updateUser(user);
     }
 }

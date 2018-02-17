@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.greenlab.agromonitor.entity.User;
 
@@ -16,6 +17,9 @@ public interface UserDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(User user);
+
+    @Update
+    void updateUser(User user);
 
     @Query("SELECT * FROM user WHERE login = :login AND password = :password  LIMIT 1")
     User login(String login, String password);
