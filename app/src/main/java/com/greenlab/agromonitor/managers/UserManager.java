@@ -18,12 +18,9 @@ public class UserManager {
         this.dbManager = DbManager.getInstance(ctx);
     }
 
-    public boolean login(User user){
-        if(this.dbManager.userDAO().login(user.login,user.password) != null){
-         return true;
-        }else{
-            return false;
-        }
+    public User login(User user){
+        return this.dbManager.userDAO().login(user.login,user.password);
+
     }
 
     public void insert(User user){

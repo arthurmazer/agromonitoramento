@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.PointerIcon;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -101,10 +103,14 @@ public class NewProjectActivity extends BaseActivity {
         String jsonProducts = new Gson().toJson(this.listProducts);
         project.setListOfProducts(jsonProducts);
 
-        User user = getSessionUser();
-        user.getListOfProjects().add(project);
+        Log.d("aquijson1",jsonProducts);
+
+
+        User user = getSessionUser(); //get user with id and login and list of projects -- password isn't necessary
+        ArrayList<Project> listOfProjects = user.getListOfProjects();
+        listOfProjects.add(project);
+        user.setListOfProjects(listOfProjects); //set list of projects
         userManager.update(user);
-        //user.getListOfProjects().
 
     }
 }

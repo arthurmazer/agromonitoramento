@@ -10,10 +10,9 @@ import java.util.Date;
  * Created by mazer on 1/19/2018.
  */
 
-@Entity
+
 public class Project {
 
-    @PrimaryKey(autoGenerate = true)
     private int id;
 
     private String projectName;
