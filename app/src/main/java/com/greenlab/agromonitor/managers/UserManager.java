@@ -1,6 +1,8 @@
 package com.greenlab.agromonitor.managers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.greenlab.agromonitor.DbManager;
@@ -27,7 +29,15 @@ public class UserManager {
         this.dbManager.userDAO().insertUser(user);
     }
 
-    public void update(User user){
-        this.dbManager.userDAO().updateUser(user);
+    @SuppressLint("StaticFieldLeak")
+    public void update(final User user){
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                dbManager.userDAO().updateUser(user);
+                return null;
+            }
+        }.execute();
+        //this.dbManager.userDAO().updateUser(user);
     }
 }

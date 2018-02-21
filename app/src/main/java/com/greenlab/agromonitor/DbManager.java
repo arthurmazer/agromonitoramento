@@ -30,7 +30,7 @@ public abstract class DbManager extends RoomDatabase{
     public static DbManager getInstance(Context ctx){
         if ( instance == null ){
             Log.d("aqui", "instancia nulla");
-            instance = Room.databaseBuilder(ctx, DbManager.class, Constants.DB_NAME).build();
+            instance = Room.databaseBuilder(ctx, DbManager.class, Constants.DB_NAME).fallbackToDestructiveMigration().build();
             instance.populateInitialData();
         }
         return instance;

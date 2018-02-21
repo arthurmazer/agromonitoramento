@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.greenlab.agromonitor.adapters.ProductListAdapter;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.User;
+import com.greenlab.agromonitor.managers.SessionManager;
 import com.greenlab.agromonitor.managers.UserManager;
 import com.greenlab.agromonitor.utils.Constants;
 
@@ -47,7 +48,7 @@ public class NewProjectActivity extends BaseActivity {
         radioSoja = findViewById(R.id.radio_soja);
         recyclerProducs = findViewById(R.id.recycler_products);
         btnAddProduct = findViewById(R.id.btn_add_products);
-        btnSaveProject = findViewById(R.id.btn_new_project);
+        btnSaveProject = findViewById(R.id.btnSaveNewProject);
         productLabelText = findViewById(R.id.add_product_label);
         listProducts = new ArrayList<>();
         userManager =  new UserManager(getApplicationContext());
@@ -109,7 +110,9 @@ public class NewProjectActivity extends BaseActivity {
         User user = getSessionUser(); //get user with id and login and list of projects -- password isn't necessary
         ArrayList<Project> listOfProjects = user.getListOfProjects();
         listOfProjects.add(project);
-        user.setListOfProjects(listOfProjects); //set list of projects
+        String jsonListProjects = user.setListOfProjects(listOfProjects); //set list of projects
+        sessionManager.setSringListOfProjects(jsonListProjects);
+
         userManager.update(user);
 
     }

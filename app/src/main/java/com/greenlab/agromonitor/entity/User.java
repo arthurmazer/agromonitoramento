@@ -75,13 +75,26 @@ public class User {
     public ArrayList<Project> getListOfProjects() {
         if (this.listOfProjects.isEmpty())
             return new ArrayList<>();
+        Log.d("aquijson3", this.listOfProjects);
         Type listType = new TypeToken<ArrayList<Project>>(){}.getType();
         return new Gson().fromJson(this.listOfProjects, listType);
     }
 
-    public void setListOfProjects(ArrayList<Project> listOfProjects) {
+    public String setListOfProjects(ArrayList<Project> listOfProjects) {
         String jsonProjects = new Gson().toJson(listOfProjects);
+        Log.d("aquisjon2", jsonProjects);
         this.listOfProjects = jsonProjects;
+        return this.listOfProjects;
     }
+
+    public String getStringListOfProjects(){
+        return this.listOfProjects;
+    }
+
+    public void setStringListOfProjects(String listOfProjects){
+        this.listOfProjects = listOfProjects;
+    }
+
+
 
 }

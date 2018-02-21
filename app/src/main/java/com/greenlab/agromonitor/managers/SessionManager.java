@@ -28,7 +28,8 @@ public class SessionManager {
         editor.putBoolean(Constants.SP_IS_LOGGED_IN,true);
         editor.putString(Constants.SP_USER_LOGIN, user.getLogin());
         editor.putInt(Constants.SP_USER_ID, user.getId());
-        editor.commit();
+        editor.putString(Constants.SP_USER_LIST_PROJECTS, user.getStringListOfProjects());
+        editor.apply();
     }
 
     public boolean isUserLoggedIn(){
@@ -43,11 +44,20 @@ public class SessionManager {
         return sharedPreferences.getInt(Constants.SP_USER_ID, NO_ID);
     }
 
+    public String getSringListOfProjects(){
+        return sharedPreferences.getString(Constants.SP_USER_LIST_PROJECTS, "");
+    }
+
+    public void setSringListOfProjects(String listOfProjects){
+        editor.putString(Constants.SP_USER_LIST_PROJECTS, listOfProjects);
+        editor.apply();
+    }
+
     public void logout(){
         editor.putBoolean(Constants.SP_IS_LOGGED_IN,false);
         editor.putString(Constants.SP_USER_LOGIN, "");
         editor.putInt(Constants.SP_USER_ID, NO_ID);
-        editor.commit();
+        editor.apply();
     }
 
 
