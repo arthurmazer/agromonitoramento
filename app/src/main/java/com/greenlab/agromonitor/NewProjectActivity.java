@@ -67,6 +67,7 @@ public class NewProjectActivity extends BaseActivity {
                 if (!product.isEmpty()){
                     listProducts.add(product);
                     productListAdapter.notifyDataSetChanged();
+                    productLabelText.setText("");
                 }
             }
         });
@@ -104,7 +105,6 @@ public class NewProjectActivity extends BaseActivity {
         String jsonProducts = new Gson().toJson(this.listProducts);
         project.setListOfProducts(jsonProducts);
 
-        Log.d("aquijson1",jsonProducts);
 
 
         User user = getSessionUser(); //get user with id and login and list of projects -- password isn't necessary

@@ -32,7 +32,9 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppThemeDark" />
-        <activity android:name=".NewProjectActivity"></activity>
+        <activity android:name=".NewProjectActivity"
+            android:label="@string/start_new_project"
+            android:theme="@style/AppThemeDark" />
     </application>
 
 </manifest>
