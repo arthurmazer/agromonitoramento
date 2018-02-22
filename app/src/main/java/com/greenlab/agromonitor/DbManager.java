@@ -12,20 +12,22 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.entity.ProjectProduct;
 import com.greenlab.agromonitor.entity.User;
+import com.greenlab.agromonitor.interfaces.ProjectDAO;
 import com.greenlab.agromonitor.interfaces.UserDAO;
-import com.greenlab.agromonitor.managers.SessionManager;
 import com.greenlab.agromonitor.utils.Constants;
 
 /**
  * Created by arthu on 09/02/2018.
  */
 
-@Database(entities = {User.class}, version = 2)
+@Database(entities = {User.class,Project.class, ProjectProduct.class}, version = 3)
 public abstract class DbManager extends RoomDatabase{
 
     public static DbManager instance;
     public abstract UserDAO userDAO();
+    public abstract ProjectDAO projectDAO();
 
     public static DbManager getInstance(Context ctx){
         if ( instance == null ){

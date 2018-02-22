@@ -1,5 +1,6 @@
 package com.greenlab.agromonitor;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -89,8 +90,10 @@ public class NewProjectActivity extends BaseActivity {
     }
 
     public void saveProject(){
+        User user = getSessionUser(); //get user with id and login and list of projects -- password isn't necessary
         Project project = new Project();
         project.setProjectName("Teste 1");
+        Log.d("save-project-user","> " + user.getId());
 
         if ( this.radioCana.isChecked())
             project.setCultureType(Constants.PROJECT_TYPE_CANA_DE_ACUCAR);
@@ -102,18 +105,53 @@ public class NewProjectActivity extends BaseActivity {
         String dateNow = dateFormat.format(date);
 
         project.setCreationDate(dateNow);
-        String jsonProducts = new Gson().toJson(this.listProducts);
-        project.setListOfProducts(jsonProducts);
+        project.setIdUser(user.getId());
+
+        ProjectSave projectSave = new ProjectSave(user,project);
+        projectSave.execute((Void) null);
+
+        //user.saveProject(getApplicationContext(),project);
+
+    }
+
+    /**
+     * Represents an asynchronous login/registration task used to authenticate
+     * the user.
+     */
+    public class ProjectSave extends AsyncTask<Void, Void, Long> {
+
+        User user;
+        Project project;
 
 
+        ProjectSave(User user, Project project) {
+            this.user = user;
+            this.project = project;
+        }
 
-        User user = getSessionUser(); //get user with id and login and list of projects -- password isn't necessary
-        ArrayList<Project> listOfProjects = user.getListOfProjects();
-        listOfProjects.add(project);
-        String jsonListProjects = user.setListOfProjects(listOfProjects); //set list of projects
-        sessionManager.setSringListOfProjects(jsonListProjects);
+        @Override
+        protected Long doInBackground(Void... params) {
+            Log.d("save-project", "doing on background");
+            return user.saveProject(getApplicationContext(),project);
 
-        userManager.update(user);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            Log.d("save-project", "pre-executing...");
+        }
+
+        @Override
+        protected void onPostExecute(Long status) {
+            //mAuthTask = null;
+            //showProgress(false);
+            Log.d("save-project", "finsihed");
+            if ( status == 1){
+                Log.d("save-project", "success saving project ...");
+            }else{
+                Log.d("save-project", "FAIL saving project ...");
+            }
+        }
 
     }
 }

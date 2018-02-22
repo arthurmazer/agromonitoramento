@@ -19,4 +19,5 @@ public class Constants {
     public static final int PROJECT_TYPE_CANA_DE_ACUCAR = 0;
     public static final int PROJECT_TYPE_SOJA = 1;
 
+
 }

@@ -6,7 +6,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.greenlab.agromonitor.DbManager;
+import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by arthu on 09/02/2018.
@@ -22,12 +26,16 @@ public class UserManager {
 
     public User login(User user){
         return this.dbManager.userDAO().login(user.login,user.password);
-
     }
 
-    public void insert(User user){
-        this.dbManager.userDAO().insertUser(user);
+    public List<Project> getListOfProjects(int idUser){
+        return this.dbManager.projectDAO().getAllProjectsFromUser(idUser);
     }
+
+    public long saveProject(Project project){
+        return this.dbManager.projectDAO().insertProject(project);
+    }
+
 
     @SuppressLint("StaticFieldLeak")
     public void update(final User user){
@@ -39,5 +47,10 @@ public class UserManager {
             }
         }.execute();
         //this.dbManager.userDAO().updateUser(user);
+    }
+
+    public interface OnUserProjectInserted{
+        void onProjectSavedSuccess();
+        void onProjectSavedFailed();
     }
 }

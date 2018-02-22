@@ -89,7 +89,7 @@ public class SpreadsheetFragment extends Fragment {
                 if ( i%15 == 0){
                     spreadsheetList.add("XXX");
                 }else{
-                    Product p = new Product(1, "title", Float.parseFloat("1.677"));
+                    Product p = new Product( "title", Float.parseFloat("1.677"));
                     spreadsheetList.add(p);
                 }
             }

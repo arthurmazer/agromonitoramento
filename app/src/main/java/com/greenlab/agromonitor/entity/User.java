@@ -16,12 +16,20 @@ import com.greenlab.agromonitor.managers.UserManager;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by arthu on 09/02/2018.
+ *
+ *
+ *User
+    idUser PK
+    login
+    password
  */
 
-@Entity(indices = {@Index(value = "login",
+@Entity(tableName = "user",
+        indices = {@Index(value = "login",
         unique = true)})
 public class User {
 
@@ -30,22 +38,29 @@ public class User {
 
     public String login;
     public String password;
-    public String listOfProjects; //ArrayList<Project> to Json
-
 
     public User(){
-        this.listOfProjects = "";
     }
 
     public User(String login, String password){
         this.login = login;
         this.password = password;
-        this.listOfProjects = "";
     }
 
     public User login(Context ctx){
         UserManager userManager = new UserManager(ctx);
+        User user = userManager.login(this);
         return userManager.login(this);
+    }
+
+    public List<Project> getListOfProjects(Context ctx){
+        UserManager userManager = new UserManager(ctx);
+        return userManager.getListOfProjects(this.id);
+    }
+
+    public long saveProject(Context ctx, Project project){
+        UserManager userManager = new UserManager(ctx);
+        return userManager.saveProject(project);
     }
 
     public int getId() {
@@ -64,36 +79,11 @@ public class User {
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public ArrayList<Project> getListOfProjects() {
-        if (this.listOfProjects.isEmpty())
-            return new ArrayList<>();
-        Log.d("aquijson3", this.listOfProjects);
-        Type listType = new TypeToken<ArrayList<Project>>(){}.getType();
-        return new Gson().fromJson(this.listOfProjects, listType);
-    }
 
-    public String setListOfProjects(ArrayList<Project> listOfProjects) {
-        String jsonProjects = new Gson().toJson(listOfProjects);
-        Log.d("aquisjon2", jsonProjects);
-        this.listOfProjects = jsonProjects;
-        return this.listOfProjects;
-    }
-
-    public String getStringListOfProjects(){
-        return this.listOfProjects;
-    }
-
-    public void setStringListOfProjects(String listOfProjects){
-        this.listOfProjects = listOfProjects;
-    }
 
 
 

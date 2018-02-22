@@ -40,7 +40,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         User user = new User();
         user.setLogin(sessionManager.getUserName());
         user.setId(sessionManager.getUserId());
-        user.setStringListOfProjects(sessionManager.getSringListOfProjects());
         return user;
     }
 }

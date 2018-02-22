@@ -1,28 +1,43 @@
 package com.greenlab.agromonitor.entity;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
 /**
  * Created by mazer on 1/19/2018.
+ *
  */
 
 
+@Entity(tableName = "project",
+        indices = {@Index(value = "projectName",
+        unique = true)},
+        foreignKeys =
+        @ForeignKey(entity = User.class,
+                parentColumns = "id",
+                childColumns = "idUser",
+                onDelete = CASCADE)
+)
 public class Project {
 
+    @PrimaryKey(autoGenerate = true)
     private int id;
+
+    //Foreign Key From user
+    public int idUser;
 
     private String projectName;
     private String creationDate;
     private int cultureType; //0 - Cana, 1 - Soja
-    private String listOfProducts; //Json
 
-    public Project(){
-
-    }
+    public Project(){}
 
     public int getId() {
         return id;
@@ -56,11 +71,11 @@ public class Project {
         this.cultureType = cultureType;
     }
 
-    public String getListOfProducts() {
-        return listOfProducts;
+    public int getIdUser() {
+        return idUser;
     }
 
-    public void setListOfProducts(String listOfProducts) {
-        this.listOfProducts = listOfProducts;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 }

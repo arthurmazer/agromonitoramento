@@ -6,37 +6,27 @@ package com.greenlab.agromonitor.entity;
 
 public class Product {
 
-    private int idCategory;
-    private String title;
-    private float productValue;
+    public String product;
+    public float value;
 
-    public Product(int idCategory, String title, float productValue) {
-        this.idCategory = idCategory;
-        this.title = title;
-        this.productValue = productValue;
+    public Product(String product, float value) {
+        this.product = product;
+        this.value = value;
     }
 
-    public int getIdCategory() {
-        return idCategory;
+    public String getProduct() {
+        return product;
     }
 
-    public void setIdCategory(int idCategory) {
-        this.idCategory = idCategory;
+    public void setProduct(String product) {
+        this.product = product;
     }
 
-    public String getTitle() {
-        return title;
+    public float getValue() {
+        return value;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public float getProductValue() {
-        return productValue;
-    }
-
-    public void setProductValue(float productValue) {
-        this.productValue = productValue;
+    public void setValue(float value) {
+        this.value = value;
     }
 }
