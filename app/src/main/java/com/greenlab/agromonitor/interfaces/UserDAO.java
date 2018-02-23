@@ -15,7 +15,7 @@ import com.greenlab.agromonitor.entity.User;
 @Dao
 public interface UserDAO {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertUser(User user);
 
     @Update
