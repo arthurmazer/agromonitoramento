@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.greenlab.agromonitor.R;
@@ -43,9 +44,20 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView productName;
+        public ImageView removeIcon;
+
         public ViewHolder(View itemView){
             super(itemView);
             productName = itemView.findViewById(R.id.textProductList);
+            removeIcon = itemView.findViewById(R.id.remove_product);
+
+            removeIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listProducts.remove(getAdapterPosition());
+                    notifyDataSetChanged();
+                }
+            });
         }
     }
 }

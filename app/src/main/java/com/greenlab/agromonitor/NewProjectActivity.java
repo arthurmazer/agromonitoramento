@@ -1,6 +1,8 @@
 package com.greenlab.agromonitor;
 
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,7 +13,9 @@ import android.view.PointerIcon;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.greenlab.agromonitor.adapters.ProductListAdapter;
@@ -36,7 +40,7 @@ public class NewProjectActivity extends BaseActivity {
     RadioButton radioSoja;
     RecyclerView recyclerProducs;
     ProductListAdapter productListAdapter;
-    Button btnAddProduct;
+    ImageView btnAddProduct;
     Button btnSaveProject;
     EditText productLabelText;
 
@@ -76,7 +80,8 @@ public class NewProjectActivity extends BaseActivity {
         btnSaveProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveProject();
+                if (checkObligatoryFields())
+                    saveProject();
             }
         });
 
@@ -87,6 +92,15 @@ public class NewProjectActivity extends BaseActivity {
     public void populateFields(){
         this.listProducts.clear();
         this.radioCana.setChecked(true);
+    }
+
+    public boolean checkObligatoryFields(){
+        if ( listProducts.isEmpty() ){
+            String error = getResources().getString(R.string.error_no_products);
+            showToast(error);
+            return false;
+        }
+        return true;
     }
 
     public void saveProject(){
@@ -109,8 +123,6 @@ public class NewProjectActivity extends BaseActivity {
 
         ProjectSave projectSave = new ProjectSave(user,project);
         projectSave.execute((Void) null);
-
-        //user.saveProject(getApplicationContext(),project);
 
     }
 
@@ -145,11 +157,17 @@ public class NewProjectActivity extends BaseActivity {
         protected void onPostExecute(Long status) {
             //mAuthTask = null;
             //showProgress(false);
-            Log.d("save-project", "finsihed");
+            Log.d("save-project", "finished");
             if ( status == 1){
-                Log.d("save-project", "success saving project ...");
+                Intent data = new Intent();
+                data.putExtra("success", true);
+                setResult(Constants.RESULT_NEW_PROJECT, data);
+                finish();
             }else{
-                Log.d("save-project", "FAIL saving project ...");
+                Intent data = new Intent();
+                data.putExtra("success", false);
+                setResult(Constants.RESULT_NEW_PROJECT, data);
+                finish();
             }
         }
 

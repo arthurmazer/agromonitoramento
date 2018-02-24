@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.greenlab.agromonitor.fragments.HomeFragment;
 import com.greenlab.agromonitor.fragments.ReportFragment;
 import com.greenlab.agromonitor.fragments.SpreadsheetFragment;
+import com.greenlab.agromonitor.utils.Constants;
 
 public class HomeActivity extends BaseActivity {
 
@@ -90,6 +92,17 @@ public class HomeActivity extends BaseActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.REQUEST_CODE_NEW_PROJECT) {
+            if (resultCode == Constants.RESULT_NEW_PROJECT) {
+                Boolean isSaved = data.getBooleanExtra("success", false);
+                if (isSaved)
+                    showSnackBar(getResources().getString(R.string.project_save_success));
+                else
+                    showSnackBar(getResources().getString(R.string.project_save_error));
+            }
+        }
+    }
 
     @Override
     protected void onDestroy() {

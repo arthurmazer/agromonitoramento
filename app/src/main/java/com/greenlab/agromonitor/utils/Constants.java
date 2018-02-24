@@ -15,6 +15,7 @@ public class Constants {
     public static final String SP_USER_LIST_PROJECTS = "sp_list_projects";
 
     public static final int REQUEST_CODE_NEW_PROJECT = 100;
+    public static final int RESULT_NEW_PROJECT = 101;
 
     public static final int PROJECT_TYPE_CANA_DE_ACUCAR = 0;
     public static final int PROJECT_TYPE_SOJA = 1;

@@ -1,8 +1,10 @@
 package com.greenlab.agromonitor;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.greenlab.agromonitor.entity.User;
 import com.greenlab.agromonitor.managers.SessionManager;
@@ -41,5 +43,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         user.setLogin(sessionManager.getUserName());
         user.setId(sessionManager.getUserId());
         return user;
+    }
+
+    public void showToast(String message){
+        Toast.makeText(getApplicationContext(), message,
+                Toast.LENGTH_LONG).show();
+    }
+
+    public void showSnackBar(String message){
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 }

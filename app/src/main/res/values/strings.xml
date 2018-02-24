@@ -25,9 +25,13 @@
 
     <string name="empty_projects">Você ainda não tem projetos</string>
     <string name="start_new_project">Novo Projeto</string>
-    <string name="choose_an_culture">Escolha uma cultura</string>
+    <string name="choose_an_culture">Escolha uma cultura:</string>
+    <string name="name_project_label">Nome do Projeto:</string>
     <string name="products_label">Produtos:</string>
     <string name="culture_label">Cultura:</string>
+    <string name="error_no_products">Você deve ter ao menos 1 produto adicionado</string>
+    <string name="project_save_success">Projeto salvo com sucesso</string>
+    <string name="project_save_error">Erro ao salvar o projeto</string>
 
     <string name="culture_cana">Cana-de-açucar</string>
     <string name="culture_soja">Soja</string>
