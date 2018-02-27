@@ -43,6 +43,7 @@ public class NewProjectActivity extends BaseActivity {
     ImageView btnAddProduct;
     Button btnSaveProject;
     EditText productLabelText;
+    EditText nameProject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class NewProjectActivity extends BaseActivity {
         btnAddProduct = findViewById(R.id.btn_add_products);
         btnSaveProject = findViewById(R.id.btnSaveNewProject);
         productLabelText = findViewById(R.id.add_product_label);
+        nameProject = findViewById(R.id.name_project);
         listProducts = new ArrayList<>();
         userManager =  new UserManager(getApplicationContext());
 
@@ -106,9 +108,12 @@ public class NewProjectActivity extends BaseActivity {
     public void saveProject(){
         User user = getSessionUser(); //get user with id and login and list of projects -- password isn't necessary
         Project project = new Project();
-        project.setProjectName("Teste 1");
-        Log.d("save-project-user","> " + user.getId());
+        if(nameProject.getText().toString().isEmpty())
+            project.setProjectName("Novo Projeto");
+        else
+            project.setProjectName(nameProject.getText().toString());
 
+        Log.d("save-project-user","> " + user.getId());
         if ( this.radioCana.isChecked())
             project.setCultureType(Constants.PROJECT_TYPE_CANA_DE_ACUCAR);
         else
@@ -157,8 +162,8 @@ public class NewProjectActivity extends BaseActivity {
         protected void onPostExecute(Long status) {
             //mAuthTask = null;
             //showProgress(false);
-            Log.d("save-project", "finished");
-            if ( status == 1){
+            Log.d("save-project", "finished " + status);
+            if ( status != -1){
                 Intent data = new Intent();
                 data.putExtra("success", true);
                 setResult(Constants.RESULT_NEW_PROJECT, data);

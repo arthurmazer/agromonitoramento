@@ -34,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         sessionManager = new SessionManager(this);
         Log.d("BaseActivity-Destroyed","user logged out");
-        sessionManager.logout();
+        //sessionManager.logout();
     }
 
     public User getSessionUser(){

@@ -22,7 +22,7 @@ import com.greenlab.agromonitor.utils.Constants;
  * Created by arthu on 09/02/2018.
  */
 
-@Database(entities = {User.class,Project.class, ProjectProduct.class}, version = 3)
+@Database(entities = {User.class,Project.class, ProjectProduct.class}, version = 4)
 public abstract class DbManager extends RoomDatabase{
 
     public static DbManager instance;

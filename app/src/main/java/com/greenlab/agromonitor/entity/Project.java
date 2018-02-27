@@ -17,8 +17,6 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 
 @Entity(tableName = "project",
-        indices = {@Index(value = "projectName",
-        unique = true)},
         foreignKeys =
         @ForeignKey(entity = User.class,
                 parentColumns = "id",
