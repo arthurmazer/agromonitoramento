@@ -126,7 +126,7 @@ public class NewProjectActivity extends BaseActivity {
         project.setCreationDate(dateNow);
         project.setIdUser(user.getId());
 
-        ProjectSave projectSave = new ProjectSave(user,project);
+        ProjectSave projectSave = new ProjectSave(user,project,this.listProducts);
         projectSave.execute((Void) null);
 
     }
@@ -139,17 +139,19 @@ public class NewProjectActivity extends BaseActivity {
 
         User user;
         Project project;
+        ArrayList<String> listOfProducts;
 
 
-        ProjectSave(User user, Project project) {
+        ProjectSave(User user, Project project, ArrayList<String> listOfProducts) {
             this.user = user;
             this.project = project;
+            this.listOfProducts = listOfProducts;
         }
 
         @Override
         protected Long doInBackground(Void... params) {
             Log.d("save-project", "doing on background");
-            return user.saveProject(getApplicationContext(),project);
+            return user.saveProject(getApplicationContext(),project,listOfProducts);
 
         }
 
@@ -159,11 +161,11 @@ public class NewProjectActivity extends BaseActivity {
         }
 
         @Override
-        protected void onPostExecute(Long status) {
+        protected void onPostExecute(Long idProject) {
             //mAuthTask = null;
             //showProgress(false);
-            Log.d("save-project", "finished " + status);
-            if ( status != -1){
+            Log.d("save-project", "finished " + idProject);
+            if ( idProject != -1){
                 Intent data = new Intent();
                 data.putExtra("success", true);
                 setResult(Constants.RESULT_NEW_PROJECT, data);

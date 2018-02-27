@@ -23,7 +23,7 @@ public interface ProjectDAO {
     long insertProject(Project project);
 
     @Update
-    void updateProject(Project user);
+    void updateProject(Project project);
 
     @Query("SELECT * FROM project WHERE idUser = :idUser")
     List<Project> getAllProjectsFromUser(int idUser);

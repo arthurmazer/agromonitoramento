@@ -1,18 +1,32 @@
 package com.greenlab.agromonitor.entity;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.PrimaryKey;
+
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
 /**
  * Created by arthu on 2/5/2018.
  */
 
+@Entity(tableName = "product",
+        foreignKeys =
+        @ForeignKey(entity = Project.class,
+                parentColumns = "id",
+                childColumns = "idProject",
+                onDelete = CASCADE)
+)
 public class Product {
 
-    public String product;
-    public float value;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
-    public Product(String product, float value) {
-        this.product = product;
-        this.value = value;
-    }
+    private int idProject;
+    public String product;
+
+    public Product(){}
+
 
     public String getProduct() {
         return product;
@@ -22,11 +36,11 @@ public class Product {
         this.product = product;
     }
 
-    public float getValue() {
-        return value;
+    public int getIdProject() {
+        return idProject;
     }
 
-    public void setValue(float value) {
-        this.value = value;
+    public void setIdProject(int idProject) {
+        this.idProject = idProject;
     }
 }

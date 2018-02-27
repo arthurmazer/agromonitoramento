@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.greenlab.agromonitor.DbManager;
+import com.greenlab.agromonitor.entity.Product;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.User;
 
@@ -32,8 +33,23 @@ public class UserManager {
         return this.dbManager.projectDAO().getAllProjectsFromUser(idUser);
     }
 
-    public long saveProject(Project project){
-        return this.dbManager.projectDAO().insertProject(project);
+    public long saveProject(Project project, ArrayList<String> listOfProducts){
+        long idProject = this.dbManager.projectDAO().insertProject(project);
+
+        if (idProject != -1){
+            for(String product: listOfProducts){
+                Product prod = new Product();
+                prod.setIdProject((int)idProject);
+                prod.setProduct(product);
+                this.dbManager.productDAO().insertProduct(prod);
+            }
+        }
+
+        return idProject;
+    }
+
+    public void createInitialProductsHeader(){
+
     }
 
 

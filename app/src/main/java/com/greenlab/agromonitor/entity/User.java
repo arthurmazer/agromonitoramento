@@ -58,9 +58,9 @@ public class User {
         return userManager.getListOfProjects(this.id);
     }
 
-    public long saveProject(Context ctx, Project project){
+    public long saveProject(Context ctx, Project project, ArrayList<String> listOfProducts){
         UserManager userManager = new UserManager(ctx);
-        return userManager.saveProject(project);
+        return userManager.saveProject(project,listOfProducts);
     }
 
     public int getId() {
