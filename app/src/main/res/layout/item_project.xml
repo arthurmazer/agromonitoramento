@@ -28,6 +28,7 @@
         android:layout_marginStart="12dp" />
 
     <TextView
+        android:id="@+id/project_creation_date"
         android:textStyle="bold"
         android:text="16/09/22"
         android:textSize="12sp"
@@ -53,16 +54,15 @@
         android:layout_toEndOf="@id/project_id" />
 
     <TextView
+        android:id="@+id/list_products"
         android:text="PT, XS, DL"
         android:textSize="9sp"
         android:textStyle="bold"
         android:layout_marginTop="18dp"
-        android:id="@+id/list_products"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/project_title"
         android:layout_toRightOf="@id/label_products"
-
         android:layout_toEndOf="@id/label_products"
         android:layout_marginStart="6dp"
         android:layout_marginLeft="6dp"/>

@@ -35,7 +35,9 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
 
     private BottomNavigationView bottomNavigationView;
     private User user;
+    private List<Project> projectList;
     Button btnNewProject;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -101,6 +103,7 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setTitle(R.string.title_home);
+        projectList = new ArrayList<>();
         btnNewProject = findViewById(R.id.btn_new_project_home);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -133,6 +136,8 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
 
     @Override
     public void onSuccess(List<Project> projectList) {
+        this.projectList = projectList;
+
         if ( !projectList.isEmpty() ){
             btnNewProject.setVisibility(View.GONE);
             pushFragment(HomeFragment.newInstance());
@@ -166,6 +171,10 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
                         }
                     });
         }
+    }
+
+    public List<Project> getProjectList() {
+        return projectList;
     }
 
 

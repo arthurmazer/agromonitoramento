@@ -34,6 +34,7 @@ public class HomeFragment extends Fragment {
     private static int REQUEST_CODE_ITEMS = 3000;
     User user;
     HomeActivity mActivity;
+    List<Project> projectList;
 
     public static Fragment newInstance(){
         Fragment homeFragment = new HomeFragment();
@@ -50,6 +51,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.empty_home, container, false);
 
+
         mActivity = (HomeActivity)getActivity();
         btnNewProject = view.findViewById(R.id.btn_new_project);
         btnNewProject.setOnClickListener(new View.OnClickListener() {
@@ -61,11 +63,13 @@ public class HomeFragment extends Fragment {
              getActivity().startActivityForResult(it, Constants.REQUEST_CODE_NEW_PROJECT);
             }
         });
+
         User user = mActivity.getSessionUser();
+        projectList = mActivity.getProjectList();
 
 
 
-        Log.d("aqui", "chamo");
+
 
 
 
