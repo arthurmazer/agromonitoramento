@@ -9,6 +9,7 @@ import com.greenlab.agromonitor.DbManager;
 import com.greenlab.agromonitor.entity.Product;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.User;
+import com.greenlab.agromonitor.interfaces.GetAllProjectsOfUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,9 @@ public class UserManager {
         return this.dbManager.userDAO().login(user.login,user.password);
     }
 
-    public List<Project> getListOfProjects(int idUser){
-        return this.dbManager.projectDAO().selectgetAllProjectsFromUser(idUser);
+    public void getListOfProjects(int idUser, GetAllProjectsOfUser getAllProjectsOfUser){
+        LoadProjects loadProjects = new LoadProjects(idUser,getAllProjectsOfUser);
+        loadProjects.execute((Void) null);
     }
 
     public long saveProject(Project project, ArrayList<String> listOfProducts){
@@ -65,8 +67,30 @@ public class UserManager {
         //this.dbManager.userDAO().updateUser(user);
     }
 
-    public interface OnUserProjectInserted{
-        void onProjectSavedSuccess();
-        void onProjectSavedFailed();
+
+    public class LoadProjects extends AsyncTask<Void, Void, List<Project>> {
+
+        int idUser;
+        GetAllProjectsOfUser getAllProjectsOfUser;
+
+        LoadProjects(int idUser,GetAllProjectsOfUser getAllProjectsOfUser) {
+            this.idUser = idUser;
+            this.getAllProjectsOfUser = getAllProjectsOfUser;
+        }
+
+        @Override
+        protected List<Project> doInBackground(Void... params) {
+            return dbManager.projectDAO().selectgetAllProjectsFromUser(idUser);
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onPostExecute(List<Project> projectList) {
+            getAllProjectsOfUser.onSuccess(projectList);
+        }
+
     }
 }

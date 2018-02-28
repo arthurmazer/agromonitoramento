@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.greenlab.agromonitor.HomeActivity;
+import com.greenlab.agromonitor.interfaces.GetAllProjectsOfUser;
 import com.greenlab.agromonitor.interfaces.UserLoginInterface;
 import com.greenlab.agromonitor.managers.UserManager;
 
@@ -53,9 +55,9 @@ public class User {
         return userManager.login(this);
     }
 
-    public List<Project> getListOfProjects(Context ctx){
+    public void getListOfProjects(Context ctx, GetAllProjectsOfUser getAllProjectsOfUser){
         UserManager userManager = new UserManager(ctx);
-        return  userManager.getListOfProjects(this.id);
+        userManager.getListOfProjects(this.id, getAllProjectsOfUser);
     }
 
     public long saveProject(Context ctx, Project project, ArrayList<String> listOfProducts){
