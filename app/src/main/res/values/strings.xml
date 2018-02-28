@@ -37,4 +37,7 @@
     <string name="culture_soja">Soja</string>
 
     <string name="button_new_project">Salvar</string>
+
+    <string name="title_onboard_no_project">Olá, %s</string>
+    <string name="text_onboard_no_project">Toque para começar seu primeiro projeto</string>
 </resources>

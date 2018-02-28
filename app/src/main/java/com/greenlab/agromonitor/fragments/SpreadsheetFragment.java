@@ -82,7 +82,7 @@ public class SpreadsheetFragment extends Fragment {
         recyclerSpreadsheet.setAdapter(spreadsheetAdapter);
 
 
-        for (int i = 0; i < 40; i++){
+       /** for (int i = 0; i < 40; i++){
             if ( i == 0){
                 spreadsheetList.add("PT");
             }else{
@@ -95,7 +95,7 @@ public class SpreadsheetFragment extends Fragment {
             }
 
 
-        }
+        }**/
         spreadsheetAdapter.notifyDataSetChanged();
 
         //annalsManager.getAnais(AnnalsFragment.this);

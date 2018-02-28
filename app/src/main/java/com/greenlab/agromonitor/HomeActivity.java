@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -14,14 +15,23 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
+import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.entity.User;
 import com.greenlab.agromonitor.fragments.HomeFragment;
 import com.greenlab.agromonitor.fragments.ReportFragment;
 import com.greenlab.agromonitor.fragments.SpreadsheetFragment;
 import com.greenlab.agromonitor.utils.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeActivity extends BaseActivity {
 
     private BottomNavigationView bottomNavigationView;
+    private List<Project> listOfProjects = new ArrayList<>();
+    private User user;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -93,6 +103,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("ueh","s");
         if (requestCode == Constants.REQUEST_CODE_NEW_PROJECT) {
             if (resultCode == Constants.RESULT_NEW_PROJECT) {
                 Boolean isSaved = data.getBooleanExtra("success", false);

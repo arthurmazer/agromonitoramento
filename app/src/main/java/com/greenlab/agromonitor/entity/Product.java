@@ -43,4 +43,12 @@ public class Product {
     public void setIdProject(int idProject) {
         this.idProject = idProject;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

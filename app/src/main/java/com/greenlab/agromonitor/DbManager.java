@@ -11,6 +11,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.greenlab.agromonitor.entity.Product;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.ProjectProduct;
 import com.greenlab.agromonitor.entity.User;
@@ -23,7 +24,7 @@ import com.greenlab.agromonitor.utils.Constants;
  * Created by arthu on 09/02/2018.
  */
 
-@Database(entities = {User.class,Project.class, ProjectProduct.class}, version = 5)
+@Database(entities = {User.class,Project.class, ProjectProduct.class, Product.class}, version = 5)
 public abstract class DbManager extends RoomDatabase{
 
     public static DbManager instance;

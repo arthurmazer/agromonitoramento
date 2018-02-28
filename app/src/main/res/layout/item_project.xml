@@ -2,10 +2,14 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp">
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    >
 
     <TextView
-        android:text="#12 - Colheita Cana"
+        android:id="@+id/project_id"
+        android:text="#12"
+        android:textStyle="bold"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,8 +17,20 @@
         android:layout_marginLeft="8dp"/>
 
     <TextView
+        android:id="@+id/project_title"
+        android:text="Nome do Projeto"
+        android:layout_toRightOf="@id/project_id"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/project_id"
+        android:layout_marginStart="12dp" />
+
+    <TextView
+        android:textStyle="bold"
         android:text="16/09/22"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -22,6 +38,34 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="8dp"
         android:layout_marginEnd="8dp"/>
+
+    <TextView
+        android:id="@+id/label_products"
+        android:textSize="10sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="18dp"
+        android:text="Produtos:"
+        android:layout_below="@id/project_title"
+        android:layout_toRightOf="@id/project_id"
+        android:layout_toEndOf="@id/project_id" />
+
+    <TextView
+        android:text="PT, XS, DL"
+        android:textSize="9sp"
+        android:textStyle="bold"
+        android:layout_marginTop="18dp"
+        android:id="@+id/list_products"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/project_title"
+        android:layout_toRightOf="@id/label_products"
+
+        android:layout_toEndOf="@id/label_products"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"/>
 
 
 

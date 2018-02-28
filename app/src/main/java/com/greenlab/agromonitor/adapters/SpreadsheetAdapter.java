@@ -63,7 +63,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             case PRODUCT_VALUE:
                 ViewHolder productHolder = (ViewHolder) holder;
                 Product product = (Product) this.spreadsheetList.get(position);
-                productHolder.productValue.setText(String.valueOf(product.getValue()));
+                productHolder.productValue.setText(String.valueOf(product.getProduct()));
                 break;
             case CATEGORY:
                 ViewHolderCategoria headerCategory = (ViewHolderCategoria) holder;

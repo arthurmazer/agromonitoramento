@@ -30,7 +30,7 @@ public class UserManager {
     }
 
     public List<Project> getListOfProjects(int idUser){
-        return this.dbManager.projectDAO().getAllProjectsFromUser(idUser);
+        return this.dbManager.projectDAO().selectgetAllProjectsFromUser(idUser);
     }
 
     public long saveProject(Project project, ArrayList<String> listOfProducts){
