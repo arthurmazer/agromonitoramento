@@ -2,11 +2,16 @@ package com.greenlab.agromonitor.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.content.Context;
+
+import com.greenlab.agromonitor.managers.UserManager;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
@@ -35,7 +40,12 @@ public class Project {
     private String creationDate;
     private int cultureType; //0 - Cana, 1 - Soja
 
-    public Project(){}
+    @Ignore
+    private List<Product> listOfProducts;
+
+    public Project(){
+        listOfProducts = new ArrayList<>();
+    }
 
     public int getId() {
         return id;
@@ -75,5 +85,13 @@ public class Project {
 
     public void setIdUser(int idUser) {
         this.idUser = idUser;
+    }
+
+    public List<Product> getListOfProducts() {
+        return listOfProducts;
+    }
+
+    public void setListOfProducts(List<Product> listOfProducts) {
+        this.listOfProducts = listOfProducts;
     }
 }

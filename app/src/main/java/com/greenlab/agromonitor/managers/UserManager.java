@@ -50,9 +50,7 @@ public class UserManager {
         return idProject;
     }
 
-    public void createInitialProductsHeader(){
 
-    }
 
 
     @SuppressLint("StaticFieldLeak")
@@ -64,7 +62,6 @@ public class UserManager {
                 return null;
             }
         }.execute();
-        //this.dbManager.userDAO().updateUser(user);
     }
 
 
@@ -80,7 +77,12 @@ public class UserManager {
 
         @Override
         protected List<Project> doInBackground(Void... params) {
-            return dbManager.projectDAO().selectgetAllProjectsFromUser(idUser);
+            List<Project> listOfProject = dbManager.projectDAO().selectgetAllProjectsFromUser(idUser);
+            for(int i = 0; i < listOfProject.size(); i++){
+                int idProject =  listOfProject.get(i).getId();
+                listOfProject.get(i).setListOfProducts(dbManager.productDAO().getAllProductsHeadersFromProject(idProject));
+            }
+            return listOfProject;
         }
 
         @Override
@@ -89,7 +91,7 @@ public class UserManager {
 
         @Override
         protected void onPostExecute(List<Project> projectList) {
-            getAllProjectsOfUser.onSuccess(projectList);
+            getAllProjectsOfUser.onSuccessGettingProjects(projectList);
         }
 
     }

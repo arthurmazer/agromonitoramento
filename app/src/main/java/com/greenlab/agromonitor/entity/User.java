@@ -65,6 +65,8 @@ public class User {
         return userManager.saveProject(project,listOfProducts);
     }
 
+
+
     public int getId() {
         return id;
     }

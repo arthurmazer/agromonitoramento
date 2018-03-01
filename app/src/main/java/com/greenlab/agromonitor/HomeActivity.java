@@ -135,7 +135,7 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
     }
 
     @Override
-    public void onSuccess(List<Project> projectList) {
+    public void onSuccessGettingProjects(List<Project> projectList) {
         this.projectList = projectList;
 
         if ( !projectList.isEmpty() ){

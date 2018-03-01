@@ -9,5 +9,5 @@ import java.util.List;
  */
 
 public interface GetAllProjectsOfUser {
-    void onSuccess(List<Project> projectList);
+    void onSuccessGettingProjects(List<Project> projectList);
 }
