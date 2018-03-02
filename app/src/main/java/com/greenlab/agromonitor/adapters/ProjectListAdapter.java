@@ -1,12 +1,15 @@
 package com.greenlab.agromonitor.adapters;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.greenlab.agromonitor.HomeActivity;
 import com.greenlab.agromonitor.R;
 import com.greenlab.agromonitor.entity.Product;
 import com.greenlab.agromonitor.entity.Project;
@@ -21,15 +24,17 @@ import java.util.List;
 public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.ViewHolder> {
 
     private List<Project> listProjects;
+    HomeActivity mActivity;
 
-    public ProjectListAdapter(List<Project> listProjects){
+    public ProjectListAdapter(List<Project> listProjects, HomeActivity mActivity){
         this.listProjects = listProjects;
+        this.mActivity = mActivity;
     }
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_project ,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_projects ,parent,false);
         return new ViewHolder(view);
     }
 
@@ -38,7 +43,8 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         Project project = listProjects.get(position);
         //holder.productName.setText(product);
 
-        holder.pId.setText(project.getId());
+        String id = "#" + String.valueOf(project.getId());
+        holder.pId.setText(id);
         holder.pTitle.setText(project.getProjectName());
         List<Product> productsList = project.getListOfProducts();
         StringBuilder products = new StringBuilder();
@@ -63,6 +69,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         public TextView pTitle;
         public TextView pProducts;
         public TextView pDate;
+        ImageView openImage;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -70,6 +77,18 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             pTitle = itemView.findViewById(R.id.project_title);
             pProducts = itemView.findViewById(R.id.list_products);
             pDate = itemView.findViewById(R.id.project_creation_date);
+            openImage = itemView.findViewById(R.id.imageView);
+
+            openImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int idProject = Integer.valueOf(pId.getText().toString().replace("#","").trim());
+                    Log.d("aqui PROJETO : ", String.valueOf(idProject));
+                    mActivity.setProjectOpened(idProject);
+                    mActivity.changeToSpreadsheetScreen();
+                }
+            });
         }
     }
 }

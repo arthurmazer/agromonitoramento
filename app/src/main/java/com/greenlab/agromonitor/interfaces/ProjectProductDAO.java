@@ -7,6 +7,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.greenlab.agromonitor.entity.ProjectProduct;
+import com.greenlab.agromonitor.entity.SpreadsheetValues;
 
 import java.util.List;
 
@@ -23,8 +24,8 @@ public interface ProjectProductDAO {
         @Update
         void updateProjectProduct(ProjectProduct projectProduct);
 
-        @Query("SELECT * FROM project_product WHERE idProject = :idProject")
-        List<ProjectProduct> getAllProductsValuesFromProject(int idProject);
+        @Query("SELECT a.value, b.* FROM project_product as a LEFT JOIN product as b on a.idProduct = b.id WHERE a.idProject = :idProject")
+        List<SpreadsheetValues> getAllProductsValuesFromProject(int idProject);
 
 
 }

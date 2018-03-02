@@ -31,6 +31,15 @@ public class SessionManager {
         editor.apply();
     }
 
+    public void setCurrentProject(int idProject){
+        editor.putInt(Constants.SP_PROJECT_OPEN, idProject);
+        editor.apply();
+    }
+
+    public int getCurrentProject(){
+        return sharedPreferences.getInt(Constants.SP_PROJECT_OPEN, -1);
+    }
+
     public boolean isUserLoggedIn(){
         return sharedPreferences.getBoolean(Constants.SP_IS_LOGGED_IN,false);
     }

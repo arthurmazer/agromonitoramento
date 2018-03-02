@@ -45,6 +45,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         return user;
     }
 
+    public int getOpenedProject(){
+        sessionManager = new SessionManager(this);
+        return sessionManager.getCurrentProject();
+    }
+
     public void showToast(String message){
         Toast.makeText(getApplicationContext(), message,
                 Toast.LENGTH_LONG).show();

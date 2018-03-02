@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment {
 
 
 
-        projectListAdapter = new ProjectListAdapter(projectList);
+        projectListAdapter = new ProjectListAdapter(projectList, mActivity);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mActivity);
         recyclerProjects.setLayoutManager(mLayoutManager);
         recyclerProjects.setItemAnimator(new DefaultItemAnimator());

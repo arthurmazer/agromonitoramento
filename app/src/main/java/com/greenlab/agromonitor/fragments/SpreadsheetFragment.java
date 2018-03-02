@@ -3,6 +3,7 @@ package com.greenlab.agromonitor.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,13 +18,17 @@ import com.greenlab.agromonitor.HomeActivity;
 import com.greenlab.agromonitor.R;
 import com.greenlab.agromonitor.adapters.SpreadsheetAdapter;
 import com.greenlab.agromonitor.entity.Product;
+import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.entity.SpreadsheetValues;
+import com.greenlab.agromonitor.interfaces.GetSpreadsheetValues;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SpreadsheetFragment extends Fragment {
+public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValues {
 
     private HomeActivity mActivity;
     private ArrayList<Object> spreadsheetList = new ArrayList<Object>();
@@ -56,8 +61,6 @@ public class SpreadsheetFragment extends Fragment {
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                Log.d("carai", "> " + spreadsheetAdapter.getItemViewType(position));
-
                 switch(spreadsheetAdapter.getItemViewType(position)){
                     case PRODUCT_VALUE:
                         return 1;
@@ -82,6 +85,29 @@ public class SpreadsheetFragment extends Fragment {
         recyclerSpreadsheet.setAdapter(spreadsheetAdapter);
 
 
+        int idProject = mActivity.getOpenedProject();
+        final Project project = new Project();
+        project.setId(idProject);
+        new AsyncTask<Void, Void, List<SpreadsheetValues>>() {
+            @Override
+            protected List<SpreadsheetValues> doInBackground(Void... voids) {
+                return project.getSpreadSheetValues(mActivity.getApplicationContext() );
+            }
+            @Override
+            protected void onPostExecute(List<SpreadsheetValues> spreadsheetValuesList) {
+                onSuccessGettingValues(spreadsheetValuesList);
+            }
+        }.execute();
+
+
+        Log.d("aqui-caraii: " , ">>> " + idProject);
+
+
+       // for ( SpreadsheetValues spreadsheetValues: listValues){
+         //   Log.d("aqui-ae por", spreadsheetValues.getProduct());
+           // Log.d("aqui-ae po2", "--> " + spreadsheetValues.getValue());
+        //}
+
        /** for (int i = 0; i < 40; i++){
             if ( i == 0){
                 spreadsheetList.add("PT");
@@ -89,7 +115,7 @@ public class SpreadsheetFragment extends Fragment {
                 if ( i%15 == 0){
                     spreadsheetList.add("XXX");
                 }else{
-                    Product p = new Product( "title", Float.parseFloat("1.677"));
+                  //  Product p = new Product( "title", Float.parseFloat("1.677"));
                     spreadsheetList.add(p);
                 }
             }
@@ -106,4 +132,15 @@ public class SpreadsheetFragment extends Fragment {
         return mView;
     }
 
+    private void onSuccessGettingValues(List<SpreadsheetValues> spreadsheetValuesList) {
+         for ( SpreadsheetValues spreadsheetValues: spreadsheetValuesList){
+           Log.d("aqui-ae por", spreadsheetValues.getProduct());
+         Log.d("aqui-ae po2", "--> " + spreadsheetValues.getValue());
+        }
+    }
+
+    @Override
+    public void onSuccessGettingSpreadsheet(List<SpreadsheetValues> spreadsheetValuesList) {
+
+    }
 }

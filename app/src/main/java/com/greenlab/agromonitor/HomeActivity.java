@@ -21,11 +21,14 @@ import android.widget.TextView;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.entity.SpreadsheetValues;
 import com.greenlab.agromonitor.entity.User;
 import com.greenlab.agromonitor.fragments.HomeFragment;
 import com.greenlab.agromonitor.fragments.ReportFragment;
 import com.greenlab.agromonitor.fragments.SpreadsheetFragment;
 import com.greenlab.agromonitor.interfaces.GetAllProjectsOfUser;
+import com.greenlab.agromonitor.interfaces.GetSpreadsheetValues;
+import com.greenlab.agromonitor.managers.SessionManager;
 import com.greenlab.agromonitor.utils.Constants;
 
 import java.util.ArrayList;
@@ -95,6 +98,10 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
                     }
                 });
         alertDialog.show();
+    }
+
+    public void changeToSpreadsheetScreen(){
+        bottomNavigationView.setSelectedItemId(R.id.navigation_spreadsheet);
     }
 
 
@@ -175,6 +182,11 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
 
     public List<Project> getProjectList() {
         return projectList;
+    }
+
+    public void setProjectOpened(int idProject){
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        sessionManager.setCurrentProject(idProject);
     }
 
 

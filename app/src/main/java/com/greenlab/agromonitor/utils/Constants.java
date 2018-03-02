@@ -12,6 +12,7 @@ public class Constants {
     public static final String SP_IS_LOGGED_IN = "sp_isloggedin";
     public static final String SP_USER_LOGIN = "sp_login";
     public static final String SP_USER_ID = "sp_id";
+    public static final String SP_PROJECT_OPEN = "sp_project_open";
     public static final String SP_USER_LIST_PROJECTS = "sp_list_projects";
 
     public static final int REQUEST_CODE_NEW_PROJECT = 100;

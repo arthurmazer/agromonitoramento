@@ -7,6 +7,7 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.content.Context;
 
+import com.greenlab.agromonitor.interfaces.GetSpreadsheetValues;
 import com.greenlab.agromonitor.managers.UserManager;
 
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public class Project {
 
     @Ignore
     private List<Product> listOfProducts;
+    @Ignore
+    private List<SpreadsheetValues> listOfProjectProduct;
 
     public Project(){
         listOfProducts = new ArrayList<>();
@@ -49,6 +52,11 @@ public class Project {
 
     public int getId() {
         return id;
+    }
+
+    public List<SpreadsheetValues> getSpreadSheetValues(Context ctx){
+        UserManager userManager = new UserManager(ctx);
+        return userManager.getSpreadsheetValues(this.id);
     }
 
     public void setId(int id) {
@@ -93,5 +101,13 @@ public class Project {
 
     public void setListOfProducts(List<Product> listOfProducts) {
         this.listOfProducts = listOfProducts;
+    }
+
+    public List<SpreadsheetValues> getListOfProjectProduct() {
+        return listOfProjectProduct;
+    }
+
+    public void setListOfProjectProduct(List<SpreadsheetValues> listOfProjectProduct) {
+        this.listOfProjectProduct = listOfProjectProduct;
     }
 }

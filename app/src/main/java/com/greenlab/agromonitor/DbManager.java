@@ -17,6 +17,7 @@ import com.greenlab.agromonitor.entity.ProjectProduct;
 import com.greenlab.agromonitor.entity.User;
 import com.greenlab.agromonitor.interfaces.ProductDAO;
 import com.greenlab.agromonitor.interfaces.ProjectDAO;
+import com.greenlab.agromonitor.interfaces.ProjectProductDAO;
 import com.greenlab.agromonitor.interfaces.UserDAO;
 import com.greenlab.agromonitor.utils.Constants;
 
@@ -31,6 +32,7 @@ public abstract class DbManager extends RoomDatabase{
     public abstract UserDAO userDAO();
     public abstract ProjectDAO projectDAO();
     public abstract ProductDAO productDAO();
+    public abstract ProjectProductDAO projectProductDAO();
 
     public static DbManager getInstance(Context ctx){
         if ( instance == null ){
