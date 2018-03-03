@@ -1,25 +1,16 @@
 package com.greenlab.agromonitor.fragments;
 
-import android.app.Activity;
-import android.app.AlertDialog;
+
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetView;
-import com.greenlab.agromonitor.BaseActivity;
 import com.greenlab.agromonitor.HomeActivity;
 import com.greenlab.agromonitor.NewProjectActivity;
 import com.greenlab.agromonitor.R;
@@ -71,25 +62,30 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-
-
-
-
         projectListAdapter = new ProjectListAdapter(projectList, mActivity);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mActivity);
         recyclerProjects.setLayoutManager(mLayoutManager);
         recyclerProjects.setItemAnimator(new DefaultItemAnimator());
         recyclerProjects.setAdapter(projectListAdapter);
 
-        User user = mActivity.getSessionUser();
-        projectList.clear();
-        projectList.addAll(mActivity.getProjectList());
-        projectListAdapter.notifyDataSetChanged();
 
-        for (Project project: projectList){
-            Log.d("projeto = ", project.getProjectName());
+        user = mActivity.getSessionUser();
+        projectList.clear();
+
+        int idProject = mActivity.getOpenedProject();
+        for (Project project : mActivity.getProjectList()){
+            if (project.getId()==idProject){
+                project.setOpened(true);
+                projectList.add(0,project);
+            }else{
+                project.setOpened(false);
+                projectList.add(project);
+            }
+
         }
+
+        //projectList.addAll(mActivity.getProjectList());
+        projectListAdapter.notifyDataSetChanged();
 
         return view;
 

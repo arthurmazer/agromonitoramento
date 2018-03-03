@@ -1,15 +1,12 @@
 package com.greenlab.agromonitor.fragments;
 
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,11 +109,6 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
              }
              if ( spreadsheetValues.getValue() > 0)
                 spreadsheetList.add(spreadsheetValues);
-        }
-        if ( spreadsheetList.isEmpty() ){
-            int indexProject = mActivity.getIndexOpenedProject();
-            List<Product> productList = this.mActivity.getProjectList().get(indexProject).getListOfProducts();
-            spreadsheetList.addAll(productList);
         }
         spreadsheetAdapter.notifyDataSetChanged();
     }

@@ -1,20 +1,18 @@
 package com.greenlab.agromonitor.adapters;
 
-import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.greenlab.agromonitor.HomeActivity;
 import com.greenlab.agromonitor.R;
 import com.greenlab.agromonitor.entity.Product;
 import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.utils.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,7 +39,6 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Project project = listProjects.get(position);
-        //holder.productName.setText(product);
 
         String id = "#" + String.valueOf(project.getId());
         holder.pId.setText(id);
@@ -57,6 +54,29 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         }
         holder.pProducts.setText(products.toString());
         holder.pDate.setText(project.getCreationDate());
+        String culture = "";
+        switch(project.getCultureType()){
+            case Constants.PROJECT_TYPE_CANA_DE_ACUCAR:
+                culture = "Cana";
+                break;
+            case Constants.PROJECT_TYPE_SOJA:
+                culture = "Soja";
+                break;
+        }
+        holder.pCulture.setText(culture);
+
+        if ( project.isOpened ){
+            int codeColor = ContextCompat.getColor(this.mActivity, R.color.gold);
+            holder.openImage.setImageResource(R.drawable.project_opened);
+            holder.pId.setTextColor(codeColor);
+            holder.pDate.setTextColor(codeColor);
+            holder.pTitle.setTextColor(codeColor);
+            holder.pCulture.setTextColor(codeColor);
+            holder.pProducts.setTextColor(codeColor);
+            holder.labelOpen.setText("Aberto");
+            holder.labelOpen.setTextColor(codeColor);
+            holder.labelProducts.setTextColor(codeColor);
+        }
     }
 
     @Override
@@ -69,6 +89,9 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         public TextView pTitle;
         public TextView pProducts;
         public TextView pDate;
+        public TextView pCulture;
+        public TextView labelOpen;
+        public TextView labelProducts;
         ImageView openImage;
 
         public ViewHolder(View itemView){
@@ -78,15 +101,15 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             pProducts = itemView.findViewById(R.id.list_products);
             pDate = itemView.findViewById(R.id.project_creation_date);
             openImage = itemView.findViewById(R.id.imageView);
+            pCulture = itemView.findViewById(R.id.label_culture);
+            labelOpen = itemView.findViewById(R.id.label_open);
+            labelProducts = itemView.findViewById(R.id.label_products);
 
             openImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     int idProject = Integer.valueOf(pId.getText().toString().replace("#","").trim());
-                    Log.d("aqui PROJETO : ", String.valueOf(idProject));
                     mActivity.setProjectOpened(idProject);
-                    mActivity.setIndexProjectOpened(getAdapterPosition());
                     mActivity.changeToSpreadsheetScreen();
                 }
             });

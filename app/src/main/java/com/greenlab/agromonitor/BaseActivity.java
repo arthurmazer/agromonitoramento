@@ -3,7 +3,6 @@ package com.greenlab.agromonitor;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.greenlab.agromonitor.entity.User;
@@ -22,7 +21,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         sessionManager = new SessionManager(this);
-        Log.d("BaseActivity-Resume","user logged out");
         if (!sessionManager.isUserLoggedIn()){
             Intent it = new Intent(this, LoginActivity .class);
             startActivity(it);
@@ -33,7 +31,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         sessionManager = new SessionManager(this);
-        Log.d("BaseActivity-Destroyed","user logged out");
         //sessionManager.logout();
     }
 
@@ -50,10 +47,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         return sessionManager.getCurrentProject();
     }
 
-    public int getIndexOpenedProject(){
-        sessionManager = new SessionManager(this);
-        return sessionManager.getCurrentProjectIndex();
-    }
 
     public void showToast(String message){
         Toast.makeText(getApplicationContext(), message,

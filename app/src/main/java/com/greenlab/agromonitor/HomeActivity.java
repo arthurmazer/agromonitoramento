@@ -7,27 +7,21 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.greenlab.agromonitor.entity.Project;
-import com.greenlab.agromonitor.entity.SpreadsheetValues;
 import com.greenlab.agromonitor.entity.User;
 import com.greenlab.agromonitor.fragments.HomeFragment;
 import com.greenlab.agromonitor.fragments.ReportFragment;
 import com.greenlab.agromonitor.fragments.SpreadsheetFragment;
 import com.greenlab.agromonitor.interfaces.GetAllProjectsOfUser;
-import com.greenlab.agromonitor.interfaces.GetSpreadsheetValues;
 import com.greenlab.agromonitor.managers.SessionManager;
 import com.greenlab.agromonitor.utils.Constants;
 
@@ -40,6 +34,7 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
     private User user;
     private List<Project> projectList;
     Button btnNewProject;
+    public boolean isNewProject = false;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -122,16 +117,24 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         //pushFragment(HomeFragment.newInstance());
         user = getSessionUser();
         user.getListOfProjects(getApplicationContext(), HomeActivity.this);
+
+        if ( isNewProject )
+            changeToSpreadsheetScreen();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.REQUEST_CODE_NEW_PROJECT) {
             if (resultCode == Constants.RESULT_NEW_PROJECT) {
                 Boolean isSaved = data.getBooleanExtra("success", false);
-                if (isSaved)
+                long idProject = data.getLongExtra("id_project", 0);
+                if (isSaved) {
                     showSnackBar(getResources().getString(R.string.project_save_success));
-                else
+                    setProjectOpened((int)idProject);
+                    isNewProject = true;
+                }
+                else {
                     showSnackBar(getResources().getString(R.string.project_save_error));
+                }
             }
         }
     }
@@ -147,7 +150,8 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
 
         if ( !projectList.isEmpty() ){
             btnNewProject.setVisibility(View.GONE);
-            pushFragment(HomeFragment.newInstance());
+            if (!isNewProject)
+                pushFragment(HomeFragment.newInstance());
         }else{
             btnNewProject.setVisibility(View.VISIBLE);
             TapTargetView.showFor(this,
@@ -189,10 +193,6 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         sessionManager.setCurrentProject(idProject);
     }
 
-    public void setIndexProjectOpened(int index){
-        SessionManager sessionManager = new SessionManager(getApplicationContext());
-        sessionManager.setCurrentIndexProject(index);
-    }
 
 
 }

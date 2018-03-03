@@ -168,6 +168,7 @@ public class NewProjectActivity extends BaseActivity {
             if ( idProject != -1){
                 Intent data = new Intent();
                 data.putExtra("success", true);
+                data.putExtra("id_project", idProject);
                 setResult(Constants.RESULT_NEW_PROJECT, data);
                 finish();
             }else{

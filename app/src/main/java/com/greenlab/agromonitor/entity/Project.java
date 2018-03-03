@@ -45,6 +45,8 @@ public class Project {
     private List<Product> listOfProducts;
     @Ignore
     private List<SpreadsheetValues> listOfProjectProduct;
+    @Ignore
+    public boolean isOpened;
 
     public Project(){
         listOfProducts = new ArrayList<>();
@@ -115,5 +117,13 @@ public class Project {
 
     public void setListOfProjectProduct(List<SpreadsheetValues> listOfProjectProduct) {
         this.listOfProjectProduct = listOfProjectProduct;
+    }
+
+    public boolean isOpened() {
+        return isOpened;
+    }
+
+    public void setOpened(boolean opened) {
+        isOpened = opened;
     }
 }
