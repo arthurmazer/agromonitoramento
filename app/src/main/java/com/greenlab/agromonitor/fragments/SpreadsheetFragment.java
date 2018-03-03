@@ -139,25 +139,18 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
          for ( SpreadsheetValues spreadsheetValues: spreadsheetValuesList){
              if (!spreadsheetValues.getProduct().equals(currentProduct)){
                  currentProduct = spreadsheetValues.getProduct();
-                 spreadsheetList.add(currentProduct);
+                 Product product = new Product();
+                 product.setId(spreadsheetValues.getId());
+                 product.setIdProject(spreadsheetValues.getIdProject());
+                 product.setProduct(spreadsheetValues.getProduct());
+                 spreadsheetList.add(product);
              }
-             //spreadsheetList
-             Product prod = new Product();
-             prod.setId(spreadsheetValues.getId());
-             prod.setIdProject(spreadsheetValues.getIdProject());
-             prod.setProduct(String.valueOf(spreadsheetValues.getValue()));
-             spreadsheetList.add(prod);
-           Log.d("aqui-ae por", spreadsheetValues.getProduct());
-         Log.d("aqui-ae po2", "--> " + spreadsheetValues.getValue());
+             spreadsheetList.add(spreadsheetValues);
         }
-        //mActivity.getProjectList().indexOf(1);
         if ( spreadsheetList.isEmpty() ){
             int indexProject = mActivity.getIndexOpenedProject();
             List<Product> productList = this.mActivity.getProjectList().get(indexProject).getListOfProducts();
-
-            for (Product prod: productList)
-                spreadsheetList.add(prod.getProduct()
-                );
+            spreadsheetList.addAll(productList);
         }
         spreadsheetAdapter.notifyDataSetChanged();
     }

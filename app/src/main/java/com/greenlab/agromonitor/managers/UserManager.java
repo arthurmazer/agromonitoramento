@@ -8,6 +8,7 @@ import android.util.Log;
 import com.greenlab.agromonitor.DbManager;
 import com.greenlab.agromonitor.entity.Product;
 import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.entity.ProjectProduct;
 import com.greenlab.agromonitor.entity.SpreadsheetValues;
 import com.greenlab.agromonitor.entity.User;
 import com.greenlab.agromonitor.interfaces.GetAllProjectsOfUser;
@@ -55,6 +56,18 @@ public class UserManager {
 
     public List<SpreadsheetValues> getSpreadsheetValues(final int idProject){
         return dbManager.projectProductDAO().getAllProductsValuesFromProject(idProject);
+
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void insertProjectProduct(final ProjectProduct projectProduct){
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                dbManager.projectProductDAO().insertProjectProduct(projectProduct);
+                return null;
+            }
+        }.execute();
 
     }
 

@@ -17,6 +17,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.greenlab.agromonitor.R;
 
 import com.greenlab.agromonitor.entity.Product;
+import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.entity.ProjectProduct;
+import com.greenlab.agromonitor.entity.SpreadsheetValues;
 
 import java.util.ArrayList;
 
@@ -64,22 +67,21 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-
         switch (holder.getItemViewType()) {
             case PRODUCT_VALUE:
                 ViewHolder productHolder = (ViewHolder) holder;
-                Product product = (Product) this.spreadsheetList.get(position);
-                productHolder.productValue.setText(String.valueOf(product.getProduct()));
+                SpreadsheetValues spreadsheetValues = (SpreadsheetValues) this.spreadsheetList.get(position);
+                productHolder.productValue.setText(String.valueOf(spreadsheetValues.getValue()));
+
                 break;
             case CATEGORY:
                 ViewHolderCategoria headerCategory = (ViewHolderCategoria) holder;
-                String categoria = (String) this.spreadsheetList.get(position);
-                headerCategory.titleProduct.setText(categoria);
+                Product prod = (Product) this.spreadsheetList.get(position);
+                headerCategory.titleProduct.setText(prod.getProduct());
+                headerCategory.idProject = prod.getIdProject();
+                headerCategory.idProduct = prod.getId();
                 break;
-
         }
-
-
     }
 
     @Override
@@ -91,9 +93,9 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (spreadsheetList.get(position) instanceof Product) {
+        if (spreadsheetList.get(position) instanceof SpreadsheetValues) {
             return PRODUCT_VALUE;
-        } else if (spreadsheetList.get(position) instanceof String) {
+        } else if (spreadsheetList.get(position) instanceof Product) {
             return CATEGORY;
         }
         return -1;
@@ -104,7 +106,6 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public TextView productValue;
         public ImageView action;
-
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -124,7 +125,8 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public TextView titleProduct;
         LinearLayout layoutAddProduct;
         Context ctx;
-
+        int idProject;
+        int idProduct;
 
         public ViewHolderCategoria(View itemView, final Context ctx) {
             super(itemView);
@@ -146,11 +148,9 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                     dialog.dismiss();
                                 }
                             })
-                            .input("0.5", "", new MaterialDialog.InputCallback() {
+                            .input("Ex: 0.5", "", new MaterialDialog.InputCallback() {
                                 @Override
                                 public void onInput(MaterialDialog dialog, CharSequence input) {
-
-                                        //spreadsheetList.add("ok");
                                     insertValueOnList(input.toString());
                                 }
                             }).show();
@@ -164,21 +164,25 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             boolean founded = false;
             String currentProduct = "", oldProduct = "";
 
-
-
             for (int i = 0; i < spreadsheetList.size(); i++){
                 currentProduct = titleProduct.getText().toString();
                 if (spreadsheetList.get(i).toString().equals(currentProduct)){
                     index = i;
-                    Log.d("indice -aqui ", "> " + index);
                 }
-                Log.d("indice-current", currentProduct);
-                Log.d("indice,", spreadsheetList.get(i).toString());
             }
-            Float fValue = Float.valueOf(value);
-            Product product = new Product();
-            product.setProduct(value);
-            spreadsheetList.add(index+1,product);
+            SpreadsheetValues spreadsheetValues = new SpreadsheetValues();
+            spreadsheetValues.setValue(Float.valueOf(value));
+            spreadsheetValues.setId(idProduct);
+            spreadsheetValues.setIdProject(idProject);
+
+            Project project = new Project();
+            ProjectProduct projectProduct = new ProjectProduct();
+            projectProduct.setIdProduct(idProduct);
+            projectProduct.setIdProject(idProject);
+            projectProduct.setValue(Float.valueOf(value));
+            project.insertProjectProduct(this.ctx, projectProduct);
+
+            spreadsheetList.add(index+1,spreadsheetValues);
             notifyDataSetChanged();
 
         }
