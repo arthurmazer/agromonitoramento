@@ -13,6 +13,7 @@ public class Constants {
     public static final String SP_USER_LOGIN = "sp_login";
     public static final String SP_USER_ID = "sp_id";
     public static final String SP_PROJECT_OPEN = "sp_project_open";
+    public static final String SP_NAME_PROJECT_OPEN = "sp_name_project_open";
     public static final String SP_PROJECT_INDEX = "sp_project_open_index";
     public static final String SP_USER_LIST_PROJECTS = "sp_list_projects";
 

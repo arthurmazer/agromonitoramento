@@ -1,5 +1,6 @@
 package com.greenlab.agromonitor;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.PointerIcon;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -76,6 +78,9 @@ public class NewProjectActivity extends BaseActivity {
                     productListAdapter.notifyDataSetChanged();
                     productLabelText.setText("");
                 }
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(productLabelText.getWindowToken(), 0);
             }
         });
 
@@ -169,6 +174,7 @@ public class NewProjectActivity extends BaseActivity {
                 Intent data = new Intent();
                 data.putExtra("success", true);
                 data.putExtra("id_project", idProject);
+                data.putExtra("name_project", project.getProjectName());
                 setResult(Constants.RESULT_NEW_PROJECT, data);
                 finish();
             }else{

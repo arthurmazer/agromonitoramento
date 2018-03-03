@@ -47,6 +47,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         this.mActivity = (HomeActivity)getActivity();
+        this.mActivity.setTitle("Planilha - " + this.mActivity.getNameProjectOpened());
 
         View mView = inflater.inflate(R.layout.fragment_spreadsheet, container, false);
         final int PRODUCT_VALUE = 0, CATEGORY = 1;

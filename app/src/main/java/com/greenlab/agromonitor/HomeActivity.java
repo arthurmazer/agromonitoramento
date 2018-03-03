@@ -127,9 +127,10 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
             if (resultCode == Constants.RESULT_NEW_PROJECT) {
                 Boolean isSaved = data.getBooleanExtra("success", false);
                 long idProject = data.getLongExtra("id_project", 0);
+                String nameProject = data.getStringExtra("name_project");
                 if (isSaved) {
                     showSnackBar(getResources().getString(R.string.project_save_success));
-                    setProjectOpened((int)idProject);
+                    setProjectOpened((int)idProject,nameProject);
                     isNewProject = true;
                 }
                 else {
@@ -188,9 +189,14 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         return projectList;
     }
 
-    public void setProjectOpened(int idProject){
+    public void setProjectOpened(int idProject, String nameProject){
         SessionManager sessionManager = new SessionManager(getApplicationContext());
-        sessionManager.setCurrentProject(idProject);
+        sessionManager.setCurrentProject(idProject,nameProject);
+    }
+
+    public String getNameProjectOpened(){
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        return sessionManager.getNameCurrentProject();
     }
 
 

@@ -151,7 +151,8 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             .input("Ex: 0.5", "", new MaterialDialog.InputCallback() {
                                 @Override
                                 public void onInput(MaterialDialog dialog, CharSequence input) {
-                                    insertValueOnList(input.toString());
+                                    if (!input.toString().isEmpty())
+                                        insertValueOnList(input.toString());
                                 }
                             }).show();
                 }
@@ -161,8 +162,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public void insertValueOnList(String value){
             int index = 0;
-            boolean founded = false;
-            String currentProduct = "", oldProduct = "";
+            String currentProduct = "";
 
             for (int i = 0; i < spreadsheetList.size(); i++){
                 currentProduct = titleProduct.getText().toString();
@@ -173,6 +173,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             }
             SpreadsheetValues spreadsheetValues = new SpreadsheetValues();
+
             spreadsheetValues.setValue(Float.valueOf(value));
             spreadsheetValues.setId(idProduct);
             spreadsheetValues.setIdProject(idProject);

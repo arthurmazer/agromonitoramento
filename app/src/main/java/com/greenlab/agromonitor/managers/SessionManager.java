@@ -31,13 +31,18 @@ public class SessionManager {
         editor.apply();
     }
 
-    public void setCurrentProject(int idProject){
+    public void setCurrentProject(int idProject, String nameProject){
         editor.putInt(Constants.SP_PROJECT_OPEN, idProject);
+        editor.putString(Constants.SP_NAME_PROJECT_OPEN, nameProject);
         editor.apply();
     }
 
     public int getCurrentProject(){
         return sharedPreferences.getInt(Constants.SP_PROJECT_OPEN, -1);
+    }
+
+    public String getNameCurrentProject(){
+        return sharedPreferences.getString(Constants.SP_NAME_PROJECT_OPEN, "");
     }
 
     public boolean isUserLoggedIn(){
