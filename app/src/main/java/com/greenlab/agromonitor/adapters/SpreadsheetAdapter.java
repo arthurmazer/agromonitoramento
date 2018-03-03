@@ -120,7 +120,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    class ViewHolderCategoria extends RecyclerView.ViewHolder implements View.OnClickListener  {
+    class ViewHolderCategoria extends RecyclerView.ViewHolder  {
 
         public TextView titleProduct;
         LinearLayout layoutAddProduct;
@@ -166,8 +166,10 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             for (int i = 0; i < spreadsheetList.size(); i++){
                 currentProduct = titleProduct.getText().toString();
-                if (spreadsheetList.get(i).toString().equals(currentProduct)){
-                    index = i;
+                if (spreadsheetList.get(i) instanceof Product){
+                    Product product = (Product) spreadsheetList.get(i);
+                    if (product.getProduct().equals(currentProduct))
+                        index = i;
                 }
             }
             SpreadsheetValues spreadsheetValues = new SpreadsheetValues();
@@ -187,10 +189,5 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         }
 
-        @Override
-        public void onClick(View view) {
-            Log.d("aqui", "aushdusad");
-
-        }
     }
 }

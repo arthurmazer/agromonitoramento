@@ -75,12 +75,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
         });
 
 
-
-
         recyclerSpreadsheet.setLayoutManager(manager);
-
-       // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.mActivity.getApplicationContext());
-        //recyclerSpreadsheet.setLayoutManager(mLayoutManager);
         recyclerSpreadsheet.setItemAnimator(new DefaultItemAnimator());
         recyclerSpreadsheet.setAdapter(spreadsheetAdapter);
 
@@ -100,36 +95,6 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
             }
         }.execute();
 
-
-        Log.d("aqui-caraii: " , ">>> " + idProject);
-
-
-       // for ( SpreadsheetValues spreadsheetValues: listValues){
-         //   Log.d("aqui-ae por", spreadsheetValues.getProduct());
-           // Log.d("aqui-ae po2", "--> " + spreadsheetValues.getValue());
-        //}
-
-       /** for (int i = 0; i < 40; i++){
-            if ( i == 0){
-                spreadsheetList.add("PT");
-            }else{
-                if ( i%15 == 0){
-                    spreadsheetList.add("XXX");
-                }else{
-                  //  Product p = new Product( "title", Float.parseFloat("1.677"));
-                    spreadsheetList.add(p);
-                }
-            }
-
-
-        }**/
-
-
-        //annalsManager.getAnais(AnnalsFragment.this);
-
-
-
-        //mActivity.displayErrorMessage();
         return mView;
     }
 
@@ -145,7 +110,8 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
                  product.setProduct(spreadsheetValues.getProduct());
                  spreadsheetList.add(product);
              }
-             spreadsheetList.add(spreadsheetValues);
+             if ( spreadsheetValues.getValue() > 0)
+                spreadsheetList.add(spreadsheetValues);
         }
         if ( spreadsheetList.isEmpty() ){
             int indexProject = mActivity.getIndexOpenedProject();
