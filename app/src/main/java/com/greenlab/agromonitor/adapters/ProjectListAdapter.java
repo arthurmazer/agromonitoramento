@@ -86,6 +86,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
                     int idProject = Integer.valueOf(pId.getText().toString().replace("#","").trim());
                     Log.d("aqui PROJETO : ", String.valueOf(idProject));
                     mActivity.setProjectOpened(idProject);
+                    mActivity.setIndexProjectOpened(getAdapterPosition());
                     mActivity.changeToSpreadsheetScreen();
                 }
             });

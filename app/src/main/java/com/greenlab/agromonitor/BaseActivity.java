@@ -50,6 +50,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         return sessionManager.getCurrentProject();
     }
 
+    public int getIndexOpenedProject(){
+        sessionManager = new SessionManager(this);
+        return sessionManager.getCurrentProjectIndex();
+    }
+
     public void showToast(String message){
         Toast.makeText(getApplicationContext(), message,
                 Toast.LENGTH_LONG).show();

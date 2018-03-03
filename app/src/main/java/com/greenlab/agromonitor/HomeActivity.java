@@ -189,5 +189,10 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         sessionManager.setCurrentProject(idProject);
     }
 
+    public void setIndexProjectOpened(int index){
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        sessionManager.setCurrentIndexProject(index);
+    }
+
 
 }

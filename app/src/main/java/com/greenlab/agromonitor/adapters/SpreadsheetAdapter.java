@@ -3,11 +3,17 @@ package com.greenlab.agromonitor.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.greenlab.agromonitor.R;
 
 import com.greenlab.agromonitor.entity.Product;
@@ -46,7 +52,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             case CATEGORY:
                 View v2 = inflater.from(parent.getContext()).inflate(R.layout.item_category_header,parent,false);
-                viewHolder = new ViewHolderCategoria(v2);
+                viewHolder = new ViewHolderCategoria(v2, this.mContext);
                 break;
             default:
                 break;
@@ -97,28 +103,90 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView productValue;
+        public ImageView action;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             productValue = (TextView) itemView.findViewById(R.id.product_value);
+            action = itemView.findViewById(R.id.action_list);
         }
 
+
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
 
         }
     }
 
-    class ViewHolderCategoria extends RecyclerView.ViewHolder {
+    class ViewHolderCategoria extends RecyclerView.ViewHolder implements View.OnClickListener  {
 
         public TextView titleProduct;
-        public TextView quantProduct;
+        LinearLayout layoutAddProduct;
+        Context ctx;
 
 
-        public ViewHolderCategoria(View itemView) {
+        public ViewHolderCategoria(View itemView, final Context ctx) {
             super(itemView);
             titleProduct = itemView.findViewById(R.id.title_product);
+            layoutAddProduct = itemView.findViewById(R.id.layout_add_product_value);
+
+            layoutAddProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new MaterialDialog.Builder(ctx)
+                            .title(titleProduct.getText())
+                            .content("Insira um valor")
+                            .inputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL)
+                            .negativeText("Cancelar")
+                            .positiveText("Inserir")
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .input("0.5", "", new MaterialDialog.InputCallback() {
+                                @Override
+                                public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                                        //spreadsheetList.add("ok");
+                                    insertValueOnList(input.toString());
+                                }
+                            }).show();
+                }
+            });
+            this.ctx = ctx;
+        }
+
+        public void insertValueOnList(String value){
+            int index = 0;
+            boolean founded = false;
+            String currentProduct = "", oldProduct = "";
+
+
+
+            for (int i = 0; i < spreadsheetList.size(); i++){
+                currentProduct = titleProduct.getText().toString();
+                if (spreadsheetList.get(i).toString().equals(currentProduct)){
+                    index = i;
+                    Log.d("indice -aqui ", "> " + index);
+                }
+                Log.d("indice-current", currentProduct);
+                Log.d("indice,", spreadsheetList.get(i).toString());
+            }
+            Float fValue = Float.valueOf(value);
+            Product product = new Product();
+            product.setProduct(value);
+            spreadsheetList.add(index+1,product);
+            notifyDataSetChanged();
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            Log.d("aqui", "aushdusad");
+
         }
     }
 }

@@ -56,8 +56,6 @@ public class UserManager {
     public List<SpreadsheetValues> getSpreadsheetValues(final int idProject){
         return dbManager.projectProductDAO().getAllProductsValuesFromProject(idProject);
 
-
-
     }
 
 

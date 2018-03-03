@@ -86,6 +86,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
 
 
         int idProject = mActivity.getOpenedProject();
+
         final Project project = new Project();
         project.setId(idProject);
         new AsyncTask<Void, Void, List<SpreadsheetValues>>() {
@@ -122,7 +123,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
 
 
         }**/
-        spreadsheetAdapter.notifyDataSetChanged();
+
 
         //annalsManager.getAnais(AnnalsFragment.this);
 
@@ -133,10 +134,32 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
     }
 
     private void onSuccessGettingValues(List<SpreadsheetValues> spreadsheetValuesList) {
+        String currentProduct = "";
+        spreadsheetList.clear();
          for ( SpreadsheetValues spreadsheetValues: spreadsheetValuesList){
+             if (!spreadsheetValues.getProduct().equals(currentProduct)){
+                 currentProduct = spreadsheetValues.getProduct();
+                 spreadsheetList.add(currentProduct);
+             }
+             //spreadsheetList
+             Product prod = new Product();
+             prod.setId(spreadsheetValues.getId());
+             prod.setIdProject(spreadsheetValues.getIdProject());
+             prod.setProduct(String.valueOf(spreadsheetValues.getValue()));
+             spreadsheetList.add(prod);
            Log.d("aqui-ae por", spreadsheetValues.getProduct());
          Log.d("aqui-ae po2", "--> " + spreadsheetValues.getValue());
         }
+        //mActivity.getProjectList().indexOf(1);
+        if ( spreadsheetList.isEmpty() ){
+            int indexProject = mActivity.getIndexOpenedProject();
+            List<Product> productList = this.mActivity.getProjectList().get(indexProject).getListOfProducts();
+
+            for (Product prod: productList)
+                spreadsheetList.add(prod.getProduct()
+                );
+        }
+        spreadsheetAdapter.notifyDataSetChanged();
     }
 
     @Override

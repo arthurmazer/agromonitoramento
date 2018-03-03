@@ -59,6 +59,14 @@ public class SessionManager {
         editor.apply();
     }
 
+    public void setCurrentIndexProject(int index){
+        editor.putInt(Constants.SP_PROJECT_INDEX, index);
+        editor.apply();
+    }
+
+    public int getCurrentProjectIndex(){
+        return sharedPreferences.getInt(Constants.SP_PROJECT_INDEX, 0);
+    }
 
 
 }

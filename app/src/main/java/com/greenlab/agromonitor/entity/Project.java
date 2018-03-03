@@ -59,6 +59,11 @@ public class Project {
         return userManager.getSpreadsheetValues(this.id);
     }
 
+    public List<Product> getListOfProducts(Context ctx){
+        UserManager userManager = new UserManager(ctx);
+        return null;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

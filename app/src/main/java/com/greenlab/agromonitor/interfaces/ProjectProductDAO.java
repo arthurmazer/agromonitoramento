@@ -24,7 +24,7 @@ public interface ProjectProductDAO {
         @Update
         void updateProjectProduct(ProjectProduct projectProduct);
 
-        @Query("SELECT a.value, b.* FROM project_product as a LEFT JOIN product as b on a.idProduct = b.id WHERE a.idProject = :idProject")
+        @Query("SELECT a.value, b.* FROM project_product as a LEFT JOIN product as b on a.idProduct = b.id WHERE a.idProject = :idProject Order by a.idProduct")
         List<SpreadsheetValues> getAllProductsValuesFromProject(int idProject);
 
 
