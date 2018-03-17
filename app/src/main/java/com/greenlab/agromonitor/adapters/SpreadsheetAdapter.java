@@ -161,17 +161,8 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         public void insertValueOnList(String value){
-            int index = 0;
-            String currentProduct = "";
-
-            for (int i = 0; i < spreadsheetList.size(); i++){
-                currentProduct = titleProduct.getText().toString();
-                if (spreadsheetList.get(i) instanceof Product){
-                    Product product = (Product) spreadsheetList.get(i);
-                    if (product.getProduct().equals(currentProduct))
-                        index = i;
-                }
-            }
+            String currentProduct = titleProduct.getText().toString();
+            int index = getLastPositionOfCategory(currentProduct);
             SpreadsheetValues spreadsheetValues = new SpreadsheetValues();
 
             spreadsheetValues.setValue(Float.valueOf(value));
@@ -185,9 +176,26 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             projectProduct.setValue(Float.valueOf(value));
             project.insertProjectProduct(this.ctx, projectProduct);
 
-            spreadsheetList.add(index+1,spreadsheetValues);
+            spreadsheetList.add(index,spreadsheetValues);
             notifyDataSetChanged();
 
+        }
+
+        public int getLastPositionOfCategory(String category){
+            boolean flagFounded = false;
+            for (int i = 0; i < spreadsheetList.size(); i++){
+                if (spreadsheetList.get(i) instanceof Product){
+                    Product product = (Product) spreadsheetList.get(i);
+
+                    if (flagFounded)
+                        return i;
+
+                    if (product.getProduct().equals(category)) {
+                        flagFounded = true;
+                    }
+                }
+            }
+            return spreadsheetList.size();
         }
 
     }

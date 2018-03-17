@@ -27,6 +27,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
     public ProjectListAdapter(List<Project> listProjects, HomeActivity mActivity){
         this.listProjects = listProjects;
         this.mActivity = mActivity;
+        setHasStableIds(true);
     }
 
 
@@ -82,6 +83,16 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
     @Override
     public int getItemCount() {
         return listProjects == null ? 0 : listProjects.size();
+    }
+
+    @Override
+    public long getItemId(int position){
+        return listProjects.get(position).getId();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
