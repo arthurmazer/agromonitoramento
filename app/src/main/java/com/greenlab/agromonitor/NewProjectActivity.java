@@ -46,6 +46,15 @@ public class NewProjectActivity extends BaseActivity {
     Button btnSaveProject;
     EditText productLabelText;
     EditText nameProject;
+    EditText farmName;
+    EditText talhaoName;
+    EditText frenteColheita;
+    EditText machineId;
+    EditText operatorsName;
+    EditText measurerName;
+    RadioButton radioDiurno;
+    RadioButton radioNoturno;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +68,15 @@ public class NewProjectActivity extends BaseActivity {
         btnSaveProject = findViewById(R.id.btnSaveNewProject);
         productLabelText = findViewById(R.id.add_product_label);
         nameProject = findViewById(R.id.name_project);
+        farmName = findViewById(R.id.name_farm);
+        talhaoName = findViewById(R.id.name_talhao);
+        frenteColheita = findViewById(R.id.frente_colheita);
+        machineId = findViewById(R.id.machine_id);
+        operatorsName = findViewById(R.id.operators_name);
+        measurerName = findViewById(R.id.measurer_name);
+        radioDiurno = findViewById(R.id.turno_diurno);
+        radioNoturno = findViewById(R.id.turno_noturno);
+
         listProducts = new ArrayList<>();
         userManager =  new UserManager(getApplicationContext());
 
@@ -99,6 +117,7 @@ public class NewProjectActivity extends BaseActivity {
     public void populateFields(){
         this.listProducts.clear();
         this.radioCana.setChecked(true);
+        this.radioDiurno.setChecked(true);
     }
 
     public boolean checkObligatoryFields(){
@@ -123,6 +142,18 @@ public class NewProjectActivity extends BaseActivity {
             project.setCultureType(Constants.PROJECT_TYPE_CANA_DE_ACUCAR);
         else
             project.setCultureType(Constants.PROJECT_TYPE_SOJA);
+
+        if ( this.radioDiurno.isChecked())
+            project.setTurn(Constants.TURNO_DIURNO);
+        else
+            project.setTurn(Constants.TURNO_NOTURNO);
+
+        project.setFarmName(farmName.getText().toString());
+        project.setTalhao(talhaoName.getText().toString());
+        project.setFrenteColheita(frenteColheita.getText().toString());
+        project.setMachineID(machineId.getText().toString());
+        project.setOperatorsName(operatorsName.getText().toString());
+        project.setMeasurersName(measurerName.getText().toString());
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();

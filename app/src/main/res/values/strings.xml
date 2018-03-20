@@ -18,7 +18,7 @@
     <string name="title_reports">Relatórios</string>
     <string name="title_settings">Configurações</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hello_blank_fragment2">Hello b223lank fragment</string>
     <string name="hello_blank_fragment3">Hello blan3333k fragment</string>
@@ -26,7 +26,14 @@
     <string name="empty_projects">Você ainda não tem projetos</string>
     <string name="start_new_project">Novo Projeto</string>
     <string name="choose_an_culture">Escolha uma cultura:</string>
-    <string name="name_project_label">Nome do Projeto:</string>
+    <string name="choose_an_turn">Escolha um turno:</string>
+    <string name="name_project_label">Nome do Projeto</string>
+    <string name="name_farm_label">Nome da Fazenda</string>
+    <string name="name_talhao_label">Talhao</string>
+    <string name="name_frente_colheita_label">Frente de Colheita</string>
+    <string name="name_machine_id_label">Nº ID Maquina</string>
+    <string name="name_operators_name_label">Nome do Operador</string>
+    <string name="name_measurer_name_label">Avaliador</string>
     <string name="products_label">Produtos:</string>
     <string name="culture_label">Cultura:</string>
     <string name="error_no_products">Você deve ter ao menos 1 produto adicionado</string>
@@ -36,7 +43,13 @@
     <string name="culture_cana">Cana-de-açucar</string>
     <string name="culture_soja">Soja</string>
 
+    <string name="turno_diurno">Diurno</string>
+    <string name="turno_noturno">Noturno</string>
+
     <string name="button_new_project">Salvar</string>
 
     <string name="title_onboard_no_project">Toque para começar seu primeiro projeto</string>
+
+    <!-- Charts-->
+    <string name="floating_chat_button">Adicionar Limites</string>
 </resources>

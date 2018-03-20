@@ -58,6 +58,11 @@ public class UserManager {
         return dbManager.projectProductDAO().getAllProductsValuesFromProject(idProject);
 
     }
+    public List<SpreadsheetValues> getSpreadsheetValuesNotNull(final int idProject){
+        return dbManager.projectProductDAO().getAllProductsValuesNotNullFromProject(idProject);
+
+    }
+
 
     @SuppressLint("StaticFieldLeak")
     public void insertProjectProduct(final ProjectProduct projectProduct){

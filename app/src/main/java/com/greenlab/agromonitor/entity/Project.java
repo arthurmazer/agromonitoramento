@@ -40,6 +40,13 @@ public class Project {
     private String projectName;
     private String creationDate;
     private int cultureType; //0 - Cana, 1 - Soja
+    private int turn;
+    private String farmName;
+    private String talhao;
+    private String frenteColheita;
+    private String machineID;
+    private String operatorsName;
+    private String measurersName;
 
     @Ignore
     private List<Product> listOfProducts;
@@ -59,6 +66,11 @@ public class Project {
     public List<SpreadsheetValues> getSpreadSheetValues(Context ctx){
         UserManager userManager = new UserManager(ctx);
         return userManager.getSpreadsheetValues(this.id);
+    }
+
+    public List<SpreadsheetValues> getSpreadSheetValuesNotNull(Context ctx){
+        UserManager userManager = new UserManager(ctx);
+        return userManager.getSpreadsheetValuesNotNull(this.id);
     }
 
 
@@ -125,5 +137,61 @@ public class Project {
 
     public void setOpened(boolean opened) {
         isOpened = opened;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+
+    public String getFarmName() {
+        return farmName;
+    }
+
+    public void setFarmName(String farmName) {
+        this.farmName = farmName;
+    }
+
+    public String getTalhao() {
+        return talhao;
+    }
+
+    public void setTalhao(String talhao) {
+        this.talhao = talhao;
+    }
+
+    public String getFrenteColheita() {
+        return frenteColheita;
+    }
+
+    public void setFrenteColheita(String frenteColheita) {
+        this.frenteColheita = frenteColheita;
+    }
+
+    public String getMachineID() {
+        return machineID;
+    }
+
+    public void setMachineID(String machineID) {
+        this.machineID = machineID;
+    }
+
+    public String getOperatorsName() {
+        return operatorsName;
+    }
+
+    public void setOperatorsName(String operatorsName) {
+        this.operatorsName = operatorsName;
+    }
+
+    public String getMeasurersName() {
+        return measurersName;
+    }
+
+    public void setMeasurersName(String measurersName) {
+        this.measurersName = measurersName;
     }
 }

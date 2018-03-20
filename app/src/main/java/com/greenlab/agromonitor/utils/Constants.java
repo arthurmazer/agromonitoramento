@@ -24,4 +24,8 @@ public class Constants {
     public static final int PROJECT_TYPE_SOJA = 1;
 
 
+    public static final int TURNO_DIURNO = 0;
+    public static final int TURNO_NOTURNO = 1;
+
+
 }

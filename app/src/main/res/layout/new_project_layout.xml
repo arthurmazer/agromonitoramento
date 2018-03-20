@@ -7,121 +7,262 @@
     android:orientation="vertical">
 
 
-
-    <EditText
-        android:id="@+id/name_project"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="@string/name_project_label"
-        android:layout_marginRight="16dp"
-        android:fontFamily="@font/neuton"
-        android:textSize="20sp"
-         />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_culture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/neuton"
-        android:textSize="20sp"
-        android:text="@string/choose_an_culture" />
-
-    <RadioGroup
-        android:id="@+id/radiogroup_culture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/radio_cana_de_acucar"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/culture_cana" />
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/radio_soja"
-            android:text="@string/culture_soja"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp" />
+            <EditText
+                android:id="@+id/name_project"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/name_project_label"
+                android:layout_marginRight="16dp"
+                android:fontFamily="@font/neuton"
+                android:textSize="20sp"
+                />
 
+            <TextView
+                android:id="@+id/tv_culture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/neuton"
+                android:textSize="20sp"
+                android:text="@string/choose_an_culture" />
 
-    </RadioGroup>
+            <RadioGroup
+                android:id="@+id/radiogroup_culture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tv_products"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/neuton"
-        android:textSize="20sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/products_label" />
+                <RadioButton
+                    android:id="@+id/radio_cana_de_acucar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/culture_cana" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/add_product_label"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:text="" />
-
-        <ImageView
-            android:id="@+id/btn_add_products"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Adicionar Produto"
-            app:srcCompat="@drawable/plus_circle"/>
-
-
-    </LinearLayout>
-
+                <RadioButton
+                    android:id="@+id/radio_soja"
+                    android:text="@string/culture_soja"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp" />
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_products"
-        android:layout_width="match_parent"
-        android:layout_height="158dp"
-        android:background="@drawable/background_item_product"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_gravity="center|bottom"
-        android:layout_marginTop="8dp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_turn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/neuton"
+                android:textSize="20sp"
+                android:text="@string/choose_an_turn" />
+
+            <RadioGroup
+                android:id="@+id/radiogroup_turno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/turno_diurno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/turno_diurno" />
+
+                <RadioButton
+                    android:id="@+id/turno_noturno"
+                    android:text="@string/turno_noturno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp" />
+
+
+            </RadioGroup>
 
 
 
-    <Button
-        android:id="@+id/btnSaveNewProject"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/button_new_project"/>
+
+            <EditText
+                android:id="@+id/name_farm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/name_farm_label"
+                android:layout_marginRight="16dp"
+                android:fontFamily="@font/neuton"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:id="@+id/name_talhao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/name_talhao_label"
+                android:layout_marginRight="16dp"
+                android:fontFamily="@font/neuton"
+                android:textSize="20sp"
+                />
+
+
+            <EditText
+                android:id="@+id/frente_colheita"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/name_frente_colheita_label"
+                android:layout_marginRight="16dp"
+                android:fontFamily="@font/neuton"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:id="@+id/machine_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/name_machine_id_label"
+                android:layout_marginRight="16dp"
+                android:fontFamily="@font/neuton"
+                android:textSize="20sp"
+                />
+
+
+            <EditText
+                android:id="@+id/operators_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/name_operators_name_label"
+                android:layout_marginRight="16dp"
+                android:fontFamily="@font/neuton"
+                android:textSize="20sp"
+                />
+
+
+            <EditText
+                android:id="@+id/measurer_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/name_measurer_name_label"
+                android:layout_marginRight="16dp"
+                android:fontFamily="@font/neuton"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/neuton"
+                android:textSize="20sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/products_label" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/add_product_label"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="" />
+
+                <ImageView
+                    android:id="@+id/btn_add_products"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Adicionar Produto"
+                    app:srcCompat="@drawable/plus_circle"/>
+
+
+            </LinearLayout>
+
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_products"
+                android:layout_width="match_parent"
+                android:layout_height="158dp"
+                android:background="@drawable/background_item_product"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_gravity="center|bottom"
+                android:layout_marginTop="8dp" />
+
+
+
+            <Button
+                android:id="@+id/btnSaveNewProject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/button_new_project"/>
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
 
 </LinearLayout>

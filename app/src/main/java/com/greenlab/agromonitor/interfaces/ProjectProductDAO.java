@@ -27,5 +27,9 @@ public interface ProjectProductDAO {
         @Query("SELECT a.*, b.value from product as a LEFT JOIN project_product as b on a.id = b.idProduct WHERE a.idProject = :idProject Order by a.id")
         List<SpreadsheetValues> getAllProductsValuesFromProject(int idProject);
 
+        @Query("SELECT a.*, b.value from product as a LEFT JOIN project_product as b on a.id = b.idProduct WHERE a.idProject = :idProject AND b.value IS NOT NULL Order by a.id")
+        List<SpreadsheetValues> getAllProductsValuesNotNullFromProject(int idProject);
+
+
 
 }
