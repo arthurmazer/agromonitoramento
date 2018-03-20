@@ -59,9 +59,9 @@ public class NewProjectActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_project_layout);
+        setContentView(R.layout.new_project_first_step);
 
-        radioCana = findViewById(R.id.radio_cana_de_acucar);
+       /** radioCana = findViewById(R.id.radio_cana_de_acucar);
         radioSoja = findViewById(R.id.radio_soja);
         recyclerProducs = findViewById(R.id.recycler_products);
         btnAddProduct = findViewById(R.id.btn_add_products);
@@ -111,7 +111,7 @@ public class NewProjectActivity extends BaseActivity {
         });
 
         populateFields();
-
+    **/
     }
 
     public void populateFields(){

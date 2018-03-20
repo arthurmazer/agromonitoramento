@@ -43,4 +43,5 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'org.apache.commons:commons-math3:3.6.1'
     implementation 'com.github.dimorinny:floating-text-button:0.0.4'
+    implementation 'com.github.florent37:materialtextfield:1.0.7'
 }

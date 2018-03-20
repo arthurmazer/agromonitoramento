@@ -1,12 +1,14 @@
 package com.greenlab.agromonitor;
 
 import android.annotation.SuppressLint;
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.db.SupportSQLiteOpenHelper;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.DatabaseConfiguration;
 import android.arch.persistence.room.InvalidationTracker;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -25,7 +27,7 @@ import com.greenlab.agromonitor.utils.Constants;
  * Created by arthu on 09/02/2018.
  */
 
-@Database(entities = {User.class,Project.class, ProjectProduct.class, Product.class}, version = 5)
+@Database(entities = {User.class,Project.class, ProjectProduct.class, Product.class}, version = Constants.DATABASE_VERSION)
 public abstract class DbManager extends RoomDatabase{
 
     public static DbManager instance;
@@ -37,9 +39,15 @@ public abstract class DbManager extends RoomDatabase{
     public static DbManager getInstance(Context ctx){
         if ( instance == null ){
             Log.d("aqui", "instancia nulla");
-            instance = Room.databaseBuilder(ctx, DbManager.class, Constants.DB_NAME).fallbackToDestructiveMigration().build();
+            instance = Room.databaseBuilder(ctx, DbManager.class, Constants.DB_NAME)
+                    .addMigrations(MIGRATION_5_6)
+
+                    .build();
             instance.populateInitialData();
         }
+
+
+
         return instance;
     }
 
@@ -47,6 +55,28 @@ public abstract class DbManager extends RoomDatabase{
         instance = null;
     }
 
+
+    static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Aumento os campos da tabela projeto
+            database.execSQL("ALTER TABLE project "
+                    + " ADD COLUMN turn INTEGER NOT NULL DEFAULT 0");
+            database.execSQL("ALTER TABLE project "
+                    + " ADD COLUMN farmName TEXT");
+            database.execSQL("ALTER TABLE project "
+                    + " ADD COLUMN talhao TEXT");
+            database.execSQL("ALTER TABLE project "
+                    + " ADD COLUMN frenteColheita TEXT");
+            database.execSQL("ALTER TABLE project "
+                    + " ADD COLUMN machineID TEXT");
+            database.execSQL("ALTER TABLE project "
+                    + " ADD COLUMN operatorsName TEXT");
+            database.execSQL("ALTER TABLE project "
+                    + " ADD COLUMN measurersName TEXT");
+
+        }
+    };
 
     @SuppressLint("StaticFieldLeak")
     public void populateInitialData(){
