@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -54,6 +55,7 @@ public class NewProjectActivity extends BaseActivity {
     EditText measurerName;
     RadioButton radioDiurno;
     RadioButton radioNoturno;
+    RadioGroup radioGroupCultura;
 
 
     @Override
@@ -61,13 +63,34 @@ public class NewProjectActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_project_first_step);
 
+        nameProject = findViewById(R.id.name_project);
+        radioCana = findViewById(R.id.radio_cana_de_acucar);
+        radioSoja = findViewById(R.id.radio_soja);
+        radioDiurno = findViewById(R.id.radio_turno_diurno);
+        radioNoturno = findViewById(R.id.radio_turno_noturno);
+        radioGroupCultura = findViewById(R.id.radiogroup_culture);
+
+        radioGroupCultura.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if (i == radioCana.getId()){
+                    Log.d("cana","cana");
+                }else{
+                    if ( i == radioSoja.getId()){
+                        Log.d("cana" ,"soja");
+                    }
+                }
+            }
+        });
+
+
        /** radioCana = findViewById(R.id.radio_cana_de_acucar);
         radioSoja = findViewById(R.id.radio_soja);
         recyclerProducs = findViewById(R.id.recycler_products);
         btnAddProduct = findViewById(R.id.btn_add_products);
         btnSaveProject = findViewById(R.id.btnSaveNewProject);
         productLabelText = findViewById(R.id.add_product_label);
-        nameProject = findViewById(R.id.name_project);
+
         farmName = findViewById(R.id.name_farm);
         talhaoName = findViewById(R.id.name_talhao);
         frenteColheita = findViewById(R.id.frente_colheita);

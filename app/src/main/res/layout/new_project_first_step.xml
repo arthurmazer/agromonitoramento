@@ -54,8 +54,108 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtopico_nome_projeto_label" />
 
+    <TextView
+        android:id="@+id/informe_cultura_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="2. Informe a Cultura"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_project"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/radiogroup_culture"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/informe_cultura_label"
+        android:layout_marginLeft="16dp">
+
+        <RadioButton
+            android:id="@+id/radio_cana_de_acucar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/culture_cana" />
+
+        <RadioButton
+            android:id="@+id/radio_soja"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/culture_soja" />
+
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/informe_turn_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="3. Informe o Turno"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup_culture"
+        android:layout_marginLeft="16dp" />
+
+    <TextView
+        android:id="@+id/subtopico_turno_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="*Para Cana-de-açucar o turno é automaticamente Diruno"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/informe_turn_label"
+        android:layout_marginLeft="16dp" />
+
+    <RadioGroup
+        android:id="@+id/radiogroup_turn"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtopico_turno_label"
+        android:layout_marginLeft="16dp">
+
+        <RadioButton
+            android:id="@+id/radio_turno_diurno"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:layout_height="wrap_content"
+            android:text="@string/turno_diurno" />
+
+        <RadioButton
+            android:enabled="false"
+            android:id="@+id/radio_turno_noturno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/turno_noturno" />
+
+
+    </RadioGroup>
+
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -113,6 +213,31 @@
             android:textSize="14sp" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_marginBottom="24dp"
+        android:maxEms="12"
+        android:text="Quando estiver pronto, toque para avançar"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+         />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="110dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/white_arrow"
+        android:layout_marginRight="24dp" />
 
 
 </android.support.constraint.ConstraintLayout>
