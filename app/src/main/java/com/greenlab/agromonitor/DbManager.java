@@ -40,7 +40,7 @@ public abstract class DbManager extends RoomDatabase{
         if ( instance == null ){
             Log.d("aqui", "instancia nulla");
             instance = Room.databaseBuilder(ctx, DbManager.class, Constants.DB_NAME)
-                    .addMigrations(MIGRATION_5_6)
+                    .addMigrations(MIGRATION_5_6,MIGRATION_6_7)
 
                     .build();
             instance.populateInitialData();
@@ -75,6 +75,15 @@ public abstract class DbManager extends RoomDatabase{
             database.execSQL("ALTER TABLE project "
                     + " ADD COLUMN measurersName TEXT");
 
+        }
+    };
+
+    static final Migration MIGRATION_6_7 = new Migration(6, 7) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Aumento os campos da tabela projeto
+            database.execSQL("ALTER TABLE project "
+                    + " ADD COLUMN measureUnity INTEGER NOT NULL DEFAULT 0");
         }
     };
 

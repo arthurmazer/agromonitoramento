@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="4dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginEnd="4dp">
+    android:layout_marginTop="1dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:text="product"
@@ -12,19 +11,14 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:background="@drawable/button_shape"
+        android:layout_centerVertical="true"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="2dp"
+        android:background="@drawable/shape_list_product"
         android:id="@+id/textProductList"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="15dp"
-        android:paddingStart="15dp"
-        android:paddingEnd="12dp"
-        android:paddingRight="12dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp" />
+        android:layout_height="35dp"/>
 
     <ImageView
         android:id="@+id/remove_product"
@@ -32,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        app:srcCompat="@drawable/close_circle"/>
+        app:srcCompat="@drawable/close_circle"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

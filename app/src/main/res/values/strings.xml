@@ -52,4 +52,43 @@
 
     <!-- Charts-->
     <string name="floating_chat_button">Adicionar Limites</string>
+
+
+    <!-- New Reg Step 1! -->
+    <string name="title_step1">Novo Projeto - Passo 1</string>
+    <string name="label_project_name">1. Informe o Nome do Projeto</string>
+    <string name="label_subtopic_project_name">*Este nome indentificará seu projeto</string>
+    <string name="label_culture">2. Informe a Cultura</string>
+    <string name="label_turn">3. Informe o Turno</string>
+    <string name="label_subtopic_turn">*Para Cana-de-açucar o turno é automaticamente Diurno</string>
+    <string name="label_when_ready_step1">Quando estiver pronto, toque para avançar</string>
+    <string name="btn_next_step1">Próximo</string>
+
+    <!-- New Reg Step 2! -->
+    <string name="title_step2">Novo Projeto - Passo 2</string>
+    <string name="label_farm_name">4. Nome da Fazenda</string>
+    <string name="label_subtopic_farm_name">* Você pode deixar em branco caso ache necessário</string>
+    <string name="label_when_ready_step2">Vá para o próximo passo, ou retorno para o anterior</string>
+    <string name="label_operator_name">5. Nome do Operador</string>
+    <string name="label_measurer_name">6. Avaliador</string>
+    <string name="btn_next_step2">Próximo</string>
+    <string name="btn_back_step1">Voltar</string>
+
+    <!-- New Reg Step 3! -->
+    <string name="title_step3">Novo Projeto - Passo 3</string>
+    <string name="label_talhao_name">7. Talhão</string>
+    <string name="label_id_machine_name">8. ID Máquina</string>
+    <string name="label_subtopic_machine_name">* Número de identificação da máquina de colheita</string>
+    <string name="label_frente_name">9. Frente de colheita</string>
+    <string name="label_when_ready_step3">Vá para o último passo, ou retorno para o anterior</string>
+
+    <!-- New Reg Step Variables! -->
+    <string name="title_step_variables">Novo Projeto - Variáveis</string>
+    <string name="label_when_ready_step_variables">Toque para salvar seu projeto, ou retorne para o passo anterior</string>
+    <string name="btn_next_step_variables">Concluir</string>
+    <string name="btn_back_step_variables">Voltar</string>
+    <string name="label_subtopic_variable_name">* Cada variável representará uma coluna na planilha do projeto</string>
+    <string name="label_measure_unity">Unidade de Medida: </string>
+    <string name="duplicated_variable">Já existe uma variável com este nome</string>
+
 </resources>

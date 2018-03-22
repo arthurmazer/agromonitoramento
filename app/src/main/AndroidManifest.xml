@@ -32,12 +32,28 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppThemeDark" />
-        <activity android:name=".NewProjectActivity"
+        <activity
+            android:name=".NewProjectActivity"
             android:label="@string/start_new_project"
             android:theme="@style/AppThemeDark" />
-        <activity android:name=".LineChartActivity"
+        <activity
+            android:name=".LineChartActivity"
             android:label="Gráfico de linha"
             android:theme="@style/AppThemeDark" />
+        <activity
+            android:name=".NewProjectActivityStep2"
+            android:label="@string/title_step2"
+            android:theme="@style/AppThemeDark" />
+        <activity
+            android:name=".NewProjectActivityStep3"
+            android:label="@string/title_step3"
+            android:theme="@style/AppThemeDark" />
+        <activity
+            android:name=".CreateVariables"
+            android:label="@string/title_step_variables"
+            android:theme="@style/AppThemeDark" />
+        <activity android:name=".BarChartActivity" />
+        <activity android:name=".PieChartActivity"></activity>
     </application>
 
 </manifest>

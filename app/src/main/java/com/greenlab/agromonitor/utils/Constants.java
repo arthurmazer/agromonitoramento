@@ -7,7 +7,7 @@ package com.greenlab.agromonitor.utils;
 public class Constants {
 
     public static final String DB_NAME = "agromonitor_database";
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 7;
 
     public static final String SHARED_PREF = "agromonitor_sharedPref";
     public static final String SP_IS_LOGGED_IN = "sp_isloggedin";
@@ -17,6 +17,7 @@ public class Constants {
     public static final String SP_NAME_PROJECT_OPEN = "sp_name_project_open";
     public static final String SP_PROJECT_INDEX = "sp_project_open_index";
     public static final String SP_USER_LIST_PROJECTS = "sp_list_projects";
+    public static final String REGISTRATION_EXTRA_PROJECT = "project";
 
     public static final int REQUEST_CODE_NEW_PROJECT = 100;
     public static final int RESULT_NEW_PROJECT = 101;
@@ -24,6 +25,8 @@ public class Constants {
     public static final int PROJECT_TYPE_CANA_DE_ACUCAR = 0;
     public static final int PROJECT_TYPE_SOJA = 1;
 
+    public static final int KILO_HECTARE = 0;
+    public static final int TONELADA_HECTARE = 1;
 
     public static final int TURNO_DIURNO = 0;
     public static final int TURNO_NOTURNO = 1;

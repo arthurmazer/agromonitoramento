@@ -4,4 +4,8 @@
         <item>Cana-de-açucar</item>
         <item>Soja</item>
     </string-array>
+    <string-array name="unity_choice">
+        <item>Kg/ha</item>
+        <item>t/ha</item>
+    </string-array>
 </resources>

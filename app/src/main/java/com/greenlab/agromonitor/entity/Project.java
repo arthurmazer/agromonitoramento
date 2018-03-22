@@ -6,6 +6,8 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.greenlab.agromonitor.interfaces.GetSpreadsheetValues;
 import com.greenlab.agromonitor.managers.UserManager;
@@ -29,7 +31,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
                 childColumns = "idUser",
                 onDelete = CASCADE)
 )
-public class Project {
+public class Project implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -47,16 +49,28 @@ public class Project {
     private String machineID;
     private String operatorsName;
     private String measurersName;
+    private int measureUnity;
 
     @Ignore
     private List<Product> listOfProducts;
     @Ignore
     private List<SpreadsheetValues> listOfProjectProduct;
     @Ignore
+    private List<String> listOfStringProducts;
+    @Ignore
     public boolean isOpened;
 
     public Project(){
         listOfProducts = new ArrayList<>();
+        listOfStringProducts = new ArrayList<>();
+        projectName = "";
+        creationDate = "";
+        farmName = "";
+        talhao = "";
+        frenteColheita = "";
+        machineID = "";
+        operatorsName = "";
+        measurersName = "";
     }
 
     public int getId() {
@@ -194,4 +208,76 @@ public class Project {
     public void setMeasurersName(String measurersName) {
         this.measurersName = measurersName;
     }
+
+    public int getMeasureUnity() {
+        return measureUnity;
+    }
+
+    public void setMeasureUnity(int measureUnity) {
+        this.measureUnity = measureUnity;
+    }
+
+
+    public List<String> getListOfStringProducts() {
+        return listOfStringProducts;
+    }
+
+    public void setListOfStringProducts(List<String> listOfStringProducts) {
+        this.listOfStringProducts = listOfStringProducts;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.idUser);
+        dest.writeString(this.projectName);
+        dest.writeString(this.creationDate);
+        dest.writeInt(this.cultureType);
+        dest.writeInt(this.turn);
+        dest.writeString(this.farmName);
+        dest.writeString(this.talhao);
+        dest.writeString(this.frenteColheita);
+        dest.writeString(this.machineID);
+        dest.writeString(this.operatorsName);
+        dest.writeString(this.measurersName);
+        dest.writeInt(this.measureUnity);
+        dest.writeList(this.listOfStringProducts);
+        dest.writeByte(this.isOpened ? (byte) 1 : (byte) 0);
+    }
+
+    protected Project(Parcel in) {
+        this.id = in.readInt();
+        this.idUser = in.readInt();
+        this.projectName = in.readString();
+        this.creationDate = in.readString();
+        this.cultureType = in.readInt();
+        this.turn = in.readInt();
+        this.farmName = in.readString();
+        this.talhao = in.readString();
+        this.frenteColheita = in.readString();
+        this.machineID = in.readString();
+        this.operatorsName = in.readString();
+        this.measurersName = in.readString();
+        this.measureUnity = in.readInt();
+        this.listOfStringProducts = new ArrayList<>();
+        in.readList(this.listOfStringProducts, Product.class.getClassLoader());
+        this.isOpened = in.readByte() != 0;
+    }
+
+    public static final Creator<Project> CREATOR = new Creator<Project>() {
+        @Override
+        public Project createFromParcel(Parcel source) {
+            return new Project(source);
+        }
+
+        @Override
+        public Project[] newArray(int size) {
+            return new Project[size];
+        }
+    };
 }

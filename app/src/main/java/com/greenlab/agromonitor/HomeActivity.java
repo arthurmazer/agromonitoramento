@@ -99,6 +99,12 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         bottomNavigationView.setSelectedItemId(R.id.navigation_spreadsheet);
     }
 
+    public void changeToReportScreen(){
+        bottomNavigationView.setSelectedItemId(R.id.navigation_reports);
+        setTitle(R.string.title_reports);
+        pushFragment(ReportFragment.newInstance());
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +115,26 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         btnNewProject = findViewById(R.id.btn_new_project_home);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            Boolean isSaved = extras.getBoolean("success", false);
+            long idProject = extras.getLong("id_project", 0);
+            String nameProject = extras.getString("name_project");
+            if (isSaved) {
+                showSnackBar(getResources().getString(R.string.project_save_success));
+                setProjectOpened((int)idProject,nameProject);
+                isNewProject = true;
+            }
+            else {
+                showSnackBar(getResources().getString(R.string.project_save_error));
+            }
+        }
+
+
+        if ( isNewProject )
+            changeToSpreadsheetScreen();
     }
 
     @Override
@@ -117,28 +143,10 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         //pushFragment(HomeFragment.newInstance());
         user = getSessionUser();
         user.getListOfProjects(getApplicationContext(), HomeActivity.this);
-
-        if ( isNewProject )
-            changeToSpreadsheetScreen();
+        
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.REQUEST_CODE_NEW_PROJECT) {
-            if (resultCode == Constants.RESULT_NEW_PROJECT) {
-                Boolean isSaved = data.getBooleanExtra("success", false);
-                long idProject = data.getLongExtra("id_project", 0);
-                String nameProject = data.getStringExtra("name_project");
-                if (isSaved) {
-                    showSnackBar(getResources().getString(R.string.project_save_success));
-                    setProjectOpened((int)idProject,nameProject);
-                    isNewProject = true;
-                }
-                else {
-                    showSnackBar(getResources().getString(R.string.project_save_error));
-                }
-            }
-        }
-    }
+
 
     @Override
     protected void onDestroy() {
@@ -183,6 +191,9 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
                         }
                     });
         }
+
+        if (bottomNavigationView.getSelectedItemId() == R.id.navigation_reports)
+            changeToReportScreen();
     }
 
     public List<Project> getProjectList() {

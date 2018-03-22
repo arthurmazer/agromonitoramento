@@ -339,4 +339,9 @@ public class LineChartActivity extends BaseActivity  implements
     public void onNothingSelected() {
 
     }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+    }
 }
