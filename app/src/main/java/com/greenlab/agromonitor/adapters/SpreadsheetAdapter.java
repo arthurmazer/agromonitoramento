@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -50,7 +51,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         switch (viewType){
             case PRODUCT_VALUE:
                 View v1 = inflater.from(parent.getContext()).inflate(R.layout.item_product_value,parent,false);
-                viewHolder = new ViewHolder(v1);
+                viewHolder = new ViewHolder(v1, this.mContext);
                 break;
 
             case CATEGORY:
@@ -106,11 +107,45 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public TextView productValue;
         public ImageView action;
+        public RelativeLayout layoutProduct;
+        Context ctx;
+        String category;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, final Context ctx) {
             super(itemView);
             productValue = (TextView) itemView.findViewById(R.id.product_value);
+            layoutProduct = itemView.findViewById(R.id.layout_item_variable);
             action = itemView.findViewById(R.id.action_list);
+
+            this.ctx = ctx;
+
+            layoutProduct.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    new MaterialDialog.Builder(ctx)
+                            .title("Editar valor: " + productValue.getText().toString())
+                            .content("Novo valor")
+                            .inputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL)
+                            .negativeText("Cancelar")
+                            .neutralText("Deletar")
+                            .neutralColor(ctx.getResources().getColor(R.color.red))
+                            .positiveText("Inserir")
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .input("", productValue.getText().toString(), new MaterialDialog.InputCallback() {
+                                @Override
+                                public void onInput(MaterialDialog dialog, CharSequence input) {
+                                    //if (!input.toString().isEmpty())
+                                        //insertValueOnList(input.toString());
+                                }
+                            }).show();
+                    return true;
+                }
+            });
         }
 
 
@@ -148,7 +183,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                     dialog.dismiss();
                                 }
                             })
-                            .input("Ex: 0.5", "", new MaterialDialog.InputCallback() {
+                            .input("Ex: 0.89", "", new MaterialDialog.InputCallback() {
                                 @Override
                                 public void onInput(MaterialDialog dialog, CharSequence input) {
                                     if (!input.toString().isEmpty())
