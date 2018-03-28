@@ -5,6 +5,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.greenlab.agromonitor.DbManager;
 import com.greenlab.agromonitor.entity.Product;
 import com.greenlab.agromonitor.entity.Project;
@@ -23,10 +28,13 @@ import java.util.List;
 
 public class UserManager {
 
+    private final DatabaseReference reference;
     DbManager dbManager;
 
     public UserManager(Context ctx){
         this.dbManager = DbManager.getInstance(ctx);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        reference = database.getReference("users/");
     }
 
     public User login(User user){
@@ -57,9 +65,26 @@ public class UserManager {
     public List<SpreadsheetValues> getSpreadsheetValues(final int idProject){
         return dbManager.projectProductDAO().getAllProductsValuesFromProject(idProject);
 
-    }
+}
     public List<SpreadsheetValues> getSpreadsheetValuesNotNull(final int idProject){
         return dbManager.projectProductDAO().getAllProductsValuesNotNullFromProject(idProject);
+
+    }
+
+    public void findUser(String userLogin, final OnFindUser onFindUser) {
+        DatabaseReference userReference = reference.child(userLogin);
+
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                onFindUser.onFindUserSuccess(dataSnapshot.getValue(User.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                onFindUser.onFindUserFailed(databaseError.toString());
+            }
+        });
 
     }
 
@@ -101,7 +126,7 @@ public class UserManager {
 
         @Override
         protected List<Project> doInBackground(Void... params) {
-            List<Project> listOfProject = dbManager.projectDAO().selectgetAllProjectsFromUser(idUser);
+            List<Project> listOfProject = dbManager.projectDAO().selectgetAllProjectsFromUser();
             for(int i = 0; i < listOfProject.size(); i++){
                 int idProject =  listOfProject.get(i).getId();
                 listOfProject.get(i).setListOfProducts(dbManager.productDAO().getAllProductsHeadersFromProject(idProject));
@@ -118,5 +143,11 @@ public class UserManager {
             getAllProjectsOfUser.onSuccessGettingProjects(projectList);
         }
 
+    }
+
+    public interface OnFindUser {
+        void onFindUserSuccess(User user);
+
+        void onFindUserFailed(String e);
     }
 }

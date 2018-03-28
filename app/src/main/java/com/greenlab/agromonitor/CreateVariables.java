@@ -181,7 +181,7 @@ public class CreateVariables extends BaseActivity {
         String dateNow = dateFormat.format(date);
 
         project.setCreationDate(dateNow);
-        project.setIdUser(user.getId());
+      //  project.setIdUser(user.getId());
 
         CreateVariables.ProjectSave projectSave = new CreateVariables.ProjectSave(user,project,this.listProducts);
         projectSave.execute((Void) null);

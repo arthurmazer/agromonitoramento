@@ -23,16 +23,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.User;
 import com.greenlab.agromonitor.managers.SessionManager;
+import com.greenlab.agromonitor.managers.UserManager;
 
 import java.util.ArrayList;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity  {
+public class LoginActivity extends AppCompatActivity implements UserManager.OnFindUser {
 
      private static final String[] DUMMY_CREDENTIALS = new String[]{
             "arthur@email.com", "123456"
@@ -52,6 +54,7 @@ public class LoginActivity extends AppCompatActivity  {
     private TextView loadingText;
     private TextView developedBy;
     private Animation slideUp;
+    private UserManager userManager;
     //private View mLoginFormView;
 
     @Override
@@ -119,10 +122,9 @@ public class LoginActivity extends AppCompatActivity  {
 
         // Reset errors.
         mEmailView.setError(null);
-        mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String login = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -136,12 +138,8 @@ public class LoginActivity extends AppCompatActivity  {
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(login)) {
             mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
         }
@@ -154,14 +152,14 @@ public class LoginActivity extends AppCompatActivity  {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            userManager = new UserManager(this);
+            userManager.findUser(login, this);
+
+            //mAuthTask = new UserLoginTask(email, password);
+            //mAuthTask.execute((Void) null);
         }
     }
 
-    private boolean isEmailValid(String email) {
-        return email.contains("@");
-    }
 
     private boolean isPasswordValid(String password) {
         return password.length() > 4;
@@ -216,7 +214,31 @@ public class LoginActivity extends AppCompatActivity  {
         startActivity(it);
     }
 
+    @Override
+    public void onFindUserSuccess(User user) {
+        showProgress(false);
+        if (user == null){
+            View focusView = mEmailView;
+            mEmailView.setError(getString(R.string.error_user_not_found));
+            focusView.requestFocus();
+        }else{
+            if ( mPasswordView.getText().toString().equals(user.getPassword())){
+                SessionManager sessionManager = new SessionManager(getApplicationContext());
+                sessionManager.createUserSession(user);
+                callHomeActivity();
+                finish();
+            }else{
 
+                mEmailView.setError(getString(R.string.error_user_not_found));
+            }
+        }
+    }
+
+    @Override
+    public void onFindUserFailed(String e) {
+        showProgress(false);
+        mEmailView.setError(getString(R.string.error_connection));
+    }
 
 
     /**
@@ -265,8 +287,8 @@ public class LoginActivity extends AppCompatActivity  {
                 callHomeActivity();
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                //mPasswordView.setError(getString(R.string.error_incorrect_password));
+                //mPasswordView.requestFocus();
             }
         }
 

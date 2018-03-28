@@ -24,20 +24,12 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
  */
 
 
-@Entity(tableName = "project",
-        foreignKeys =
-        @ForeignKey(entity = User.class,
-                parentColumns = "id",
-                childColumns = "idUser",
-                onDelete = CASCADE)
-)
+@Entity(tableName = "project")
 public class Project implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    //Foreign Key From user
-    public int idUser;
 
     private String projectName;
     private String creationDate;
@@ -121,13 +113,7 @@ public class Project implements Parcelable {
         this.cultureType = cultureType;
     }
 
-    public int getIdUser() {
-        return idUser;
-    }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
 
     public List<Product> getListOfProducts() {
         return listOfProducts;
@@ -234,7 +220,6 @@ public class Project implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
-        dest.writeInt(this.idUser);
         dest.writeString(this.projectName);
         dest.writeString(this.creationDate);
         dest.writeInt(this.cultureType);
@@ -252,7 +237,6 @@ public class Project implements Parcelable {
 
     protected Project(Parcel in) {
         this.id = in.readInt();
-        this.idUser = in.readInt();
         this.projectName = in.readString();
         this.creationDate = in.readString();
         this.cultureType = in.readInt();

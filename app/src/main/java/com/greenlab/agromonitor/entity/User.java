@@ -8,6 +8,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.firebase.database.Exclude;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.greenlab.agromonitor.HomeActivity;
@@ -36,9 +37,11 @@ import java.util.List;
 public class User {
 
     @PrimaryKey(autoGenerate = true)
+    @Exclude
     public int id;
 
     public String login;
+    public String phoneNumber;
     public String password;
 
     public User(){
@@ -65,8 +68,6 @@ public class User {
         return userManager.saveProject(project,listOfProducts);
     }
 
-
-
     public int getId() {
         return id;
     }
@@ -87,8 +88,15 @@ public class User {
         this.password = password;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
+    public String getPassword(){
+        return this.password;
+    }
 
-
-
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }

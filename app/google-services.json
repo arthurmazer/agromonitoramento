@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "988556138199",
+    "firebase_url": "https://agromonitor-78432.firebaseio.com",
+    "project_id": "agromonitor-78432",
+    "storage_bucket": "agromonitor-78432.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988556138199:android:fe3778597b9311e7",
+        "android_client_info": {
+          "package_name": "com.greenlab.agromonitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "988556138199-2ch94c88cladp2516m1paaa7qkc7r8eq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.greenlab.agromonitor",
+            "certificate_hash": "8db596da05a95d7fdecd26162c9d38b6ac226dad"
+          }
+        },
+        {
+          "client_id": "988556138199-mp51h622tm0ak41lbufjo87mph560gnk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHhLk1Exn7i-5OT4MSCXkQV3h9_h4nTcM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "988556138199-mp51h622tm0ak41lbufjo87mph560gnk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

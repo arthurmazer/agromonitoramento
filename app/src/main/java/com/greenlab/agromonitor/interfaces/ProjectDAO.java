@@ -25,6 +25,6 @@ public interface ProjectDAO {
     @Update
     void updateProject(Project project);
 
-    @Query("SELECT * FROM project WHERE idUser = :idUser")
-    List<Project> selectgetAllProjectsFromUser(int idUser);
+    @Query("SELECT * FROM project")
+    List<Project> selectgetAllProjectsFromUser();
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">agromonitor</string>
+    <string name="app_name">Agromonitor</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">E-mail</string>
@@ -10,6 +10,8 @@
     <string name="error_invalid_password">Senha muito pequena</string>
     <string name="error_incorrect_password">Senha incorreta</string>
     <string name="error_field_required">Este campo é obrigatório</string>
+    <string name="error_user_not_found">Login/Senha não conferem</string>
+    <string name="error_connection">Problema de conexão com o servidor</string>
     <string name="permission_rationale">"Você não tem as permissões necessárias para o acesso"</string>
     <string name="develovped_by">GreenLab₢2017</string>
     <string name="title_activity_home">HomeActivity</string>
