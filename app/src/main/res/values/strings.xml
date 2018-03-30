@@ -25,11 +25,11 @@
     <string name="hello_blank_fragment2">Hello b223lank fragment</string>
     <string name="hello_blank_fragment3">Hello blan3333k fragment</string>
 
-    <string name="empty_projects">Você ainda não tem projetos</string>
-    <string name="start_new_project">Novo Projeto</string>
+    <string name="empty_projects">Você ainda não tem planilha</string>
+    <string name="start_new_project">Nova Planilha</string>
     <string name="choose_an_culture">Escolha uma cultura:</string>
     <string name="choose_an_turn">Escolha um turno:</string>
-    <string name="name_project_label">Nome do Projeto</string>
+    <string name="name_project_label">Nome dd Planilha</string>
     <string name="name_farm_label">Nome da Fazenda</string>
     <string name="name_talhao_label">Talhao</string>
     <string name="name_frente_colheita_label">Frente de Colheita</string>
@@ -39,8 +39,8 @@
     <string name="products_label">Produtos:</string>
     <string name="culture_label">Cultura:</string>
     <string name="error_no_products">Você deve ter ao menos 1 produto adicionado</string>
-    <string name="project_save_success">Projeto salvo com sucesso</string>
-    <string name="project_save_error">Erro ao salvar o projeto</string>
+    <string name="project_save_success">Planilha salva com sucesso</string>
+    <string name="project_save_error">Erro ao salvar o planilha</string>
 
     <string name="culture_cana">Cana-de-açucar</string>
     <string name="culture_soja">Soja</string>
@@ -57,9 +57,9 @@
 
 
     <!-- New Reg Step 1! -->
-    <string name="title_step1">Novo Projeto - Passo 1</string>
-    <string name="label_project_name">1. Informe o Nome do Projeto</string>
-    <string name="label_subtopic_project_name">*Este nome indentificará seu projeto</string>
+    <string name="title_step1">Nova Planilha - Passo 1</string>
+    <string name="label_project_name">1. Informe o Nome da Planilha</string>
+    <string name="label_subtopic_project_name">*Este nome indentificará sua planilha</string>
     <string name="label_culture">2. Informe a Cultura</string>
     <string name="label_turn">3. Informe o Turno</string>
     <string name="label_subtopic_turn">*Para Cana-de-açucar o turno é automaticamente Diurno</string>
@@ -67,7 +67,7 @@
     <string name="btn_next_step1">Próximo</string>
 
     <!-- New Reg Step 2! -->
-    <string name="title_step2">Novo Projeto - Passo 2</string>
+    <string name="title_step2">Nova Planilha - Passo 2</string>
     <string name="label_farm_name">4. Nome da Fazenda</string>
     <string name="label_subtopic_farm_name">* Você pode deixar em branco caso ache necessário</string>
     <string name="label_when_ready_step2">Vá para o próximo passo, ou retorno para o anterior</string>
@@ -77,7 +77,7 @@
     <string name="btn_back_step1">Voltar</string>
 
     <!-- New Reg Step 3! -->
-    <string name="title_step3">Novo Projeto - Passo 3</string>
+    <string name="title_step3">Nova Planilha - Passo 3</string>
     <string name="label_talhao_name">7. Talhão</string>
     <string name="label_id_machine_name">8. ID Máquina</string>
     <string name="label_subtopic_machine_name">* Número de identificação da máquina de colheita</string>
@@ -85,7 +85,7 @@
     <string name="label_when_ready_step3">Vá para o último passo, ou retorno para o anterior</string>
 
     <!-- New Reg Step Variables! -->
-    <string name="title_step_variables">Novo Projeto - Variáveis</string>
+    <string name="title_step_variables">Nova Planilha - Variáveis</string>
     <string name="label_when_ready_step_variables">Toque para salvar seu projeto, ou retorne para o passo anterior</string>
     <string name="btn_next_step_variables">Concluir</string>
     <string name="btn_back_step_variables">Voltar</string>

@@ -1,7 +1,9 @@
 package com.greenlab.agromonitor;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.RectF;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
@@ -27,21 +29,29 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.greenlab.agromonitor.charts.DayAxisValueFormatter;
 import com.greenlab.agromonitor.charts.MyAxisValueFormatter;
 import com.greenlab.agromonitor.charts.XYMarkerView;
+import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.entity.SpreadsheetValues;
+import com.greenlab.agromonitor.utils.Constants;
+
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BarChartActivity extends BaseActivity implements
         OnChartValueSelectedListener {
 
     protected BarChart mChart;
+    private ArrayList<Float> listOfValues;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_bar_chart);
 
+        listOfValues = new ArrayList<>();
         mChart = (BarChart) findViewById(R.id.bar_chart);
         mChart.setOnChartValueSelectedListener(this);
 
@@ -60,7 +70,68 @@ public class BarChartActivity extends BaseActivity implements
         mChart.setDrawGridBackground(false);
         // mChart.setDrawYLabels(false);
 
-        IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mChart);
+
+        loadValuesFromProject();
+
+        // setting data
+
+        // mChart.setDrawLegend(false);
+    }
+
+
+
+    public void loadValuesFromProject(){
+        int idProject = getOpenedProject();
+
+        final Project project = new Project();
+        project.setId(idProject);
+        new AsyncTask<Void, Void, List<SpreadsheetValues>>() {
+            @Override
+            protected List<SpreadsheetValues> doInBackground(Void... voids) {
+                return project.getSpreadSheetValuesNotNull(getApplicationContext());
+            }
+            @Override
+            protected void onPostExecute(List<SpreadsheetValues> spreadsheetValuesList) {
+                setData(spreadsheetValuesList);
+            }
+        }.execute();
+
+    }
+
+    private void setData(List<SpreadsheetValues> spreadsheetValuesList) {
+
+        if ( spreadsheetValuesList.isEmpty()){
+            Intent returnIntent = new Intent();
+            setResult(Constants.RESULT_NO_DATA, returnIntent);
+            finish();
+        }
+
+        HashMap<String, ArrayList<Float>> hashValues = new HashMap<>();
+        DescriptiveStatistics descriptiveStatistics = new DescriptiveStatistics();
+
+        hashValues = getHashValuesSpreadsheet(spreadsheetValuesList);
+
+        ArrayList<String> arrayProductName = new ArrayList<>();
+        ArrayList<Float> barValues = new ArrayList<>();
+
+        for(Map.Entry<String, ArrayList<Float>> entry : hashValues.entrySet()) {
+            String key = entry.getKey();
+            ArrayList<Float> listValues = entry.getValue();
+
+            for (float value : listValues){
+                descriptiveStatistics.addValue(value);
+            }
+
+            double mean = descriptiveStatistics.getMean();
+            descriptiveStatistics.clear();
+            barValues.add((float)mean);
+
+            arrayProductName.add(key);
+        }
+
+
+
+        IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mChart,arrayProductName);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxisPosition.BOTTOM);
@@ -103,25 +174,12 @@ public class BarChartActivity extends BaseActivity implements
         mv.setChartView(mChart); // For bounds control
         mChart.setMarker(mv); // Set the marker to the chart
 
-        setData(12, 50);
-
-        // setting data
-
-        // mChart.setDrawLegend(false);
-    }
-
-
-
-
-    private void setData(int count, float range) {
-
         float start = 1f;
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
-        for (int i = (int) start; i < 5; i++) {
-            float mult = (range + 1);
-            float val2 = i + 0.9f;
+        for (int i = (int) start; i < barValues.size()+1; i++) {
+            float val2 = barValues.get(i-1);
 
                 yVals1.add(new BarEntry(i, val2));
 
@@ -152,6 +210,35 @@ public class BarChartActivity extends BaseActivity implements
             mChart.setData(data);
         }
     }
+    public HashMap<String,ArrayList<Float>> getHashValuesSpreadsheet(List<SpreadsheetValues> spreadsheetValuesList){
+        String currentId = "";
+        HashMap<String,ArrayList<Float>> hashValues = new HashMap<>();
+        listOfValues.clear();
+        for ( int i = 0; i < spreadsheetValuesList.size(); i++){
+            SpreadsheetValues spValue = spreadsheetValuesList.get(i);
+
+            if ( i == 0){
+                currentId = spValue.getProduct();
+            }
+
+            if (!currentId.equals(spValue.getProduct())){
+                hashValues.put(currentId,(ArrayList<Float>) listOfValues.clone());
+                currentId = spValue.getProduct();
+                listOfValues.clear();
+            }
+
+            listOfValues.add(spValue.getValue());
+
+            if ( i == (spreadsheetValuesList.size()-1)){
+                hashValues.put(currentId,(ArrayList<Float>)listOfValues.clone());
+            }
+
+        }
+
+        return hashValues;
+
+    }
+
 
     protected RectF mOnValueSelectedRectF = new RectF();
 

@@ -99,6 +99,12 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         bottomNavigationView.setSelectedItemId(R.id.navigation_spreadsheet);
     }
 
+    public void changeToHomeScreen(){
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        setTitle(R.string.title_home);
+        pushFragment(HomeFragment.newInstance());
+    }
+
     public void changeToReportScreen(){
         bottomNavigationView.setSelectedItemId(R.id.navigation_reports);
         setTitle(R.string.title_reports);
@@ -145,6 +151,7 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         user.getListOfProjects(getApplicationContext(), HomeActivity.this);
         
     }
+
 
 
 
@@ -200,6 +207,14 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         return projectList;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (bottomNavigationView.getSelectedItemId() != R.id.navigation_home)
+            changeToHomeScreen();
+        else
+            super.onBackPressed();
+    }
+
     public void setProjectOpened(int idProject, String nameProject){
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         sessionManager.setCurrentProject(idProject,nameProject);
@@ -211,5 +226,16 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        // Check which request we're responding to
+        if (requestCode == Constants.OPEN_CHART) {
+            // Make sure the request was successful
+            if (resultCode == Constants.RESULT_NO_DATA) {
+                showSnackBar("Não há dados inserido na planilha");
+            }
+        }
+    }
 
 }

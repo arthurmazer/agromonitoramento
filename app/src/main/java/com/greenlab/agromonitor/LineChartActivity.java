@@ -1,6 +1,7 @@
 package com.greenlab.agromonitor;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
@@ -24,13 +25,17 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.SpreadsheetValues;
+import com.greenlab.agromonitor.utils.Constants;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ru.dimorinny.floatingtextbutton.FloatingTextButton;
 
@@ -91,6 +96,7 @@ public class LineChartActivity extends BaseActivity  implements
 
         loadValuesFromProject();
 
+        fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,7 +154,11 @@ public class LineChartActivity extends BaseActivity  implements
 
     private void setData(List<SpreadsheetValues> spreadsheetValuesList) {
 
+        HashMap<String, ArrayList<Float>> hashValues = new HashMap<>();
+
         if (spreadsheetValuesList.size() <= 0) {
+            Intent returnIntent = new Intent();
+            setResult(Constants.RESULT_NO_DATA, returnIntent);
             finish();
         }else {
 
@@ -159,6 +169,9 @@ public class LineChartActivity extends BaseActivity  implements
                 listOfValues.add(spValues.getValue());
                 descriptiveStatistics.addValue(spValues.getValue());
             }
+
+            hashValues = getHashValuesSpreadsheet(spreadsheetValuesList);
+
 
             Double stdDeviation = descriptiveStatistics.getStandardDeviation();
             double mean = descriptiveStatistics.getMean();
@@ -234,13 +247,25 @@ public class LineChartActivity extends BaseActivity  implements
 
 
             ArrayList<Entry> values = new ArrayList<Entry>();
-            int i = 0;
-            for (float val : listOfValues) {
-                values.add(new Entry(i, val, getResources().getDrawable(R.drawable.star)));
-                i++;
+
+
+            ArrayList<ArrayList<Entry>> arrayEntry = new ArrayList<>();
+            ArrayList<String> arrayProductName = new ArrayList<>();
+            for(Map.Entry<String, ArrayList<Float>> entry : hashValues.entrySet()) {
+                String key = entry.getKey();
+                ArrayList<Float> listValues = entry.getValue();
+
+                ArrayList<Entry> yVals1 = new ArrayList<>();
+
+                for (int i = 0; i < listValues.size(); i++) {
+                    yVals1.add(new Entry(i, listValues.get(i)));
+                }
+
+                arrayEntry.add(yVals1);
+                arrayProductName.add(key);
             }
 
-            LineDataSet set1;
+            LineDataSet set1, set2 = null, set3 = null;
 
             if (mChart.getData() != null &&
                     mChart.getData().getDataSetCount() > 0) {
@@ -250,40 +275,144 @@ public class LineChartActivity extends BaseActivity  implements
                 mChart.notifyDataSetChanged();
             } else {
                 // create a dataset and give it a type
-                set1 = new LineDataSet(values, "Dados " + projectName);
+                /**   if ( index == 0)
+                 set1 = new LineDataSet(values, "Dados " + "1");
+                 else{
 
-                set1.setDrawIcons(false);
+                 set1 = new LineDataSet(values, "Dados " + "2");
+                 }
 
-                // set the line to be drawn like this "- - - - - -"
-                set1.enableDashedLine(10f, 5f, 0f);
-                set1.enableDashedHighlightLine(10f, 5f, 0f);
-                set1.setColor(Color.BLACK);
+                 set1.setDrawIcons(false);
+
+                 // set the line to be drawn like this "- - - - - -"
+                 set1.enableDashedLine(10f, 5f, 0f);
+                 set1.enableDashedHighlightLine(10f, 5f, 0f);
+                 if( index == 0) {
+                 set1.setColor(Color.BLACK);
+                 set1.setCircleColor(Color.BLACK);
+                 }else{
+                 set1.setColor(Color.BLUE);
+                 set1.setCircleColor(Color.BLUE);
+                 }
+                 set1.setLineWidth(1f);
+                 set1.setCircleRadius(3f);
+                 set1.setDrawCircleHole(false);
+                 set1.setValueTextSize(9f);
+                 set1.setDrawFilled(true);
+                 set1.setFormLineWidth(1f);
+                 set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+                 set1.setFormSize(15.f);
+
+
+
+
+                 dataSets.add(set1); add the datasets**/
+
+                if (arrayEntry.isEmpty()) {
+                    showSnackBar("Nenhum valor adicionado a planilha");
+                    finish();
+                }
+
+                set1 = new LineDataSet(arrayEntry.get(0), arrayProductName.get(0));
+
+                set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+                set1.setColor(ColorTemplate.getHoloBlue());
                 set1.setCircleColor(Color.BLACK);
-                set1.setLineWidth(1f);
+                set1.setLineWidth(2f);
                 set1.setCircleRadius(3f);
+                set1.setFillAlpha(65);
+                set1.setFillColor(ColorTemplate.getHoloBlue());
+                set1.setHighLightColor(Color.rgb(244, 117, 117));
                 set1.setDrawCircleHole(false);
-                set1.setValueTextSize(9f);
-                set1.setDrawFilled(true);
-                set1.setFormLineWidth(1f);
-                set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-                set1.setFormSize(15.f);
+                //set1.setFillFormatter(new MyFillFormatter(0f));
+                //set1.setDrawHorizontalHighlightIndicator(false);
+                //set1.setVisible(false);
+                //set1.setCircleHoleColor(Color.WHITE);
 
+                // create a dataset and give it a type
+                if (arrayEntry.size() > 1) {
+                    set2 = new LineDataSet(arrayEntry.get(1), arrayProductName.get(1));
+                    set2.setAxisDependency(YAxis.AxisDependency.LEFT);
+                    set2.setColor(Color.RED);
+                    set2.setCircleColor(Color.BLACK);
+                    set2.setLineWidth(2f);
+                    set2.setCircleRadius(3f);
+                    set2.setFillAlpha(65);
+                    set2.setFillColor(Color.RED);
+                    set2.setDrawCircleHole(false);
+                    set2.setHighLightColor(Color.rgb(244, 117, 117));
+                    //set2.setFillFormatter(new MyFillFormatter(900f));
+                }
 
-                set1.setFillColor(Color.BLACK);
-
-
-                ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-                dataSets.add(set1); // add the datasets
-
+                if ( arrayEntry.size() >  2) {
+                    set3 = new LineDataSet(arrayEntry.get(2), arrayProductName.get(2));
+                    set3.setAxisDependency(YAxis.AxisDependency.LEFT);
+                    set3.setColor(Color.YELLOW);
+                    set3.setCircleColor(Color.BLACK);
+                    set3.setLineWidth(2f);
+                    set3.setCircleRadius(3f);
+                    set3.setFillAlpha(65);
+                    set3.setFillColor(ColorTemplate.colorWithAlpha(Color.YELLOW, 200));
+                    set3.setDrawCircleHole(false);
+                    set3.setHighLightColor(Color.rgb(244, 117, 117));
+                }
                 // create a data object with the datasets
-                LineData data = new LineData(dataSets);
+                LineData data;
+                switch (arrayEntry.size()){
+                    case 1:
+                        data = new LineData(set1);
+                        break;
+                    case 2:
+                        data = new LineData(set1, set2);
+                        break;
+                    case 3:
+                        data = new LineData(set1, set2, set3);
+                        break;
+                    default:
+                        data = new LineData(set1);
+                        break;
+                }
+
+                data.setValueTextColor(Color.BLACK);
+                data.setValueTextSize(9f);
 
                 // set data
                 mChart.setData(data);
+
             }
+
+
         }
     }
 
+    public HashMap<String,ArrayList<Float>> getHashValuesSpreadsheet(List<SpreadsheetValues> spreadsheetValuesList){
+        String currentId = "";
+        HashMap<String,ArrayList<Float>> hashValues = new HashMap<>();
+        listOfValues.clear();
+        for ( int i = 0; i < spreadsheetValuesList.size(); i++){
+            SpreadsheetValues spValue = spreadsheetValuesList.get(i);
+
+            if ( i == 0){
+                currentId = spValue.getProduct();
+            }
+
+            if (!currentId.equals(spValue.getProduct())){
+                hashValues.put(currentId,(ArrayList<Float>) listOfValues.clone());
+                currentId = spValue.getProduct();
+                listOfValues.clear();
+            }
+
+            listOfValues.add(spValue.getValue());
+
+            if ( i == (spreadsheetValuesList.size()-1)){
+                hashValues.put(currentId,(ArrayList<Float>)listOfValues.clone());
+            }
+
+        }
+
+        return hashValues;
+
+    }
 
 
     @Override

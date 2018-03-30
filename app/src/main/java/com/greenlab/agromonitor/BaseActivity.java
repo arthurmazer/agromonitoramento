@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.greenlab.agromonitor.entity.User;
 import com.greenlab.agromonitor.managers.SessionManager;
+import com.greenlab.agromonitor.utils.Constants;
 
 /**
  * Created by arthu on 12/02/2018.
@@ -57,4 +58,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == Constants.OPEN_CHART) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
+
+                // Do something with the contact here (bigger example below)
+            }
+        }
+    }
+
 }

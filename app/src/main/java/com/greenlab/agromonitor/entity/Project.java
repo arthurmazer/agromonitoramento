@@ -85,6 +85,11 @@ public class Project implements Parcelable {
         userManager.insertProjectProduct(projectProduct);
     }
 
+    public void updateProjectProduct(Context ctx, ProjectProduct projectProduct){
+        UserManager userManager = new UserManager(ctx);
+        userManager.updateProjectProduct(projectProduct);
+    }
+
     public void setId(int id) {
         this.id = id;
     }

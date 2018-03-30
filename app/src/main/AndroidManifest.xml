@@ -41,6 +41,14 @@
             android:label="Gráfico de linha"
             android:theme="@style/AppThemeDark" />
         <activity
+            android:name=".BarChartActivity"
+            android:label="Gráfico de barras"
+            android:theme="@style/AppThemeDark" />
+        <activity
+            android:name=".PieChartActivity"
+            android:label="Gráfico Pizza"
+            android:theme="@style/AppThemeDark" />
+        <activity
             android:name=".NewProjectActivityStep2"
             android:label="@string/title_step2"
             android:theme="@style/AppThemeDark" />
@@ -52,8 +60,6 @@
             android:name=".CreateVariables"
             android:label="@string/title_step_variables"
             android:theme="@style/AppThemeDark" />
-        <activity android:name=".BarChartActivity" />
-        <activity android:name=".PieChartActivity"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,10 @@
 package com.greenlab.agromonitor;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -24,25 +26,23 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.entity.SpreadsheetValues;
+import com.greenlab.agromonitor.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PieChartActivity extends BaseActivity implements  OnChartValueSelectedListener {
 
     private PieChart mChart;
-    protected String[] mParties = new String[] {
-            "RI", "PF", "CI", "L", "Party E", "Party F", "Party G", "Party H",
-            "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
-            "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
-            "Party Y", "Party Z"
-    };
-
+    protected ArrayList<String> mParties = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_pie_chart);
 
 
@@ -53,7 +53,7 @@ public class PieChartActivity extends BaseActivity implements  OnChartValueSelec
 
         mChart.setDragDecelerationFrictionCoef(0.95f);
 
-        mChart.setCenterText(generateCenterSpannableText());
+        mChart.setCenterText("Distribuição das Váriaveis");
 
         mChart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);
 
@@ -79,7 +79,55 @@ public class PieChartActivity extends BaseActivity implements  OnChartValueSelec
         // add a selection listener
         mChart.setOnChartValueSelectedListener(this);
 
-        setData(4, 100);
+        loadValuesFromProject();
+
+
+    }
+
+
+
+    public void loadValuesFromProject(){
+        int idProject = getOpenedProject();
+
+        final Project project = new Project();
+        project.setId(idProject);
+        new AsyncTask<Void, Void, List<SpreadsheetValues>>() {
+            @Override
+            protected List<SpreadsheetValues> doInBackground(Void... voids) {
+                return project.getSpreadSheetValuesNotNull(getApplicationContext());
+            }
+            @Override
+            protected void onPostExecute(List<SpreadsheetValues> spreadsheetValuesList) {
+                setData(spreadsheetValuesList);
+            }
+        }.execute();
+
+    }
+
+
+    private void setData(List<SpreadsheetValues> spreadsheetValuesList) {
+
+        if ( spreadsheetValuesList.isEmpty() ){
+            Intent returnIntent = new Intent();
+            setResult(Constants.RESULT_NO_DATA, returnIntent);
+            finish();
+        }
+
+        String variable = "";
+
+        ArrayList<Integer>  valuesPercent = new ArrayList<>();
+        int countVariable = 0;
+        getHashValuesSpreadsheet(spreadsheetValuesList);
+
+        for(Map.Entry<String, ArrayList<Float>> entry : getHashValuesSpreadsheet(spreadsheetValuesList).entrySet()) {
+            String key = entry.getKey();
+            ArrayList<Float> listValues = entry.getValue();
+
+            valuesPercent.add(listValues.size());
+            mParties.add(key);
+
+        }
+
 
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
@@ -90,22 +138,16 @@ public class PieChartActivity extends BaseActivity implements  OnChartValueSelec
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
         l.setDrawInside(false);
         l.setEnabled(false);
-    }
-
-
-
-
-
-    private void setData(int count, float range) {
-
-        float mult = range;
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        for (int i = 0; i < count; i++) {
-            entries.add(new PieEntry((float) (Math.random() * mult) + mult / 5, mParties[i % mParties.length]));
+        for (int i = 0; i < valuesPercent.size(); i++) {
+            float valor = (float) (valuesPercent.get(i));
+            String nome = mParties.get(i);
+
+            entries.add(new PieEntry((float) (valor/spreadsheetValuesList.size()), mParties.get(i)));
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "Election Results");
@@ -155,7 +197,7 @@ public class PieChartActivity extends BaseActivity implements  OnChartValueSelec
         mChart.invalidate();
     }
 
-    private SpannableString generateCenterSpannableText() {
+    /**private SpannableString generateCenterSpannableText() {
 
         SpannableString s = new SpannableString("MPAndroidChart\ndeveloped by Philipp Jahoda");
         s.setSpan(new RelativeSizeSpan(1.5f), 0, 14, 0);
@@ -165,6 +207,35 @@ public class PieChartActivity extends BaseActivity implements  OnChartValueSelec
         s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 14, s.length(), 0);
         s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 14, s.length(), 0);
         return s;
+    }**/
+
+    public HashMap<String,ArrayList<Float>> getHashValuesSpreadsheet(List<SpreadsheetValues> spreadsheetValuesList){
+        String currentId = "";
+        HashMap<String,ArrayList<Float>> hashValues = new HashMap<>();
+        ArrayList<Float> listOfValues = new ArrayList<>();
+        for ( int i = 0; i < spreadsheetValuesList.size(); i++){
+            SpreadsheetValues spValue = spreadsheetValuesList.get(i);
+
+            if ( i == 0){
+                currentId = spValue.getProduct();
+            }
+
+            if (!currentId.equals(spValue.getProduct())){
+                hashValues.put(currentId,(ArrayList<Float>) listOfValues.clone());
+                currentId = spValue.getProduct();
+                listOfValues.clear();
+            }
+
+            listOfValues.add(spValue.getValue());
+
+            if ( i == (spreadsheetValuesList.size()-1)){
+                hashValues.put(currentId,(ArrayList<Float>)listOfValues.clone());
+            }
+
+        }
+
+        return hashValues;
+
     }
 
     @Override

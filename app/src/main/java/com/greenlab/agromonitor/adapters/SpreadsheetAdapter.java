@@ -73,8 +73,10 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 ViewHolder productHolder = (ViewHolder) holder;
                 SpreadsheetValues spreadsheetValues = (SpreadsheetValues) this.spreadsheetList.get(position);
                 productHolder.productValue.setText(String.valueOf(spreadsheetValues.getValue()));
-
+                productHolder.idProject = spreadsheetValues.getIdProject();
+                productHolder.idProduct = spreadsheetValues.getId();
                 break;
+
             case CATEGORY:
                 ViewHolderCategoria headerCategory = (ViewHolderCategoria) holder;
                 Product prod = (Product) this.spreadsheetList.get(position);
@@ -103,13 +105,15 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView productValue;
         public ImageView action;
         public RelativeLayout layoutProduct;
         Context ctx;
         String category;
+        int idProject;
+        int idProduct;
 
         public ViewHolder(View itemView, final Context ctx) {
             super(itemView);
@@ -139,13 +143,29 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             .input("", productValue.getText().toString(), new MaterialDialog.InputCallback() {
                                 @Override
                                 public void onInput(MaterialDialog dialog, CharSequence input) {
-                                    //if (!input.toString().isEmpty())
-                                        //insertValueOnList(input.toString());
+                                    if (!input.toString().isEmpty())
+                                        updateValueOnList(input.toString(), getAdapterPosition());
                                 }
                             }).show();
                     return true;
                 }
             });
+        }
+
+
+        public void updateValueOnList(String newValue, int position){
+
+            Project project = new Project();
+            project.setId(idProject);
+            ProjectProduct projectProduct = new ProjectProduct();
+            projectProduct.setIdProduct(idProduct);
+            projectProduct.setIdProject(idProject);
+            projectProduct.setValue(Float.valueOf(newValue));
+            project.updateProjectProduct(this.ctx, projectProduct);
+
+            ((SpreadsheetValues) spreadsheetList.get(position)).setValue(Float.valueOf(newValue));
+            notifyItemChanged(position);
+
         }
 
 

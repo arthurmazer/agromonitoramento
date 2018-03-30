@@ -3,6 +3,7 @@ package com.greenlab.agromonitor.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -15,6 +16,13 @@ import com.greenlab.agromonitor.HomeActivity;
 import com.greenlab.agromonitor.LineChartActivity;
 import com.greenlab.agromonitor.PieChartActivity;
 import com.greenlab.agromonitor.R;
+import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.entity.SpreadsheetValues;
+import com.greenlab.agromonitor.utils.Constants;
+
+import org.apache.commons.math3.analysis.function.Constant;
+
+import java.util.List;
 
 
 /**
@@ -50,12 +58,11 @@ public class ReportFragment extends Fragment {
         cardPie = mView.findViewById(R.id.card_pie_chart);
 
 
-
         cardLine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent it = new Intent(mActivity.getApplicationContext(), LineChartActivity.class);
-                startActivity(it);
+                mActivity.startActivityForResult(it, Constants.OPEN_CHART);
                 //overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_right_out_activity);
             }
         });
@@ -65,7 +72,7 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent it = new Intent(mActivity.getApplicationContext(), BarChartActivity.class);
-                startActivity(it);
+                mActivity.startActivityForResult(it, Constants.OPEN_CHART);
                 //overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_right_out_activity);
             }
         });
@@ -74,7 +81,7 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent it = new Intent(mActivity.getApplicationContext(), PieChartActivity.class);
-                startActivity(it);
+                mActivity.startActivityForResult(it, Constants.OPEN_CHART);
                 //overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_right_out_activity);
             }
         });

@@ -101,6 +101,18 @@ public class UserManager {
 
     }
 
+    @SuppressLint("StaticFieldLeak")
+    public void updateProjectProduct(final ProjectProduct projectProduct){
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                dbManager.projectProductDAO().updateProjectProduct(projectProduct);
+                return null;
+            }
+        }.execute();
+
+    }
+
 
     @SuppressLint("StaticFieldLeak")
     public void update(final User user){
