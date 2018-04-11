@@ -47,6 +47,9 @@ public class NewProjectActivity extends BaseActivity {
         if (extras != null) {
             project = extras.getParcelable(Constants.REGISTRATION_EXTRA_PROJECT);
             setView();
+        }else{
+            radioCana.setChecked(true);
+            radioNoturno.setEnabled(true);
         }
 
 
@@ -54,11 +57,11 @@ public class NewProjectActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == radioCana.getId()){
-                    radioNoturno.setEnabled(false);
-                    radioDiurno.setChecked(true);
+                    radioNoturno.setEnabled(true);
                 }else{
                     if ( i == radioSoja.getId()){
-                        radioNoturno.setEnabled(true);
+                        radioNoturno.setEnabled(false);
+                        radioDiurno.setChecked(true);
                     }
                 }
             }
@@ -102,15 +105,15 @@ public class NewProjectActivity extends BaseActivity {
         }
         if ( project.getCultureType() == Constants.PROJECT_TYPE_CANA_DE_ACUCAR ){
             radioCana.setChecked(true);
-            radioNoturno.setEnabled(false);
-            radioDiurno.setChecked(true);
+            radioNoturno.setEnabled(true);
         }else if ( project.getCultureType() == Constants.PROJECT_TYPE_SOJA){
             radioSoja.setChecked(true);
-            radioNoturno.setEnabled(true);
+            radioNoturno.setEnabled(false);
+            radioDiurno.setChecked(true);
         }
         if ( project.getTurn() == Constants.TURNO_DIURNO ){
             radioDiurno.setChecked(true);
-        }else if ( project.getCultureType() == Constants.TURNO_NOTURNO){
+        }else if ( project.getTurn() == Constants.TURNO_NOTURNO){
             radioNoturno.setEnabled(true);
             radioNoturno.setChecked(true);
         }
