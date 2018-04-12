@@ -70,11 +70,11 @@
 
     <RadioGroup
         android:id="@+id/radiogroup_culture"
-        android:layout_width="225dp"
+        android:layout_width="178dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/informe_cultura_label"
         android:layout_marginLeft="16dp">
@@ -89,65 +89,81 @@
         <RadioButton
             android:id="@+id/radio_soja"
             android:layout_width="wrap_content"
+            android:layout_marginTop="4dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
             android:text="@string/culture_soja" />
 
+        <RadioButton
+            android:id="@+id/radio_milho"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/culture_milho" />
+
+
+        <RadioButton
+            android:id="@+id/radio_cafe"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/culture_cafe" />
+
+        <RadioButton
+            android:id="@+id/radio_amendoim"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/culture_amendoim" />
+
+        <RadioButton
+            android:id="@+id/radio_algodao"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/culture_algodao" />
 
     </RadioGroup>
+
 
     <TextView
         android:id="@+id/informe_turn_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:text="@string/label_turn"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radiogroup_culture"
-        android:layout_marginLeft="16dp" />
-
-    <TextView
-        android:id="@+id/subtopico_turno_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/label_subtopic_turn"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/informe_turn_label"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/informe_cultura_label"
+        app:layout_constraintTop_toBottomOf="@+id/name_project"
+        android:layout_marginLeft="32dp" />
 
     <RadioGroup
         android:id="@+id/radiogroup_turn"
-        android:layout_width="225dp"
+        android:layout_width="172dp"
         android:layout_height="wrap_content"
+
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subtopico_turno_label"
-        android:layout_marginLeft="16dp">
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@+id/radiogroup_culture"
+        app:layout_constraintTop_toBottomOf="@+id/informe_turn_label"
+        android:layout_marginLeft="8dp">
 
         <RadioButton
             android:id="@+id/radio_turno_diurno"
             android:layout_width="wrap_content"
-            android:checked="true"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/turno_diurno" />
 
         <RadioButton
-            android:enabled="false"
             android:id="@+id/radio_turno_noturno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:enabled="false"
             android:text="@string/turno_noturno" />
 
 
@@ -220,20 +236,22 @@
     </RelativeLayout>
 
     <TextView
-        android:gravity="end"
         android:id="@+id/textView"
+        android:layout_width="222dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:gravity="end"
+        android:maxEms="12"
+        android:paddingBottom="2dp"
+        android:text="@string/label_when_ready_step1"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="italic"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:paddingBottom="2dp"
-        android:layout_height="37dp"
-        android:layout_marginBottom="24dp"
-        android:maxEms="12"
-        android:text="@string/label_when_ready_step1"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toStartOf="@+id/imageView2"
-         />
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup_culture"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView2"

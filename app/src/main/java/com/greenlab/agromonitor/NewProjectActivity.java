@@ -16,6 +16,10 @@ public class NewProjectActivity extends BaseActivity {
 
     RadioButton radioCana;
     RadioButton radioSoja;
+    RadioButton radioMilho;
+    RadioButton radioAmendoim;
+    RadioButton radioAlgodao;
+    RadioButton radioCafe;
     EditText nameProject;
     RadioButton radioDiurno;
     RadioButton radioNoturno;
@@ -34,6 +38,10 @@ public class NewProjectActivity extends BaseActivity {
         nameProject = findViewById(R.id.name_project);
         radioCana = findViewById(R.id.radio_cana_de_acucar);
         radioSoja = findViewById(R.id.radio_soja);
+        radioMilho = findViewById(R.id.radio_milho);
+        radioAmendoim = findViewById(R.id.radio_amendoim);
+        radioAlgodao = findViewById(R.id.radio_algodao);
+        radioCafe = findViewById(R.id.radio_cafe);
         radioDiurno = findViewById(R.id.radio_turno_diurno);
         radioNoturno = findViewById(R.id.radio_turno_noturno);
         radioGroupCultura = findViewById(R.id.radiogroup_culture);
@@ -59,7 +67,7 @@ public class NewProjectActivity extends BaseActivity {
                 if (i == radioCana.getId()){
                     radioNoturno.setEnabled(true);
                 }else{
-                    if ( i == radioSoja.getId()){
+                    if ( i == radioSoja.getId() || i == radioAlgodao.getId() || i == radioAmendoim.getId() || i == radioCafe.getId() || i == radioMilho.getId() ){
                         radioNoturno.setEnabled(false);
                         radioDiurno.setChecked(true);
                     }
@@ -89,8 +97,16 @@ public class NewProjectActivity extends BaseActivity {
             project.setProjectName(nameProject.getText().toString());
         if (radioCana.isChecked())
             project.setCultureType(Constants.PROJECT_TYPE_CANA_DE_ACUCAR);
-        else
+        else if (radioSoja.isChecked())
             project.setCultureType(Constants.PROJECT_TYPE_SOJA);
+        else if (radioCafe.isChecked())
+            project.setCultureType(Constants.PROJECT_TYPE_CAFE);
+        else if (radioAlgodao.isChecked())
+            project.setCultureType(Constants.PROJECT_TYPE_ALGODAO);
+        else if (radioMilho.isChecked())
+            project.setCultureType(Constants.PROJECT_TYPE_MILHO);
+        else if (radioAmendoim.isChecked())
+            project.setCultureType(Constants.PROJECT_TYPE_AMENDOIM);
 
         if(radioDiurno.isChecked())
             project.setTurn(Constants.TURNO_DIURNO);
@@ -106,11 +122,28 @@ public class NewProjectActivity extends BaseActivity {
         if ( project.getCultureType() == Constants.PROJECT_TYPE_CANA_DE_ACUCAR ){
             radioCana.setChecked(true);
             radioNoturno.setEnabled(true);
-        }else if ( project.getCultureType() == Constants.PROJECT_TYPE_SOJA){
+        }else if (project.getCultureType() == Constants.PROJECT_TYPE_SOJA){
             radioSoja.setChecked(true);
             radioNoturno.setEnabled(false);
             radioDiurno.setChecked(true);
+        }else if (project.getCultureType() == Constants.PROJECT_TYPE_ALGODAO){
+            radioAlgodao.setChecked(true);
+            radioNoturno.setEnabled(false);
+            radioDiurno.setChecked(true);
+        }else if (project.getCultureType() == Constants.PROJECT_TYPE_AMENDOIM){
+            radioAmendoim.setChecked(true);
+            radioNoturno.setEnabled(false);
+            radioDiurno.setChecked(true);
+        }else if (project.getCultureType() == Constants.PROJECT_TYPE_CAFE){
+            radioCafe.setChecked(true);
+            radioNoturno.setEnabled(false);
+            radioDiurno.setChecked(true);
+        }else if (project.getCultureType() == Constants.PROJECT_TYPE_MILHO){
+            radioMilho.setChecked(true);
+            radioNoturno.setEnabled(false);
+            radioDiurno.setChecked(true);
         }
+
         if ( project.getTurn() == Constants.TURNO_DIURNO ){
             radioDiurno.setChecked(true);
         }else if ( project.getTurn() == Constants.TURNO_NOTURNO){

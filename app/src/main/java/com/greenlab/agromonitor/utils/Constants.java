@@ -26,6 +26,11 @@ public class Constants {
 
     public static final int PROJECT_TYPE_CANA_DE_ACUCAR = 0;
     public static final int PROJECT_TYPE_SOJA = 1;
+    public static final int PROJECT_TYPE_MILHO = 2;
+    public static final int PROJECT_TYPE_CAFE = 3;
+    public static final int PROJECT_TYPE_AMENDOIM = 4;
+    public static final int PROJECT_TYPE_ALGODAO = 5;
+
 
     public static final int KILO_HECTARE = 0;
     public static final int TONELADA_HECTARE = 1;

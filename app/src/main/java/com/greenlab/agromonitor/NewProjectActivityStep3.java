@@ -18,6 +18,7 @@ public class NewProjectActivityStep3 extends BaseActivity {
     EditText machineID;
     EditText frenteColheita;
 
+    TextView frenteColheitaLabel;
     TextView btnBackToStep2;
     TextView btnNext;
 
@@ -31,6 +32,7 @@ public class NewProjectActivityStep3 extends BaseActivity {
         talhaoName = findViewById(R.id.text_talhao_name);
         machineID = findViewById(R.id.text_machine_id);
         frenteColheita = findViewById(R.id.text_frente_colheita);
+        frenteColheitaLabel = findViewById(R.id.informe_frente_name_label);
         btnBackToStep2 = findViewById(R.id.btn_back_to_step2);
         btnNext = findViewById(R.id.btn_next_to_step4);
 
@@ -95,8 +97,14 @@ public class NewProjectActivityStep3 extends BaseActivity {
         if (project.getMachineID() != null && !project.getMachineID().isEmpty()){
             machineID.setText(project.getMachineID());
         }
-        if (project.getFrenteColheita() != null && !project.getFrenteColheita().isEmpty()){
-            frenteColheita.setText(project.getFrenteColheita());
+
+        if (project.getCultureType() == Constants.PROJECT_TYPE_SOJA){
+            frenteColheitaLabel.setVisibility(View.GONE);
+            frenteColheita.setVisibility(View.GONE);
+        }else{
+            if (project.getFrenteColheita() != null && !project.getFrenteColheita().isEmpty()){
+                frenteColheita.setText(project.getFrenteColheita());
+            }
         }
     }
 }

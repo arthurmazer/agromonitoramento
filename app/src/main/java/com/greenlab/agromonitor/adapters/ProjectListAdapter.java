@@ -63,10 +63,22 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         String culture = "";
         switch(project.getCultureType()){
             case Constants.PROJECT_TYPE_CANA_DE_ACUCAR:
-                culture = "Cana";
+                culture = "Cana-de-açucar";
                 break;
             case Constants.PROJECT_TYPE_SOJA:
                 culture = "Soja";
+                break;
+            case Constants.PROJECT_TYPE_ALGODAO:
+                culture = "Algodão";
+                break;
+            case Constants.PROJECT_TYPE_AMENDOIM:
+                culture = "Amendoim";
+                break;
+            case Constants.PROJECT_TYPE_MILHO:
+                culture = "Milho";
+                break;
+            case Constants.PROJECT_TYPE_CAFE:
+                culture = "Café";
                 break;
         }
         holder.pCulture.setText(culture);
@@ -136,33 +148,34 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
 
 
         if ( project.isOpened ){
-            int codeColor = ContextCompat.getColor(this.mActivity, R.color.gold);
+            int goldColor = ContextCompat.getColor(this.mActivity, R.color.gold);
             holder.openImage.setImageResource(R.drawable.project_opened);
-            holder.pId.setTextColor(codeColor);
-            holder.pDate.setTextColor(codeColor);
-            holder.pTitle.setTextColor(codeColor);
-            holder.pCulture.setTextColor(codeColor);
-            holder.pProducts.setTextColor(codeColor);
+            holder.pId.setTextColor(goldColor);
+            holder.pDate.setTextColor(goldColor);
+            holder.pTitle.setTextColor(goldColor);
+            holder.pCulture.setTextColor(goldColor);
+            holder.labelCulture.setTextColor(goldColor);
+            holder.pProducts.setTextColor(goldColor);
             holder.labelOpen.setText("Aberto");
-            holder.labelOpen.setTextColor(codeColor);
-            holder.labelProducts.setTextColor(codeColor);
+            holder.labelOpen.setTextColor(goldColor);
+            holder.labelProducts.setTextColor(goldColor);
 
-            holder.labelFarm.setTextColor(codeColor);
-            holder.farmText.setTextColor(codeColor);
-            holder.labelIdMachine.setTextColor(codeColor);
-            holder.idMachineText.setTextColor(codeColor);
-            holder.labelTalhao.setTextColor(codeColor);
-            holder.talhaoText.setTextColor(codeColor);
-            holder.labelTurno.setTextColor(codeColor);
-            holder.turnoText.setTextColor(codeColor);
-            holder.labelOperatorName.setTextColor(codeColor);
-            holder.operatorText.setTextColor(codeColor);
-            holder.labelMeasurer.setTextColor(codeColor);
-            holder.measurerText.setTextColor(codeColor);
-            holder.labelFrente.setTextColor(codeColor);
-            holder.frenteText.setTextColor(codeColor);
-            holder.labelUnity.setTextColor(codeColor);
-            holder.unityText.setTextColor(codeColor);
+            holder.labelFarm.setTextColor(goldColor);
+            holder.farmText.setTextColor(goldColor);
+            holder.labelIdMachine.setTextColor(goldColor);
+            holder.idMachineText.setTextColor(goldColor);
+            holder.labelTalhao.setTextColor(goldColor);
+            holder.talhaoText.setTextColor(goldColor);
+            holder.labelTurno.setTextColor(goldColor);
+            holder.turnoText.setTextColor(goldColor);
+            holder.labelOperatorName.setTextColor(goldColor);
+            holder.operatorText.setTextColor(goldColor);
+            holder.labelMeasurer.setTextColor(goldColor);
+            holder.measurerText.setTextColor(goldColor);
+            holder.labelFrente.setTextColor(goldColor);
+            holder.frenteText.setTextColor(goldColor);
+            holder.labelUnity.setTextColor(goldColor);
+            holder.unityText.setTextColor(goldColor);
 
         }
     }
@@ -200,6 +213,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         private TextView pTitle;
         private TextView pProducts;
         private TextView pDate;
+        private TextView labelCulture;
         private TextView pCulture;
         private TextView labelOpen;
         private TextView labelProducts;
@@ -246,7 +260,8 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             pProducts = itemView.findViewById(R.id.list_products);
             pDate = itemView.findViewById(R.id.project_creation_date);
             openImage = itemView.findViewById(R.id.imageView);
-            pCulture = itemView.findViewById(R.id.label_culture);
+            pCulture = itemView.findViewById(R.id.text_culture);
+            labelCulture = itemView.findViewById(R.id.label_culture);
             labelOpen = itemView.findViewById(R.id.label_open);
             labelProducts = itemView.findViewById(R.id.label_products);
             layoutProject = itemView.findViewById(R.id.relative_id_culture);

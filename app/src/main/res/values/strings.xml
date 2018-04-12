@@ -44,6 +44,10 @@
 
     <string name="culture_cana">Cana-de-açucar</string>
     <string name="culture_soja">Soja</string>
+    <string name="culture_milho">Milho</string>
+    <string name="culture_cafe">Café</string>
+    <string name="culture_amendoim">Amendoim</string>
+    <string name="culture_algodao">Algodão</string>
 
     <string name="turno_diurno">Diurno</string>
     <string name="turno_noturno">Noturno</string>
