@@ -79,6 +79,16 @@ public class Project implements Parcelable {
         return userManager.getSpreadsheetValuesNotNull(this.id);
     }
 
+    public List<SpreadsheetValues> getProductValuesNotNullFromProject(Context ctx, int idProduct){
+        UserManager userManager = new UserManager(ctx);
+        return userManager.getProductValuesNotNullFromProject(this.id, idProduct);
+    }
+
+    public List<Product> getVariablesOfProject(Context ctx){
+        UserManager userManager = new UserManager(ctx);
+        return userManager.getVariablesFromProject(this.id);
+    }
+
 
     public void insertProjectProduct(Context ctx, ProjectProduct projectProduct){
         UserManager userManager = new UserManager(ctx);

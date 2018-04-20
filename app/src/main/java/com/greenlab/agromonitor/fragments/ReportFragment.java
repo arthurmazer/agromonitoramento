@@ -1,6 +1,7 @@
 package com.greenlab.agromonitor.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,6 +17,8 @@ import com.greenlab.agromonitor.HomeActivity;
 import com.greenlab.agromonitor.LineChartActivity;
 import com.greenlab.agromonitor.PieChartActivity;
 import com.greenlab.agromonitor.R;
+import com.greenlab.agromonitor.dialog.DialogChooseVariable;
+import com.greenlab.agromonitor.entity.Product;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.SpreadsheetValues;
 import com.greenlab.agromonitor.utils.Constants;
@@ -61,8 +64,7 @@ public class ReportFragment extends Fragment {
         cardLine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent it = new Intent(mActivity.getApplicationContext(), LineChartActivity.class);
-                mActivity.startActivityForResult(it, Constants.OPEN_CHART);
+                openVariablesDialog();
                 //overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_right_out_activity);
             }
         });
@@ -87,6 +89,27 @@ public class ReportFragment extends Fragment {
         });
 
         return mView;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void openVariablesDialog(){
+
+        final Project project = new Project();
+        project.setId(mActivity.getOpenedProject());
+
+
+        new AsyncTask<Void, Void, List<Product>>() {
+            @Override
+            protected List<Product> doInBackground(Void... voids) {
+                return project.getVariablesOfProject(mActivity.getApplicationContext());
+            }
+            @Override
+            protected void onPostExecute(List<Product> variablesList) {
+                DialogChooseVariable dialogChooseVariable;
+                dialogChooseVariable = new DialogChooseVariable(mActivity,variablesList, mActivity);
+                dialogChooseVariable.show();
+            }
+        }.execute();
     }
 
 }

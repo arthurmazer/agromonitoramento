@@ -60,6 +60,7 @@
             android:name=".CreateVariables"
             android:label="@string/title_step_variables"
             android:theme="@style/AppThemeDark" />
+        <activity android:name=".dialog.DialogChooseVariable"></activity>
     </application>
 
 </manifest>

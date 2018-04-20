@@ -8,10 +8,12 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
@@ -70,10 +72,11 @@ public class LineChartActivity extends BaseActivity  implements
         Bundle extras = getIntent().getExtras();
 
 
-
+        int idProduct = 0;
         if (extras != null) {
             projectName = extras.getString("project_name");
             // and get whatever type user account id is
+            idProduct = extras.getInt("id_product");
         }
 
         mChart = (LineChart) findViewById(R.id.chart1);
@@ -94,39 +97,57 @@ public class LineChartActivity extends BaseActivity  implements
         // if disabled, scaling can be done on x- and y-axis separately
         mChart.setPinchZoom(true);
 
-        loadValuesFromProject();
+        loadValuesFromProject(idProduct);
 
-        fab.setVisibility(View.GONE);
+        fab.setVisibility(View.VISIBLE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
+                //leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
 
 
+                new MaterialDialog.Builder(LineChartActivity.this)
+                        .title("aqui eh titulo")
+                        .content("Digite os valores do limite")
+                        .inputType(InputType.TYPE_CLASS_NUMBER )
+                        .input("DE: ", "1", new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                // Do something
+                            }
+                        })
+                        .inputType(InputType.TYPE_CLASS_NUMBER )
+                        .input("ATÉ: ", "5", new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                // Do something
+                            }
+                        }).show();
 
                 LimitLine ll5 = new LimitLine(9f, "Lim 1");
-                ll5.setLineWidth(4f);
-                ll5.setLineColor(R.color.blue);
+                ll5.setLineWidth(3f);
+                ll5.setLineColor(Color.MAGENTA);
                 ll5.enableDashedLine(10f, 10f, 0f);
                 ll5.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_BOTTOM);
                 ll5.setTextSize(10f);
 
                 LimitLine ll6 = new LimitLine(3f, "Lim 2");
-                ll6.setLineWidth(4f);
+                ll6.setLineWidth(3f);
                 ll6.enableDashedLine(10f, 10f, 0f);
-                ll6.setLineColor(R.color.blue);
+                ll6.setLineColor(Color.DKGRAY);
                 ll6.setTextStyle(Paint.Style.FILL_AND_STROKE);
                 ll6.setTextColor(R.color.blue);
                 ll6.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_BOTTOM);
                 ll6.setTextSize(10f);
 
-                leftAxis.addLimitLine(ceilLL);
-                leftAxis.addLimitLine(floorLL);
-                leftAxis.addLimitLine(meanLL);
+                //leftAxis.addLimitLine(ceilLL);
+                //leftAxis.addLimitLine(floorLL);
+                //leftAxis.addLimitLine(meanLL);
                 leftAxis.addLimitLine(ll5);
                 leftAxis.addLimitLine(ll6);
 
+                mChart.getData().notifyDataChanged();
                 mChart.notifyDataSetChanged();
             }
         });
@@ -134,7 +155,7 @@ public class LineChartActivity extends BaseActivity  implements
 
     }
 
-    public void loadValuesFromProject(){
+    public void loadValuesFromProject(final int idProduct){
         int idProject = getOpenedProject();
 
         final Project project = new Project();
@@ -142,7 +163,7 @@ public class LineChartActivity extends BaseActivity  implements
         new AsyncTask<Void, Void, List<SpreadsheetValues>>() {
             @Override
             protected List<SpreadsheetValues> doInBackground(Void... voids) {
-                return project.getSpreadSheetValuesNotNull(getApplicationContext());
+                return project.getProductValuesNotNullFromProject(getApplicationContext(),idProduct);
             }
             @Override
             protected void onPostExecute(List<SpreadsheetValues> spreadsheetValuesList) {
@@ -196,7 +217,6 @@ public class LineChartActivity extends BaseActivity  implements
 
             ceilLL = new LimitLine(ceilLimit, "Limite Superior");
             ceilLL.setLineWidth(4f);
-            ceilLL.enableDashedLine(10f, 10f, 0f);
             ceilLL.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
             ceilLL.setTextSize(10f);
             //ll1.setTypeface(tf);
@@ -205,9 +225,9 @@ public class LineChartActivity extends BaseActivity  implements
                 floorLimit = 0;
             floorLL = new LimitLine(floorLimit, "Limite Inferior");
             floorLL.setLineWidth(4f);
-            floorLL.enableDashedLine(10f, 10f, 0f);
             floorLL.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
             floorLL.setTextSize(10f);
+
             //ll2.setTypeface(tf);
 
             meanLL = new LimitLine(fMean, "Média");
@@ -215,6 +235,7 @@ public class LineChartActivity extends BaseActivity  implements
             meanLL.enableDashedLine(10f, 10f, 0f);
             meanLL.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
             meanLL.setTextSize(10f);
+            meanLL.setLineColor(Color.BLUE);
 
 
 
@@ -316,7 +337,7 @@ public class LineChartActivity extends BaseActivity  implements
                 set1 = new LineDataSet(arrayEntry.get(0), arrayProductName.get(0));
 
                 set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-                set1.setColor(ColorTemplate.getHoloBlue());
+                set1.setColor(Color.DKGRAY);
                 set1.setCircleColor(Color.BLACK);
                 set1.setLineWidth(2f);
                 set1.setCircleRadius(3f);
@@ -374,7 +395,7 @@ public class LineChartActivity extends BaseActivity  implements
                 }
 
                 data.setValueTextColor(Color.BLACK);
-                data.setValueTextSize(9f);
+                data.setValueTextSize(12f);
 
                 // set data
                 mChart.setData(data);

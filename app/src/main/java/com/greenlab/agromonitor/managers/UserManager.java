@@ -61,6 +61,9 @@ public class UserManager {
         return idProject;
     }
 
+    public List<Product> getVariablesFromProject(int idProject){
+        return dbManager.productDAO().getAllProductsHeadersFromProject(idProject);
+    }
 
     public List<SpreadsheetValues> getSpreadsheetValues(final int idProject){
         return dbManager.projectProductDAO().getAllProductsValuesFromProject(idProject);
@@ -70,6 +73,12 @@ public class UserManager {
         return dbManager.projectProductDAO().getAllProductsValuesNotNullFromProject(idProject);
 
     }
+
+    public List<SpreadsheetValues> getProductValuesNotNullFromProject(final int idProject, final int idProduct){
+        return dbManager.projectProductDAO().getProductValuesNotNullFromProject(idProject, idProduct);
+    }
+
+
 
     public void findUser(String userLogin, final OnFindUser onFindUser) {
         DatabaseReference userReference = reference.child(userLogin);

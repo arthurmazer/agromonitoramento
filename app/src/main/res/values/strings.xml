@@ -97,4 +97,6 @@
     <string name="label_measure_unity">Unidade de Medida: </string>
     <string name="duplicated_variable">Já existe uma variável com este nome</string>
 
+    <string name="dialog_select_variable">Selectione a variável</string>
+
 </resources>
