@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:text="2 pontos dentro do limite inserido"
+        android:background="@color/colorPrimary"
+        android:id="@+id/text_count_variables"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart1"
+        android:layout_below="@id/text_count_variables"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        />
 
     <ru.dimorinny.floatingtextbutton.FloatingTextButton
         android:id="@+id/add_limits_btn"
@@ -24,9 +33,9 @@
         app:floating_left_icon="@drawable/ic_subject"
         app:floating_title="@string/floating_chat_button"
         app:floating_title_color="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-         />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

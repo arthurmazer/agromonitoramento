@@ -10,9 +10,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -60,6 +63,10 @@ public class LineChartActivity extends BaseActivity  implements
     private LimitLine ceilLL;
     private LimitLine custom1;
     private LimitLine custom2;
+    private float limit_start;
+    private float limit_end;
+    List<SpreadsheetValues> valuesProject;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +86,7 @@ public class LineChartActivity extends BaseActivity  implements
             idProduct = extras.getInt("id_product");
         }
 
-        mChart = (LineChart) findViewById(R.id.chart1);
+        mChart = findViewById(R.id.chart1);
         mChart.setOnChartGestureListener(this);
         mChart.setOnChartValueSelectedListener(this);
         mChart.setDrawGridBackground(false);
@@ -108,50 +115,71 @@ public class LineChartActivity extends BaseActivity  implements
 
 
                 new MaterialDialog.Builder(LineChartActivity.this)
-                        .title("aqui eh titulo")
-                        .content("Digite os valores do limite")
-                        .inputType(InputType.TYPE_CLASS_NUMBER )
-                        .input("DE: ", "1", new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                // Do something
+                        .customView(R.layout.layout_choose_limit, true)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                View v = dialog.getCustomView();
+                                EditText limitStartEditText = v.findViewById(R.id.limit_start);
+                                EditText limitEndEditText = v.findViewById(R.id.limit_end);
+                                limit_start = Float.valueOf(limitStartEditText.getText().toString());
+                                limit_end = Float.valueOf(limitEndEditText.getText().toString());
+
+
+                                leftAxis.removeLimitLine(custom1);
+                                leftAxis.removeLimitLine(custom2);
+
+
+                                custom1 = new LimitLine(limit_start, "Limite 1");
+                                custom1.setLineWidth(3f);
+                                custom1.setLineColor(Color.MAGENTA);
+                                custom1.enableDashedLine(10f, 10f, 0f);
+                                custom1.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_BOTTOM);
+                                custom1.setTextSize(10f);
+
+                                custom2 = new LimitLine(limit_end, "Limite 2");
+                                custom2.setLineWidth(3f);
+                                custom2.enableDashedLine(10f, 10f, 0f);
+                                custom2.setLineColor(Color.MAGENTA);
+                                custom2.setTextStyle(Paint.Style.FILL_AND_STROKE);
+                                custom2.setTextColor(R.color.blue);
+                                custom2.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_BOTTOM);
+                                custom2.setTextSize(10f);
+
+
+                                leftAxis.addLimitLine(custom1);
+                                leftAxis.addLimitLine(custom2);
+
+                                mChart.getData().notifyDataChanged();
+                                mChart.notifyDataSetChanged();
+
                             }
                         })
-                        .inputType(InputType.TYPE_CLASS_NUMBER )
-                        .input("ATÉ: ", "5", new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                // Do something
-                            }
-                        }).show();
+                        .positiveText("OK")
+                        .show();
 
-                LimitLine ll5 = new LimitLine(9f, "Lim 1");
-                ll5.setLineWidth(3f);
-                ll5.setLineColor(Color.MAGENTA);
-                ll5.enableDashedLine(10f, 10f, 0f);
-                ll5.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_BOTTOM);
-                ll5.setTextSize(10f);
 
-                LimitLine ll6 = new LimitLine(3f, "Lim 2");
-                ll6.setLineWidth(3f);
-                ll6.enableDashedLine(10f, 10f, 0f);
-                ll6.setLineColor(Color.DKGRAY);
-                ll6.setTextStyle(Paint.Style.FILL_AND_STROKE);
-                ll6.setTextColor(R.color.blue);
-                ll6.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_BOTTOM);
-                ll6.setTextSize(10f);
-
-                //leftAxis.addLimitLine(ceilLL);
-                //leftAxis.addLimitLine(floorLL);
-                //leftAxis.addLimitLine(meanLL);
-                leftAxis.addLimitLine(ll5);
-                leftAxis.addLimitLine(ll6);
-
-                mChart.getData().notifyDataChanged();
-                mChart.notifyDataSetChanged();
             }
         });
 
+
+    }
+
+    public void displayNumberPointsInsideLimit(float limit1, float limit2){
+
+        float limitMenor, limitMaior;
+
+        if ( limit1 > limit2){
+            limitMenor = limit2;
+            limitMaior = limit1;
+        }else if (limit2 >= limit1){
+            limitMenor = limit1;
+            limitMaior = limit2;
+        }
+
+        for (SpreadsheetValues sp : valuesProject ){
+
+        }
 
     }
 
@@ -174,6 +202,8 @@ public class LineChartActivity extends BaseActivity  implements
     }
 
     private void setData(List<SpreadsheetValues> spreadsheetValuesList) {
+
+        valuesProject = spreadsheetValuesList;
 
         HashMap<String, ArrayList<Float>> hashValues = new HashMap<>();
 

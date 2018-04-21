@@ -13,7 +13,7 @@
 
     <EditText
         android:hint="De: "
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:id="@+id/limit_start"
         android:layout_below="@id/dialog_limit_title"
         android:layout_width="120dp"
@@ -22,19 +22,11 @@
 
     <EditText
         android:hint="Até: "
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:layout_centerHorizontal="true"
         android:id="@+id/limit_end"
         android:layout_below="@id/limit_start"
         android:layout_width="120dp"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:layout_centerHorizontal="true"
-        android:id="@+id/ok_button_limit_dialog"
-        android:layout_below="@id/limit_end"
-        android:text="Ok"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
 </RelativeLayout>
