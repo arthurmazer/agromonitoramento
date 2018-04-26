@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -172,18 +173,13 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
                 //newGame();
                 return true;
             case R.id.generate_excel:
-                //showHelp();
+                checkPermission();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-
-    public int getAreaAmostralProject(){
-        SessionManager sessionManager = new SessionManager(getApplicationContext());
-        return sessionManager.getProjectAreaAmostral();
-    }
 
 
     @Override
@@ -254,16 +250,6 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
     public String getNameProjectOpened(){
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         return sessionManager.getNameCurrentProject();
-    }
-
-    public int getCultureType(){
-        SessionManager sessionManager = new SessionManager(getApplicationContext());
-        return 1;
-    }
-
-    public void setCultureType(int cultureType){
-        SessionManager sessionManager = new SessionManager(getApplicationContext());
-        sessionManager.setCultureType(cultureType);
     }
 
 

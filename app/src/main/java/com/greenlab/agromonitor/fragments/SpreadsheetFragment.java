@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -61,7 +62,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
         final View mView = inflater.inflate(R.layout.fragment_spreadsheet, container, false);
         final int PRODUCT_VALUE = 0, CATEGORY = 1;
 
-        Spinner spinnerUnity = mView.findViewById(R.id.spinner);
+        final Spinner spinnerUnity = mView.findViewById(R.id.spinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.mActivity,
                 R.array.unity_choice, android.R.layout.simple_spinner_item);
@@ -110,8 +111,38 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
             }
         }.execute();
 
-        int areaAm = mActivity.getAreaAmostralProject();
-        areaAmostral.setText(""+areaAm);
+        new AsyncTask<Void, Void, Project>() {
+            @Override
+            protected Project doInBackground(Void... voids) {
+                return project.getActualProject(mActivity.getApplicationContext());
+            }
+            @Override
+            protected void onPostExecute(Project mProject) {
+                spinnerUnity.setSelection(mProject.getMeasureUnity());
+                areaAmostral.setText(""+mProject.getAreaAmostral());
+            }
+        }.execute();
+
+        spinnerUnity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int idProject = mActivity.getOpenedProject();
+                Project mProject = new Project();
+                mProject.setId(idProject);
+                int am;
+                if (areaAmostral.getText().toString().isEmpty())
+                    am = 10;
+                else
+                    am = Integer.valueOf(areaAmostral.getText().toString());
+
+                mProject.updateAreaAndUnity(mActivity.getApplicationContext(), am, spinnerUnity.getSelectedItemPosition());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         areaAmostral.addTextChangedListener(new TextWatcher() {
             @Override
@@ -129,8 +160,10 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
                 final String num = editable.toString();
                 if (!num.isEmpty()) {
                     int areaAmostral = Integer.valueOf(num);
-                    SessionManager sessionManager = new SessionManager(mView.getContext());
-                    sessionManager.setProjectAreaAmostral(areaAmostral);
+                    int idProject = mActivity.getOpenedProject();
+                    Project mProject = new Project();
+                    mProject.setId(idProject);
+                    mProject.updateAreaAndUnity(mActivity.getApplicationContext(), areaAmostral, spinnerUnity.getSelectedItemPosition());
                 }
             }
         });

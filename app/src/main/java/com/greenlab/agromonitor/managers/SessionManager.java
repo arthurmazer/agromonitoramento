@@ -45,6 +45,15 @@ public class SessionManager {
         return sharedPreferences.getString(Constants.SP_NAME_PROJECT_OPEN, "");
     }
 
+    public String getCurrentEmail(){
+        return sharedPreferences.getString(Constants.SP_USER_EMAIL,"");
+    }
+
+    public void setCurrentEmail(String email){
+        editor.putString(Constants.SP_USER_EMAIL, email);
+        editor.apply();
+    }
+
     public boolean isUserLoggedIn(){
         return sharedPreferences.getBoolean(Constants.SP_IS_LOGGED_IN,false);
     }
@@ -64,21 +73,6 @@ public class SessionManager {
         editor.apply();
     }
 
-    public int getCultureType(){
-        return sharedPreferences.getInt(Constants.SP_CULTURE_TYPE, -1);
-    }
-
-    public void setCultureType(int cultureType){
-        editor.putInt(Constants.SP_CULTURE_TYPE, cultureType);
-        editor.apply();
-    }
-
-    public void setProjectAreaAmostral(int areaAmostral){
-        editor.putInt(Constants.SP_AREA_AMOSTRAL_PROJECT, areaAmostral);
-        editor.apply();
-    }
-
-    public int getProjectAreaAmostral(){return sharedPreferences.getInt(Constants.SP_AREA_AMOSTRAL_PROJECT, 10);}
 
 }
 

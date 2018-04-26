@@ -184,7 +184,7 @@ public class LineChartActivity extends BaseActivity  implements
     public SpreadsheetValues formatValues(List<SpreadsheetValues> spreadsheetValues){
 
         SessionManager sessionManager = new SessionManager(getApplicationContext());
-        int areaAmostral = sessionManager.getProjectAreaAmostral();
+
 
         for ( SpreadsheetValues spV : spreadsheetValues ){
 

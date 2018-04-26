@@ -7,7 +7,7 @@ package com.greenlab.agromonitor.utils;
 public class Constants {
 
     public static final String DB_NAME = "agromonitor_database";
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 9;
 
     public static final String SHARED_PREF = "agromonitor_sharedPref";
     public static final String SP_IS_LOGGED_IN = "sp_isloggedin";
@@ -20,6 +20,8 @@ public class Constants {
     public static final String SP_TYPE_PROJECT = "sp_type_project";
     public static final String SP_AREA_AMOSTRAL_PROJECT = "sp_area_amostral";
     public static final String SP_CULTURE_TYPE = "sp_culture_type";
+    public static final String SP_USER_EMAIL = "sp_user_email";
+    public static final String SP_UNITY_PROJECT = "sp_user_email";
 
     public static final String REGISTRATION_EXTRA_PROJECT = "project";
 

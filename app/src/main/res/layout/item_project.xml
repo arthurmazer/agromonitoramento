@@ -112,30 +112,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layout_unidade"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/label_unidade"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Unidade:"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/unidade"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-
-                android:text="kg/hc"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_turno"

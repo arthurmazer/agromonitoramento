@@ -42,6 +42,7 @@ public class Project implements Parcelable {
     private String operatorsName;
     private String measurersName;
     private int measureUnity;
+    private int areaAmostral;
 
     @Ignore
     private List<Product> listOfProducts;
@@ -72,6 +73,16 @@ public class Project implements Parcelable {
     public List<SpreadsheetValues> getSpreadSheetValues(Context ctx){
         UserManager userManager = new UserManager(ctx);
         return userManager.getSpreadsheetValues(this.id);
+    }
+
+    public Project getActualProject(Context ctx){
+        UserManager userManager = new UserManager(ctx);
+        return userManager.getProjectById(this.id);
+    }
+
+    public void updateAreaAndUnity(Context ctx, int areaAmostral, int measureUnity){
+        UserManager userManager = new UserManager(ctx);
+        userManager.updateProjectAreaAndUnity(this.id,areaAmostral,measureUnity);
     }
 
     public List<SpreadsheetValues> getSpreadSheetValuesNotNull(Context ctx){
@@ -230,6 +241,14 @@ public class Project implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public int getAreaAmostral() {
+        return areaAmostral;
+    }
+
+    public void setAreaAmostral(int areaAmostral) {
+        this.areaAmostral = areaAmostral;
     }
 
     @Override

@@ -165,7 +165,6 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             holder.measurerText.setTextColor(goldColor);
             holder.labelFrente.setTextColor(goldColor);
             holder.frenteText.setTextColor(goldColor);
-            holder.labelUnity.setTextColor(goldColor);
 
         }
     }
@@ -229,8 +228,6 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         private LinearLayout frenteLayout;
         private TextView labelFrente;
         private TextView frenteText;
-        private LinearLayout unityLayout;
-        private TextView labelUnity;
         private int culture;
 
 
@@ -283,9 +280,6 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             frenteLayout = itemView.findViewById(R.id.layout_frente);
             labelFrente = itemView.findViewById(R.id.label_frente);
             frenteText = itemView.findViewById(R.id.frente);
-            unityLayout = itemView.findViewById(R.id.layout_unidade);
-            labelUnity = itemView.findViewById(R.id.label_unidade);
-
 
             layoutProject.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -326,7 +320,6 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         public void openProject(){
             int idProject = Integer.valueOf(pId.getText().toString().replace("#","").trim());
             mActivity.setProjectOpened(idProject, pTitle.getText().toString());
-            mActivity.setCultureType(culture);
             mActivity.changeToSpreadsheetScreen();
         }
     }

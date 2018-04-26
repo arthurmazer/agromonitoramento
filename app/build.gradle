@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support:design:27.1.0'
     implementation 'com.android.support:support-vector-drawable:27.1.0'
@@ -32,7 +32,7 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     // Room (use 1.1.0-alpha1 for latest alpha)
-    implementation "android.arch.persistence.room:runtime:1.0.0"
+    implementation 'android.arch.persistence.room:runtime:1.0.0'
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
     implementation 'com.google.code.gson:gson:2.8.2'
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.3'
@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.github.florent37:materialtextfield:1.0.7'
     implementation 'com.google.firebase:firebase-database:11.8.0'
     implementation 'com.google.firebase:firebase-auth:11.8.0'
+    implementation project(':jxl')
 }
 
 apply plugin: 'com.google.gms.google-services'

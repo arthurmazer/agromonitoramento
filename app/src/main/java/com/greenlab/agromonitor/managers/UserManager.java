@@ -78,6 +78,12 @@ public class UserManager {
         return dbManager.projectProductDAO().getProductValuesNotNullFromProject(idProject, idProduct);
     }
 
+    public Project getProjectById(final int idProject){
+        return dbManager.projectDAO().getProjectById(idProject);
+    }
+
+
+
 
 
     public void findUser(String userLogin, final OnFindUser onFindUser) {
@@ -121,6 +127,20 @@ public class UserManager {
         }.execute();
 
     }
+
+    @SuppressLint("StaticFieldLeak")
+    public void updateProjectAreaAndUnity(final int idProject,final int areaAmostral,final int unity){
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                dbManager.projectDAO().updateProjectAreaAndUnity(idProject,areaAmostral,unity);
+                return null;
+            }
+        }.execute();
+
+    }
+
+
 
 
     @SuppressLint("StaticFieldLeak")
