@@ -191,35 +191,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtopico_variables_label" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="26dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_products"
-        android:layout_marginLeft="16dp">
 
-        <TextView
-            android:id="@+id/informe_unity_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_measure_unity"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/unity_spinner"
-            android:layout_width="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp" />
-
-
-    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

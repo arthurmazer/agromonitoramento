@@ -64,5 +64,21 @@ public class SessionManager {
         editor.apply();
     }
 
+    public int getCultureType(){
+        return sharedPreferences.getInt(Constants.SP_CULTURE_TYPE, -1);
+    }
+
+    public void setCultureType(int cultureType){
+        editor.putInt(Constants.SP_CULTURE_TYPE, cultureType);
+        editor.apply();
+    }
+
+    public void setProjectAreaAmostral(int areaAmostral){
+        editor.putInt(Constants.SP_AREA_AMOSTRAL_PROJECT, areaAmostral);
+        editor.apply();
+    }
+
+    public int getProjectAreaAmostral(){return sharedPreferences.getInt(Constants.SP_AREA_AMOSTRAL_PROJECT, 10);}
+
 }
 

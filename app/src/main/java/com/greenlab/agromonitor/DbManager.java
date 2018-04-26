@@ -41,7 +41,6 @@ public abstract class DbManager extends RoomDatabase{
             Log.d("aqui", "instancia nulla");
             instance = Room.databaseBuilder(ctx, DbManager.class, Constants.DB_NAME)
                     .addMigrations(MIGRATION_5_6,MIGRATION_6_7)
-                    .fallbackToDestructiveMigration()
                     .build();
             instance.populateInitialData();
         }

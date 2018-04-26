@@ -44,7 +44,6 @@ public class CreateVariables extends BaseActivity {
     EditText textVariaveis;
     TextView btnBackToStep3;
     TextView btnFinish;
-    Spinner spinnerUnity;
     Context context;
 
     @Override
@@ -56,7 +55,6 @@ public class CreateVariables extends BaseActivity {
         context = getApplicationContext();
         textVariaveis = findViewById(R.id.text_variaveis);
         recyclerProducs = findViewById(R.id.recycler_products);
-        spinnerUnity = findViewById(R.id.unity_spinner);
         btnAddProduct = findViewById(R.id.btn_add_variable);
         btnBackToStep3 = findViewById(R.id.btn_back_to_step3);
         btnFinish = findViewById(R.id.btn_finish_project);
@@ -64,10 +62,10 @@ public class CreateVariables extends BaseActivity {
         userManager =  new UserManager(getApplicationContext());
 
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+       /** ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.unity_choice, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerUnity.setAdapter(adapter);
+        spinnerUnity.setAdapter(adapter);**/
 
         textVariaveis.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
 
@@ -128,19 +126,11 @@ public class CreateVariables extends BaseActivity {
     }
 
     public void getDataFromStepVar(){
-        if (spinnerUnity.getSelectedItem().toString().equals("Kg/ha"))
-            project.setMeasureUnity(Constants.KILO_HECTARE);
-        else if(spinnerUnity.getSelectedItem().toString().equals("t/ha"))
-            project.setMeasureUnity((Constants.TONELADA_HECTARE));
 
         project.setListOfStringProducts(this.listProducts);
     }
 
     public void setView(){
-        if ( project.getMeasureUnity() == Constants.KILO_HECTARE )
-            spinnerUnity.setSelection(Constants.KILO_HECTARE);
-        else if ( project.getMeasureUnity() == Constants.TONELADA_HECTARE)
-            spinnerUnity.setSelection(Constants.TONELADA_HECTARE);
 
         if (project.getListOfStringProducts() != null && !project.getListOfStringProducts().isEmpty()){
             listProducts.clear();
@@ -227,6 +217,7 @@ public class CreateVariables extends BaseActivity {
                 data.putExtra("success", true);
                 data.putExtra("id_project", idProject);
                 data.putExtra("name_project", project.getProjectName());
+                data.putExtra("culture", project.getCultureType());
                 data.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 setResult(Constants.RESULT_NEW_PROJECT, data);
                 startActivity(data);

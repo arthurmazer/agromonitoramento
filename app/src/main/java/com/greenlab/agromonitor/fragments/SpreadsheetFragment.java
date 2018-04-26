@@ -1,15 +1,21 @@
 package com.greenlab.agromonitor.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.greenlab.agromonitor.HomeActivity;
 import com.greenlab.agromonitor.R;
@@ -18,6 +24,7 @@ import com.greenlab.agromonitor.entity.Product;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.SpreadsheetValues;
 import com.greenlab.agromonitor.interfaces.GetSpreadsheetValues;
+import com.greenlab.agromonitor.managers.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +38,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
     private ArrayList<Object> spreadsheetList = new ArrayList<Object>();
     SpreadsheetAdapter spreadsheetAdapter;
     RecyclerView recyclerSpreadsheet;
+    EditText areaAmostral;
 
 
     public static Fragment newInstance(){
@@ -42,6 +50,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,10 +58,18 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
         this.mActivity = (HomeActivity)getActivity();
         this.mActivity.setTitle("Planilha - " + this.mActivity.getNameProjectOpened());
 
-        View mView = inflater.inflate(R.layout.fragment_spreadsheet, container, false);
+        final View mView = inflater.inflate(R.layout.fragment_spreadsheet, container, false);
         final int PRODUCT_VALUE = 0, CATEGORY = 1;
 
-        recyclerSpreadsheet = (RecyclerView) mView.findViewById(R.id.recycler_spreadsheet);
+        Spinner spinnerUnity = mView.findViewById(R.id.spinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.mActivity,
+                R.array.unity_choice, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerUnity.setAdapter(adapter);
+
+        areaAmostral = mView.findViewById(R.id.area_amostral);
+        recyclerSpreadsheet = mView.findViewById(R.id.recycler_spreadsheet);
         spreadsheetAdapter = new SpreadsheetAdapter(spreadsheetList);
         recyclerSpreadsheet.setHasFixedSize(true);
         GridLayoutManager manager = new GridLayoutManager(this.mActivity, 6);
@@ -92,6 +109,31 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
                 onSuccessGettingValues(spreadsheetValuesList);
             }
         }.execute();
+
+        int areaAm = mActivity.getAreaAmostralProject();
+        areaAmostral.setText(""+areaAm);
+
+        areaAmostral.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                final String num = editable.toString();
+                if (!num.isEmpty()) {
+                    int areaAmostral = Integer.valueOf(num);
+                    SessionManager sessionManager = new SessionManager(mView.getContext());
+                    sessionManager.setProjectAreaAmostral(areaAmostral);
+                }
+            }
+        });
 
         return mView;
     }

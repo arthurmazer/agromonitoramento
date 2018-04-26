@@ -81,6 +81,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
                 culture = "Café";
                 break;
         }
+        holder.culture = project.getCultureType();
         holder.pCulture.setText(culture);
         if (!project.getFarmName().isEmpty()){
             holder.farmText.setText(project.getFarmName());
@@ -128,16 +129,6 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             holder.frenteLayout.setVisibility(View.GONE);
         }
 
-        String unidade = "";
-        switch(project.getMeasureUnity()){
-            case Constants.KILO_HECTARE:
-                unidade = "kg/ha";
-                break;
-            case Constants.TONELADA_HECTARE:
-                unidade = "t/ha";
-                break;
-        }
-        holder.unityText.setText(unidade);
 
 
         if (isMoreDetailsNecessary(holder)){
@@ -175,7 +166,6 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             holder.labelFrente.setTextColor(goldColor);
             holder.frenteText.setTextColor(goldColor);
             holder.labelUnity.setTextColor(goldColor);
-            holder.unityText.setTextColor(goldColor);
 
         }
     }
@@ -241,7 +231,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         private TextView frenteText;
         private LinearLayout unityLayout;
         private TextView labelUnity;
-        private TextView unityText;
+        private int culture;
 
 
         private RelativeLayout layoutProject;
@@ -295,7 +285,6 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             frenteText = itemView.findViewById(R.id.frente);
             unityLayout = itemView.findViewById(R.id.layout_unidade);
             labelUnity = itemView.findViewById(R.id.label_unidade);
-            unityText = itemView.findViewById(R.id.unidade);
 
 
             layoutProject.setOnClickListener(new View.OnClickListener() {
@@ -337,6 +326,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         public void openProject(){
             int idProject = Integer.valueOf(pId.getText().toString().replace("#","").trim());
             mActivity.setProjectOpened(idProject, pTitle.getText().toString());
+            mActivity.setCultureType(culture);
             mActivity.changeToSpreadsheetScreen();
         }
     }

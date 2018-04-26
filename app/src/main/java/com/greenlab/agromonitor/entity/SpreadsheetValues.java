@@ -7,7 +7,7 @@ package com.greenlab.agromonitor.entity;
 public class SpreadsheetValues {
 
     private float value;
-    private int id;
+    private int id; //idProduct
     private int idProject;
     private String product;
 

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -33,6 +34,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.SpreadsheetValues;
+import com.greenlab.agromonitor.managers.SessionManager;
 import com.greenlab.agromonitor.utils.Constants;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
@@ -55,6 +57,7 @@ public class LineChartActivity extends BaseActivity  implements
     private ArrayList<Float> listOfValues;
     private String projectName;
     private YAxis leftAxis;
+    private TextView textCountVarPoints;
 
     private FloatingTextButton fab;
 
@@ -86,6 +89,7 @@ public class LineChartActivity extends BaseActivity  implements
             idProduct = extras.getInt("id_product");
         }
 
+        textCountVarPoints = findViewById(R.id.text_count_variables);
         mChart = findViewById(R.id.chart1);
         mChart.setOnChartGestureListener(this);
         mChart.setOnChartValueSelectedListener(this);
@@ -130,17 +134,17 @@ public class LineChartActivity extends BaseActivity  implements
                                 leftAxis.removeLimitLine(custom2);
 
 
-                                custom1 = new LimitLine(limit_start, "Limite 1");
+                                custom1 = new LimitLine(limit_start, "Lim 1");
                                 custom1.setLineWidth(3f);
-                                custom1.setLineColor(Color.MAGENTA);
+                                custom1.setLineColor(Color.GREEN);
                                 custom1.enableDashedLine(10f, 10f, 0f);
                                 custom1.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_BOTTOM);
                                 custom1.setTextSize(10f);
 
-                                custom2 = new LimitLine(limit_end, "Limite 2");
+                                custom2 = new LimitLine(limit_end, "Lim 2");
                                 custom2.setLineWidth(3f);
                                 custom2.enableDashedLine(10f, 10f, 0f);
-                                custom2.setLineColor(Color.MAGENTA);
+                                custom2.setLineColor(Color.GREEN);
                                 custom2.setTextStyle(Paint.Style.FILL_AND_STROKE);
                                 custom2.setTextColor(R.color.blue);
                                 custom2.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_BOTTOM);
@@ -153,8 +157,19 @@ public class LineChartActivity extends BaseActivity  implements
                                 mChart.getData().notifyDataChanged();
                                 mChart.notifyDataSetChanged();
 
+                                displayNumberPointsInsideLimit(limit_start,limit_end);
+                                setVisibilitTextCountLimit(true);
+
+                                mChart.invalidate();
+
+                                fab.setTitle("Trocar Limites");
+
+
                             }
                         })
+                        .negativeText("Cancelar")
+                        .negativeColor(Color.RED)
+
                         .positiveText("OK")
                         .show();
 
@@ -165,22 +180,56 @@ public class LineChartActivity extends BaseActivity  implements
 
     }
 
+
+    public SpreadsheetValues formatValues(List<SpreadsheetValues> spreadsheetValues){
+
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        int areaAmostral = sessionManager.getProjectAreaAmostral();
+
+        for ( SpreadsheetValues spV : spreadsheetValues ){
+
+        }
+        return null;
+    }
+
+    public void setVisibilitTextCountLimit(boolean isVisible){
+        if (isVisible)
+            this.textCountVarPoints.setVisibility(View.VISIBLE);
+        else
+            this.textCountVarPoints.setVisibility(View.GONE);
+    }
+
     public void displayNumberPointsInsideLimit(float limit1, float limit2){
 
         float limitMenor, limitMaior;
+        int countPoints = 0;
 
         if ( limit1 > limit2){
             limitMenor = limit2;
             limitMaior = limit1;
-        }else if (limit2 >= limit1){
+        }else{
             limitMenor = limit1;
             limitMaior = limit2;
         }
 
+
         for (SpreadsheetValues sp : valuesProject ){
 
+            if (sp.getValue() >= limitMenor && sp.getValue() <= limitMaior){
+                countPoints++;
+            }
         }
 
+        float percentage = ((float)countPoints/(float)valuesProject.size())*100;
+        updateLabel(countPoints, (int)percentage);
+
+    }
+
+    public void updateLabel(int count, int percentage){
+        if ( count == 1 )
+            this.textCountVarPoints.setText(count + " ponto dentro do limite inserido (" + percentage + "%)");
+        else
+            this.textCountVarPoints.setText(count + " pontos dentro do limite inserido (" + percentage + "%)");
     }
 
     public void loadValuesFromProject(final int idProduct){

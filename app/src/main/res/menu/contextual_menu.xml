@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/generate_excel"
+        android:title="@string/generate_excel" />
+
+    <item
+        android:id="@+id/generate_relatorio"
+        android:title="@string/generate_report" />
+
+</menu>

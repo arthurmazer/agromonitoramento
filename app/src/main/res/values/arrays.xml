@@ -5,7 +5,7 @@
         <item>Soja</item>
     </string-array>
     <string-array name="unity_choice">
-        <item>kg/ha</item>
-        <item>t/ha</item>
+        <item>kg/m²</item>
+        <item>g/m²</item>
     </string-array>
 </resources>

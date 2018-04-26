@@ -11,12 +11,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.greenlab.agromonitor.entity.Project;
+import com.greenlab.agromonitor.entity.SpreadsheetValues;
 import com.greenlab.agromonitor.entity.User;
 import com.greenlab.agromonitor.fragments.HomeFragment;
 import com.greenlab.agromonitor.fragments.ReportFragment;
@@ -128,6 +131,8 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
             Boolean isSaved = extras.getBoolean("success", false);
             long idProject = extras.getLong("id_project", 0);
             String nameProject = extras.getString("name_project");
+            int culture = extras.getInt("culture", 0);
+            
             if (isSaved) {
                 showSnackBar(getResources().getString(R.string.project_save_success));
                 setProjectOpened((int)idProject,nameProject);
@@ -152,7 +157,33 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.contextual_menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.generate_relatorio:
+                //newGame();
+                return true;
+            case R.id.generate_excel:
+                //showHelp();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    public int getAreaAmostralProject(){
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        return sessionManager.getProjectAreaAmostral();
+    }
 
 
     @Override
@@ -223,6 +254,16 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
     public String getNameProjectOpened(){
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         return sessionManager.getNameCurrentProject();
+    }
+
+    public int getCultureType(){
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        return 1;
+    }
+
+    public void setCultureType(int cultureType){
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        sessionManager.setCultureType(cultureType);
     }
 
 

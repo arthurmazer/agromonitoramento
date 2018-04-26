@@ -7,13 +7,15 @@
 
     <TextView
         android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16sp"
         android:gravity="center"
         android:text="2 pontos dentro do limite inserido"
         android:background="@color/colorPrimary"
         android:id="@+id/text_count_variables"
         android:layout_width="match_parent"
         android:visibility="gone"
-        android:layout_height="wrap_content" />
+        android:layout_height="40dp" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart1"

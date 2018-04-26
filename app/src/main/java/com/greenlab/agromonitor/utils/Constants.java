@@ -17,6 +17,10 @@ public class Constants {
     public static final String SP_NAME_PROJECT_OPEN = "sp_name_project_open";
     public static final String SP_PROJECT_INDEX = "sp_project_open_index";
     public static final String SP_USER_LIST_PROJECTS = "sp_list_projects";
+    public static final String SP_TYPE_PROJECT = "sp_type_project";
+    public static final String SP_AREA_AMOSTRAL_PROJECT = "sp_area_amostral";
+    public static final String SP_CULTURE_TYPE = "sp_culture_type";
+
     public static final String REGISTRATION_EXTRA_PROJECT = "project";
 
     public static final int REQUEST_CODE_NEW_PROJECT = 100;

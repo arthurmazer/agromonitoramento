@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,9 +6,84 @@
     tools:context="com.greenlab.agromonitor.fragments.SpreadsheetFragment">
 
 
+
+    <LinearLayout
+        android:id="@+id/layout_medida"
+        android:layout_marginLeft="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_unidade_medida"
+            android:text="Unidade de medida: "
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/layout_medida"
+        android:id="@+id/layout_area_amostral"
+        android:layout_marginLeft="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_area_amostral"
+            android:text="Área amostral:"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="0px"
+            android:layout_height="0px"/>
+
+
+        <EditText
+            android:gravity="center"
+            android:id="@+id/area_amostral"
+            android:inputType="number"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:nextFocusUp="@id/area_amostral"
+            android:nextFocusLeft="@id/area_amostral"
+            android:layout_marginStart="4dp" />
+
+        <TextView
+            android:text="m²"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/layout_area_amostral"
         android:layout_marginTop="8dp"
         android:id="@+id/recycler_spreadsheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</FrameLayout>
+
+
+</RelativeLayout>
