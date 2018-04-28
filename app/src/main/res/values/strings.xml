@@ -98,6 +98,7 @@
     <string name="duplicated_variable">Já existe uma variável com este nome</string>
 
     <string name="dialog_select_variable">Selectione a variável</string>
+    <string name="dialog_notes_title">Adicionar Observações</string>
 
     <string name="generate_excel">Gerar Planiha</string>
     <string name="generate_report">Gerar Relatório</string>

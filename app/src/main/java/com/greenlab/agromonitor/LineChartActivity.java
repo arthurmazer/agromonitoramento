@@ -1,6 +1,7 @@
 package com.greenlab.agromonitor;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -181,16 +182,6 @@ public class LineChartActivity extends BaseActivity  implements
     }
 
 
-    public SpreadsheetValues formatValues(List<SpreadsheetValues> spreadsheetValues){
-
-        SessionManager sessionManager = new SessionManager(getApplicationContext());
-
-
-        for ( SpreadsheetValues spV : spreadsheetValues ){
-
-        }
-        return null;
-    }
 
     public void setVisibilitTextCountLimit(boolean isVisible){
         if (isVisible)
@@ -232,6 +223,7 @@ public class LineChartActivity extends BaseActivity  implements
             this.textCountVarPoints.setText(count + " pontos dentro do limite inserido (" + percentage + "%)");
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void loadValuesFromProject(final int idProduct){
         int idProject = getOpenedProject();
 
@@ -244,15 +236,96 @@ public class LineChartActivity extends BaseActivity  implements
             }
             @Override
             protected void onPostExecute(List<SpreadsheetValues> spreadsheetValuesList) {
-                setData(spreadsheetValuesList);
+                loadProjectAndSetData(spreadsheetValuesList);
             }
         }.execute();
 
     }
 
-    private void setData(List<SpreadsheetValues> spreadsheetValuesList) {
 
-        valuesProject = spreadsheetValuesList;
+    @SuppressLint("StaticFieldLeak")
+    public void loadProjectAndSetData(final List<SpreadsheetValues> spreadsheetValuesList){
+
+        int idProject = getOpenedProject();
+
+        final Project project = new Project();
+        project.setId(idProject);
+
+        new AsyncTask<Void, Void, Project>() {
+            @Override
+            protected Project doInBackground(Void... voids) {
+                return project.getActualProject(getApplicationContext());
+            }
+            @Override
+            protected void onPostExecute(Project mProject) {
+                setData(mProject, spreadsheetValuesList);
+            }
+        }.execute();
+
+    }
+
+
+    public List<SpreadsheetValues> formatValues(Project mProject, List<SpreadsheetValues> spreadsheetValuesList){
+
+        List<SpreadsheetValues> newSPList = new ArrayList<>();
+
+
+        for (SpreadsheetValues spV : spreadsheetValuesList){
+
+            if (mProject.getCultureType() == Constants.PROJECT_TYPE_CANA_DE_ACUCAR){
+                float valorPorHectare = 0;
+
+                //trocando para hectare
+                Log.d("graficao", "multiplicando " + spV.getValue() + " * 10000 / " + mProject.getAreaAmostral());
+                valorPorHectare = (spV.getValue()*10000)/(float)mProject.getAreaAmostral();
+                if (mProject.getMeasureUnity() == Constants.KILO){
+                    //cana coletada em Kilo, first, transforma em tonelada
+                    Log.d("graficao", "divide por 1000");
+                    valorPorHectare = valorPorHectare/1000;
+                }else if (mProject.getMeasureUnity() == Constants.GRAMA){
+                    Log.d("graficao", "divide por 1000000");
+                    valorPorHectare = valorPorHectare/1000000;
+                }
+
+
+                SpreadsheetValues sp;
+                sp = spV;
+                sp.setValue(valorPorHectare);
+                newSPList.add(sp);
+
+            }else{
+
+                float valorPorHectare = 0;
+                //trocando para hectare
+                Log.d("graficao", "multiplicando " + spV.getValue() + " * 10000 / " + mProject.getAreaAmostral());
+                valorPorHectare = (spV.getValue()*10000)/(float)mProject.getAreaAmostral();
+                if (mProject.getMeasureUnity() == Constants.GRAMA){
+                    Log.d("graficao", "divide por 100");
+                    valorPorHectare = valorPorHectare/1000;
+                }
+
+                SpreadsheetValues sp;
+                sp = spV;
+                sp.setValue(valorPorHectare);
+
+                newSPList.add(sp);
+
+            }
+
+
+
+        }
+
+        return newSPList;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void setData(Project project, List<SpreadsheetValues> spreadsheetValuesList) {
+
+
+        valuesProject = formatValues(project,spreadsheetValuesList);
+        spreadsheetValuesList = valuesProject;
+        //valuesProject = spreadsheetValuesList;
 
         HashMap<String, ArrayList<Float>> hashValues = new HashMap<>();
 

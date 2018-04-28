@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.github.florent37:materialtextfield:1.0.7'
     implementation 'com.google.firebase:firebase-database:11.8.0'
     implementation 'com.google.firebase:firebase-auth:11.8.0'
+    compile 'com.tom_roush:pdfbox-android:1.8.10.0'
     implementation project(':jxl')
 }
 

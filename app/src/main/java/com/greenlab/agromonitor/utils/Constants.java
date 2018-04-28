@@ -38,8 +38,8 @@ public class Constants {
     public static final int PROJECT_TYPE_ALGODAO = 5;
 
 
-    public static final int KILO_HECTARE = 0;
-    public static final int TONELADA_HECTARE = 1;
+    public static final int KILO = 0;
+    public static final int GRAMA = 1;
 
     public static final int TURNO_DIURNO = 0;
     public static final int TURNO_NOTURNO = 1;

@@ -73,7 +73,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
         recyclerSpreadsheet = mView.findViewById(R.id.recycler_spreadsheet);
         spreadsheetAdapter = new SpreadsheetAdapter(spreadsheetList);
         recyclerSpreadsheet.setHasFixedSize(true);
-        GridLayoutManager manager = new GridLayoutManager(this.mActivity, 6);
+        GridLayoutManager manager = new GridLayoutManager(this.mActivity, 5);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -81,7 +81,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
                     case PRODUCT_VALUE:
                         return 1;
                     case CATEGORY:
-                        return 6;
+                        return 5;
                     default:
                         return 1;
                 }

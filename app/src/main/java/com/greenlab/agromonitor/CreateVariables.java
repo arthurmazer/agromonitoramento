@@ -117,6 +117,11 @@ public class CreateVariables extends BaseActivity {
 
                 getDataFromStepVar();
                 if (checkObligatoryFields()){
+                    //default values
+                    if ( project.getCultureType() == Constants.PROJECT_TYPE_CANA_DE_ACUCAR)
+                        project.setAreaAmostral(10);
+                    else
+                        project.setAreaAmostral(2);
                     saveProject(project);
                 }
 

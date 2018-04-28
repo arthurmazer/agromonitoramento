@@ -6,9 +6,14 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
@@ -17,8 +22,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
+import com.greenlab.agromonitor.dialog.DialogChooseVariable;
+import com.greenlab.agromonitor.dialog.DialogNotes;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.SpreadsheetValues;
 import com.greenlab.agromonitor.entity.User;
@@ -28,7 +38,19 @@ import com.greenlab.agromonitor.fragments.SpreadsheetFragment;
 import com.greenlab.agromonitor.interfaces.GetAllProjectsOfUser;
 import com.greenlab.agromonitor.managers.SessionManager;
 import com.greenlab.agromonitor.utils.Constants;
+import com.tom_roush.pdfbox.pdmodel.PDDocument;
+import com.tom_roush.pdfbox.pdmodel.PDPage;
+import com.tom_roush.pdfbox.pdmodel.PDPageContentStream;
+import com.tom_roush.pdfbox.pdmodel.font.PDFont;
+import com.tom_roush.pdfbox.pdmodel.font.PDType1Font;
+import com.tom_roush.pdfbox.pdmodel.graphics.image.JPEGFactory;
+import com.tom_roush.pdfbox.pdmodel.graphics.image.LosslessFactory;
+import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import com.tom_roush.pdfbox.util.PDFBoxResourceLoader;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,6 +104,75 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
                 ft.commit();
             }
         }
+    }
+
+
+    public void createPdf() {
+
+
+        //Saving file in external storage
+        File sdCard = Environment.getExternalStorageDirectory();
+
+        PDFBoxResourceLoader.init(getApplicationContext());
+        AssetManager assetManager = getAssets();
+
+        PDDocument document = new PDDocument();
+        PDPage page = new PDPage();
+        document.addPage(page);
+
+        // Create a new font object selecting one of the PDF base fonts
+        PDFont font = PDType1Font.HELVETICA;
+        // Or a custom font
+//		try {
+//			PDType0Font font = PDType0Font.load(document, assetManager.open("MyFontFile.TTF"));
+//		} catch(IOException e) {
+//			e.printStackTrace();
+//		}
+
+        PDPageContentStream contentStream;
+
+        try {
+            // Define a content stream for adding to the PDF
+            contentStream = new PDPageContentStream(document, page);
+
+            // Write Hello World in blue text
+            contentStream.beginText();
+            contentStream.setNonStrokingColor(15, 38, 192);
+            contentStream.setFont(font, 12);
+            contentStream.newLineAtOffset(100, 700);
+            contentStream.showText("Hello World");
+            contentStream.endText();
+
+
+
+            // Make sure that the content stream is closed:
+            contentStream.close();
+
+            // Save the final pdf document to a file
+            String path = sdCard.getAbsolutePath() + "/Download/Created.pdf";
+            document.save(path);
+            Log.d("pdfao_massa", path);
+            document.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showNotesDialog(){
+
+        new MaterialDialog.Builder(this)
+                .customView(R.layout.dialog_notes, true)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        createPdf();
+                    }
+                })
+                .negativeText("Cancelar")
+                .negativeColor(Color.RED)
+                .positiveText("OK")
+                .show();
     }
 
     public void displayErrorMessage(){
@@ -170,7 +261,7 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.generate_relatorio:
-                //newGame();
+                showNotesDialog();
                 return true;
             case R.id.generate_excel:
                 checkPermission();
