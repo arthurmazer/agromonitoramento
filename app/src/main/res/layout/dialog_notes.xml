@@ -19,7 +19,7 @@
 
     <EditText
         android:layout_below="@id/dialog_notes_title"
-        android:id="@+id/edit_text"
+        android:id="@+id/edit_text_obs"
         android:layout_marginTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="120dp"

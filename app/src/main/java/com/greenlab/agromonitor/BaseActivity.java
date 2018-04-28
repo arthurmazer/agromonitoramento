@@ -99,6 +99,26 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public String getStringCulture(int cultureIndex){
+
+        switch (cultureIndex){
+            case Constants.PROJECT_TYPE_CANA_DE_ACUCAR:
+                return "Cana-de-açucar";
+            case Constants.PROJECT_TYPE_SOJA:
+                return "Soja";
+            case Constants.PROJECT_TYPE_ALGODAO:
+                return "Algodão";
+            case Constants.PROJECT_TYPE_AMENDOIM:
+                return "Amendoim";
+            case Constants.PROJECT_TYPE_CAFE:
+                return "Café";
+            case Constants.PROJECT_TYPE_MILHO:
+                return "Milho";
+            default:
+                return "Cana-de-açucar";
+        }
+    }
+
     public void getExcel(){
         int idProject = getOpenedProject();
 
@@ -129,7 +149,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         emailIntent .putExtra(Intent.EXTRA_STREAM, path);
 // the mail subject
         emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Planilha - " + getNameProjectOpened());
-        startActivity(Intent.createChooser(emailIntent , "Send email..."));
+        startActivity(Intent.createChooser(emailIntent , "Enviado e-mail..."));
     }
 
     public void checkPermission(){
