@@ -40,13 +40,16 @@ import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.PDPage;
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream;
 import com.tom_roush.pdfbox.pdmodel.font.PDFont;
+import com.tom_roush.pdfbox.pdmodel.font.PDType0Font;
 import com.tom_roush.pdfbox.pdmodel.font.PDType1Font;
 import com.tom_roush.pdfbox.util.PDFBoxResourceLoader;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
 
@@ -102,12 +105,14 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
     }
 
 
-    public File createPdf(Wrapper wrapper, String notes) {
+    public File createPdf(Wrapper wrapper, String[] notes) {
 
 
 
         Project project = wrapper.getProject();
         List<SpreadsheetValues> spreadsheetValuesList = wrapper.getSpreadsheetValuesList();
+
+        HashMap<String,ArrayList<Float>> hashValues = getProductHash(spreadsheetValuesList);
 
         //Saving file in external storage
         File sdCard = Environment.getExternalStorageDirectory();
@@ -236,17 +241,70 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
                 contentStream.endText();
             }
 
-            if (!notes.isEmpty() ) {
+            contentStream.beginText();
+            contentStream.newLine();
+            //contentStream.setNonStrokingColor(15, 38, 192);
+            PDFont fontBold = PDType1Font.HELVETICA_BOLD_OBLIQUE;
+            startLine -= 50;
+            contentStream.setFont(fontBold, 16);
+            contentStream.newLineAtOffset(100, startLine);
+            startLine -= 20;
+            //Log.d("pdfao", notes);
+            contentStream.showText("Variáveis e Pontos coletados");
+            contentStream.endText();
+
+
+            if (!spreadsheetValuesList.isEmpty()) {
+
+                for(Map.Entry<String, ArrayList<Float>> entry : hashValues.entrySet()) {
+
+                    contentStream.beginText();
+                    contentStream.newLine();
+                    contentStream.setFont(font, 14);
+                    contentStream.newLineAtOffset(100, startLine);
+
+                    String product = entry.getKey();
+                    ArrayList<Float> arrayValues = entry.getValue();
+
+                    String textVariable = product + ": ";
+
+                    for(Float f: arrayValues){
+                        textVariable += f + ", ";
+                    }
+
+                    contentStream.showText(textVariable.substring(0,textVariable.length()-2));
+                    startLine -= 20;
+                    contentStream.newLineAtOffset(100, startLine);
+                    textVariable = "";
+                    contentStream.endText();
+                }
+            }
+
+
+            if (notes.length > 0 ) {
                 contentStream.beginText();
                 contentStream.newLine();
                 //contentStream.setNonStrokingColor(15, 38, 192);
-                contentStream.setFont(font, 14);
+                startLine -= 50;
+                contentStream.setFont(fontBold, 16);
                 contentStream.newLineAtOffset(100, startLine);
                 startLine -= 20;
-                Log.d("pdfao", notes);
-                contentStream.showText("Observações: " + notes);
-
+                //Log.d("pdfao", notes);
+                contentStream.showText("Observações");
                 contentStream.endText();
+
+                PDFont liberationSans = PDType0Font.load(document, getAssets().open("com/tom_roush/pdfbox/resources/ttf/LiberationSans-Regular.ttf"));
+                for (int i = 0; i < notes.length; i++ ){
+                    contentStream.beginText();
+                    contentStream.newLine();
+                    //contentStream.setNonStrokingColor(15, 38, 192);
+                    contentStream.setFont(liberationSans, 14);
+                    contentStream.newLineAtOffset(100, startLine);
+                    startLine -= 20;
+                    //Log.d("pdfao", notes);
+                    contentStream.showText(notes[i]);
+                    contentStream.endText();
+                }
             }
 
             // Make sure that the content stream is closed:
@@ -268,6 +326,36 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
         }
     }
 
+    public HashMap<String,ArrayList<Float>> getProductHash(List<SpreadsheetValues> spreadsheetValuesList){
+
+        HashMap<String,ArrayList<Float>> hashString = new HashMap<>();
+        ArrayList<Float> arrayValues = new ArrayList<>();
+        String currentProduct = "";
+        for ( int i = 0; i < spreadsheetValuesList.size(); i++){
+
+            if ( i == 0){
+                currentProduct = spreadsheetValuesList.get(i).getProduct();
+                //hashString.put(currentProduct, spreadsheetValuesList.get(i).getValue() )
+            }
+
+            if(!spreadsheetValuesList.get(i).getProduct().equals(currentProduct)){
+                ArrayList<Float> newArray = (ArrayList<Float>) arrayValues.clone();
+                hashString.put(currentProduct, newArray);
+                arrayValues.clear();
+                currentProduct = spreadsheetValuesList.get(i).getProduct();
+            }
+
+            arrayValues.add(spreadsheetValuesList.get(i).getValue());
+
+            if (i == spreadsheetValuesList.size()-1){
+                hashString.put(currentProduct, arrayValues);
+            }
+
+        }
+        return hashString;
+
+    }
+
     public void showNotesDialog(final Wrapper wrapper){
 
         new MaterialDialog.Builder(HomeActivity.this)
@@ -276,10 +364,10 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
                     @SuppressLint("StaticFieldLeak")
                     @Override
                     public void onClick(final MaterialDialog dialog, DialogAction which) {
-                        final String notes;
+                        final String notes[];
                         View v = dialog.getCustomView();
                         EditText editNotes =  v.findViewById(R.id.edit_text_obs);
-                        notes = editNotes.getText().toString();
+                        notes = editNotes.getText().toString().split("\n");
                         new AsyncTask<Void, Void, File>() {
 
                             @Override
@@ -292,14 +380,14 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
                             @Override
                             protected File doInBackground(Void... voids) {
                                 return createPdf(wrapper,notes);
-                            }
+                                    }
                             @Override
                             protected void onPostExecute(File file) {
                                 dismissLoadingDialog();
                                 sendEmail(file);
                             }
                         }.execute();
-                        //createPdf(wrapper, notes);
+                        //createPdf(wrapper, notes);**/
                     }
                 })
                 .negativeText("Cancelar")
@@ -348,7 +436,7 @@ public class HomeActivity extends BaseActivity implements GetAllProjectsOfUser {
             @Override
             protected Wrapper doInBackground(Void... voids) {
                 Wrapper wrapper = new Wrapper();
-                wrapper.setSpreadsheetValuesList(project.getSpreadSheetValues(getApplicationContext()));
+                wrapper.setSpreadsheetValuesList(project.getSpreadSheetValuesNotNull(getApplicationContext()));
                 wrapper.setProject(project.getActualProject(getApplicationContext()));
                 return wrapper;
             }

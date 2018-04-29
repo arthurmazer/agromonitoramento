@@ -127,7 +127,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         new AsyncTask<Void, Void, List<SpreadsheetValues>>() {
             @Override
             protected List<SpreadsheetValues> doInBackground(Void... voids) {
-                return project.getSpreadSheetValues(getApplicationContext() );
+                return project.getSpreadSheetValuesNotNull(getApplicationContext() );
             }
             @Override
             protected void onPostExecute(List<SpreadsheetValues> spreadsheetValuesList) {
@@ -148,7 +148,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 // the attachment
         emailIntent .putExtra(Intent.EXTRA_STREAM, path);
 // the mail subject
-        emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Planilha - " + getNameProjectOpened());
+        emailIntent .putExtra(Intent.EXTRA_SUBJECT, getNameProjectOpened());
         startActivity(Intent.createChooser(emailIntent , "Enviado e-mail..."));
     }
 
