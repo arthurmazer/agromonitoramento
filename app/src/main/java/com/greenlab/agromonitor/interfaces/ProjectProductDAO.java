@@ -24,13 +24,13 @@ public interface ProjectProductDAO {
         @Update
         void updateProjectProduct(ProjectProduct projectProduct);
 
-        @Query("SELECT a.*, b.value from product as a LEFT JOIN project_product as b on a.id = b.idProduct WHERE a.idProject = :idProject Order by a.id")
+        @Query("SELECT a.*, b.value, b.id as idProjectProduct from product as a LEFT JOIN project_product as b on a.id = b.idProduct WHERE a.idProject = :idProject order by a.id, idProjectProduct")
         List<SpreadsheetValues> getAllProductsValuesFromProject(int idProject);
 
-        @Query("SELECT a.*, b.value from product as a LEFT JOIN project_product as b on a.id = b.idProduct WHERE a.idProject = :idProject AND b.value IS NOT NULL Order by a.id")
+        @Query("SELECT a.*, b.value,  b.id as idProjectProduct from product as a LEFT JOIN project_product as b on a.id = b.idProduct WHERE a.idProject = :idProject AND b.value IS NOT NULL Order by a.id")
         List<SpreadsheetValues> getAllProductsValuesNotNullFromProject(int idProject);
 
-        @Query("SELECT a.*, b.value from product as a LEFT JOIN project_product as b on a.id = b.idProduct WHERE a.idProject = :idProject AND b.idProduct = :idProduct AND b.value IS NOT NULL Order by a.id")
+        @Query("SELECT a.*, b.value,  b.id as idProjectProduct from product as a LEFT JOIN project_product as b on a.id = b.idProduct WHERE a.idProject = :idProject AND b.idProduct = :idProduct AND b.value IS NOT NULL Order by  a.id, idProjectProduct")
         List<SpreadsheetValues> getProductValuesNotNullFromProject(int idProject, int idProduct);
 
 

@@ -10,6 +10,7 @@ public class SpreadsheetValues {
     private int id; //idProduct
     private int idProject;
     private String product;
+    private int idProjectProduct;
 
     public SpreadsheetValues() {
     }
@@ -44,5 +45,13 @@ public class SpreadsheetValues {
 
     public void setProduct(String product) {
         this.product = product;
+    }
+
+    public int getIdProjectProduct() {
+        return idProjectProduct;
+    }
+
+    public void setIdProjectProduct(int idProjectProduct) {
+        this.idProjectProduct = idProjectProduct;
     }
 }
