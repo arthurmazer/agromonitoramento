@@ -13,7 +13,7 @@
     <string name="error_user_not_found">Login/Senha não conferem</string>
     <string name="error_connection">Problema de conexão com o servidor</string>
     <string name="permission_rationale">"Você não tem as permissões necessárias para o acesso"</string>
-    <string name="develovped_by">GreenLab₢2017</string>
+    <string name="develovped_by">Mazer@2018</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
     <string name="title_spreadsheet">Planilha</string>
