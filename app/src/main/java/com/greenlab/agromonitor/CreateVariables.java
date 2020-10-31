@@ -1,5 +1,6 @@
 package com.greenlab.agromonitor;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -14,14 +15,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.greenlab.agromonitor.adapters.ProductListAdapter;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.User;
+import com.greenlab.agromonitor.entity.Variables;
 import com.greenlab.agromonitor.managers.UserManager;
 import com.greenlab.agromonitor.utils.Constants;
 
@@ -31,19 +35,22 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CreateVariables extends BaseActivity {
 
     Project project;
 
     RecyclerView recyclerProducs;
+    RelativeLayout rootLayout;
     ProductListAdapter productListAdapter;
     UserManager userManager;
-    ArrayList<String> listProducts;
+    ArrayList<Variables> listProducts;
     ImageView btnAddProduct;
     EditText textVariaveis;
     TextView btnBackToStep3;
     TextView btnFinish;
+    CheckBox ctPT;
     Context context;
 
     @Override
@@ -58,14 +65,10 @@ public class CreateVariables extends BaseActivity {
         btnAddProduct = findViewById(R.id.btn_add_variable);
         btnBackToStep3 = findViewById(R.id.btn_back_to_step3);
         btnFinish = findViewById(R.id.btn_finish_project);
+        rootLayout = findViewById(R.id.root_layout);
+        ctPT = findViewById(R.id.cbPT);
         listProducts = new ArrayList<>();
         userManager =  new UserManager(getApplicationContext());
-
-
-       /** ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.unity_choice, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerUnity.setAdapter(adapter);**/
 
         textVariaveis.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
 
@@ -75,23 +78,35 @@ public class CreateVariables extends BaseActivity {
         recyclerProducs.setItemAnimator(new DefaultItemAnimator());
         recyclerProducs.setAdapter(productListAdapter);
 
-        btnAddProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String product = textVariaveis.getText().toString();
+        btnAddProduct.setOnClickListener(view -> {
+            String product = textVariaveis.getText().toString();
 
-                if (!product.isEmpty()){
-                    if ( !listProducts.contains(product)) {
-                        listProducts.add(product);
-                        productListAdapter.notifyDataSetChanged();
-                        textVariaveis.setText("");
-                    }else{
-                        showToast(getResources().getString(R.string.duplicated_variable));
-                    }
+            if (!product.isEmpty()){
+
+                if (!containsVar(listProducts, product)) {
+                    Variables var = new Variables();
+                    var.setVarName(product);
+                    listProducts.add(var);
+                    productListAdapter.notifyDataSetChanged();
+                    textVariaveis.setText("");
+                }else{
+                    showToast(getResources().getString(R.string.duplicated_variable));
                 }
+            }
 
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(textVariaveis.getWindowToken(), 0);
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(textVariaveis.getWindowToken(), 0);
+        });
+
+        ctPT.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                Variables var = new Variables();
+                var.setPerdasTotais(true);
+                var.setVarName("PT");
+                listProducts.add(var);
+                productListAdapter.notifyDataSetChanged();
+            }else{
+                removePTFromList();
             }
         });
 
@@ -104,39 +119,51 @@ public class CreateVariables extends BaseActivity {
         }
 
 
-        btnBackToStep3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                backToStep3();
+        btnBackToStep3.setOnClickListener(view -> backToStep3());
+
+        btnFinish.setOnClickListener(view -> {
+
+            getDataFromStepVar();
+            if (checkObligatoryFields()){
+                //default values
+                if ( project.getCultureType() == Constants.PROJECT_TYPE_CANA_DE_ACUCAR)
+                    project.setAreaAmostral(10);
+                else
+                    project.setAreaAmostral(2);
+                saveProject(project);
             }
-        });
 
-        btnFinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                getDataFromStepVar();
-                if (checkObligatoryFields()){
-                    //default values
-                    if ( project.getCultureType() == Constants.PROJECT_TYPE_CANA_DE_ACUCAR)
-                        project.setAreaAmostral(10);
-                    else
-                        project.setAreaAmostral(2);
-                    saveProject(project);
-                }
-
-            }
         });
 
     }
 
-    public void getDataFromStepVar(){
+    private void removePTFromList() {
+        int index = -1;
+        for (int i = 0; i < listProducts.size(); i++){
+            if (listProducts.get(i).isPerdasTotais()){
+                index = i;
+            }
+        }
+        if (index != -1) {
+            listProducts.remove(index);
+            productListAdapter.notifyDataSetChanged();
+        }
+    }
 
+    public boolean containsVar(final List<Variables> list, String vars){
+        for (int i = 0; i < list.size(); i++){
+            if (list.get(i).getVarName().equals(vars)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void getDataFromStepVar(){
         project.setListOfStringProducts(this.listProducts);
     }
 
     public void setView(){
-
         if (project.getListOfStringProducts() != null && !project.getListOfStringProducts().isEmpty()){
             listProducts.clear();
             listProducts.addAll(project.getListOfStringProducts());
@@ -187,14 +214,15 @@ public class CreateVariables extends BaseActivity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
+    @SuppressLint("StaticFieldLeak")
     public class ProjectSave extends AsyncTask<Void, Void, Long> {
 
         User user;
         Project project;
-        ArrayList<String> listOfProducts;
+        ArrayList<Variables> listOfProducts;
 
 
-        ProjectSave(User user, Project project, ArrayList<String> listOfProducts) {
+        ProjectSave(User user, Project project, ArrayList<Variables> listOfProducts) {
             this.user = user;
             this.project = project;
             this.listOfProducts = listOfProducts;

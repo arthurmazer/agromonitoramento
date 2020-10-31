@@ -21,6 +21,10 @@ public interface ProjectProductDAO {
         @Insert(onConflict = OnConflictStrategy.IGNORE)
         void insertProjectProduct(ProjectProduct projectProduct);
 
+
+        @Query("DELETE FROM project_product where idProduct = :idProduct")
+        void removeProjectProduct(int idProduct);
+
         @Update
         void updateProjectProduct(ProjectProduct projectProduct);
 

@@ -40,6 +40,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
     SpreadsheetAdapter spreadsheetAdapter;
     RecyclerView recyclerSpreadsheet;
     EditText areaAmostral;
+    EditText umidade;
 
 
     public static Fragment newInstance(){
@@ -50,6 +51,10 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
     public SpreadsheetFragment() {
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -70,6 +75,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
         spinnerUnity.setAdapter(adapter);
 
         areaAmostral = mView.findViewById(R.id.area_amostral);
+        umidade = mView.findViewById(R.id.umidade_colheita);
         recyclerSpreadsheet = mView.findViewById(R.id.recycler_spreadsheet);
         spreadsheetAdapter = new SpreadsheetAdapter(spreadsheetList);
         recyclerSpreadsheet.setHasFixedSize(true);
@@ -186,6 +192,8 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
              if ( spreadsheetValues.getValue() > 0)
                 spreadsheetList.add(spreadsheetValues);
         }
+
+        spreadsheetAdapter.getSumPT();
         spreadsheetAdapter.notifyDataSetChanged();
     }
 

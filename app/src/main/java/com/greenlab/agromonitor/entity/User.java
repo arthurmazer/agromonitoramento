@@ -63,7 +63,7 @@ public class User {
         userManager.getListOfProjects(this.id, getAllProjectsOfUser);
     }
 
-    public long saveProject(Context ctx, Project project, ArrayList<String> listOfProducts){
+    public long saveProject(Context ctx, Project project, ArrayList<Variables> listOfProducts){
         UserManager userManager = new UserManager(ctx);
         return userManager.saveProject(project,listOfProducts);
     }

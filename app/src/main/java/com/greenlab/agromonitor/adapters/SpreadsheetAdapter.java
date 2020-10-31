@@ -21,8 +21,11 @@ import com.greenlab.agromonitor.entity.Product;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.ProjectProduct;
 import com.greenlab.agromonitor.entity.SpreadsheetValues;
+import com.greenlab.agromonitor.utils.SpreedsheatUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by arthu on 2/5/2018.
@@ -83,7 +86,112 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 headerCategory.titleProduct.setText(prod.getProduct());
                 headerCategory.idProject = prod.getIdProject();
                 headerCategory.idProduct = prod.getId();
+
+                if (prod.getProduct().toLowerCase().equals("pt")){
+                    headerCategory.layoutAddProduct.setVisibility(View.GONE);
+                }
                 break;
+        }
+    }
+
+    public void getSumPT(){
+        HashMap<Integer, ArrayList<Float>> myHash;
+        myHash = SpreedsheatUtils.getSubArrays(spreadsheetList);
+        updatePT(myHash);
+    }
+
+    public void updatePT(HashMap<Integer, ArrayList<Float>> hashList){
+        removeAllFromCategory("pt");
+        for (HashMap.Entry<Integer, ArrayList<Float>> entry : hashList.entrySet()) {
+            ArrayList<Float> myList;
+            myList = entry.getValue();
+            float sum = 0f;
+            for (int i = 0; i < myList.size(); i++){
+                sum += myList.get(i);
+            }
+            insertValueOnList(sum, "pt");
+        }
+    }
+
+    public Product getCategory(String category){
+        for (int i = 0; i < spreadsheetList.size(); i++){
+            if (spreadsheetList.get(i) instanceof Product){
+                Product product = (Product) spreadsheetList.get(i);
+                if (product.getProduct().toLowerCase().equals(category)) {
+                    return product;
+                }
+            }
+        }
+        return null;
+    }
+
+    public int getLastPositionOfCategory(String category){
+        boolean flagFounded = false;
+        for (int i = 0; i < spreadsheetList.size(); i++){
+            if (spreadsheetList.get(i) instanceof Product){
+                Product product = (Product) spreadsheetList.get(i);
+
+                if (flagFounded)
+                    return i;
+
+                if (product.getProduct().equals(category)) {
+                    flagFounded = true;
+                }
+            }
+        }
+        return spreadsheetList.size();
+    }
+
+    public void insertValueOnList(Float value, String category){
+        int index = getLastPositionOfCategory(category);
+        SpreadsheetValues spreadsheetValues = new SpreadsheetValues();
+
+        Product prod = getCategory("pt");
+
+        if(prod != null) {
+            spreadsheetValues.setValue(value);
+            spreadsheetValues.setId(prod.getId());
+            spreadsheetValues.setIdProject(prod.getIdProject());
+
+            Project project = new Project();
+            ProjectProduct projectProduct = new ProjectProduct();
+            projectProduct.setIdProduct(prod.getId());
+            projectProduct.setIdProject(prod.getIdProject());
+            projectProduct.setValue(value);
+            project.insertProjectProduct( this.mContext, projectProduct);
+
+            spreadsheetList.add(index, spreadsheetValues);
+            notifyDataSetChanged();
+        }
+
+    }
+
+    public void removeAllFromCategory(String category){
+        boolean flagFounded = false;
+        ArrayList<Integer> arrayIndexes = new ArrayList<>();
+        Product prodPt  = new Product();
+        for (int i = 0; i < spreadsheetList.size(); i++){
+            if (spreadsheetList.get(i) instanceof Product){
+                Product product = (Product) spreadsheetList.get(i);
+
+                if (flagFounded)
+                    break;
+
+                if (product.getProduct().toLowerCase().equals(category)) {
+                    flagFounded = true;
+                    prodPt = product;
+                }
+            }else{
+                if (flagFounded){
+                    arrayIndexes.add(i);
+                }
+            }
+        }
+        if (arrayIndexes.size() > 0) {
+            spreadsheetList.subList(arrayIndexes.get(0), arrayIndexes.get(arrayIndexes.size()-1)+1).clear();
+            notifyItemRangeRemoved(arrayIndexes.get(0), arrayIndexes.size());
+            Project proj = new Project();
+            proj.removeProjectProduct(this.mContext, prodPt.getId());
         }
     }
 
@@ -134,12 +242,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             .neutralText("Deletar")
                             .neutralColor(ctx.getResources().getColor(R.color.red))
                             .positiveText("Inserir")
-                            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(MaterialDialog dialog, DialogAction which) {
-                                    dialog.dismiss();
-                                }
-                            })
+                            .onNegative((dialog, which) -> dialog.dismiss())
                             .input("", productValue.getText().toString(), new MaterialDialog.InputCallback() {
                                 @Override
                                 public void onInput(MaterialDialog dialog, CharSequence input) {
@@ -206,8 +309,10 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             .input("Ex: 0.89", "", new MaterialDialog.InputCallback() {
                                 @Override
                                 public void onInput(MaterialDialog dialog, CharSequence input) {
-                                    if (!input.toString().isEmpty())
+                                    if (!input.toString().isEmpty()) {
                                         insertValueOnList(input.toString());
+                                        getSumPT();
+                                    }
                                 }
                             }).show();
                 }
@@ -252,6 +357,5 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
             return spreadsheetList.size();
         }
-
     }
 }

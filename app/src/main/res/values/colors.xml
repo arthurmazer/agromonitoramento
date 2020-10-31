@@ -9,6 +9,7 @@
     <color name="black">#000000</color>
     <color name="blue">#0000FF</color>
     <color name="red">#FF00</color>
+    <color name="red_light">#ff8080</color>
     <color name="gold">#ffcf40</color>
     <color name="md_grey">#EEEEEE</color>
     <color name="secondary_text">#757575</color>

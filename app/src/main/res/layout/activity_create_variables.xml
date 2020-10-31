@@ -144,7 +144,6 @@
         android:id="@+id/subtopico_variables_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/name_project"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="@string/label_subtopic_variable_name"
@@ -152,6 +151,18 @@
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_variaveis" />
+
+    <TextView
+        android:id="@+id/subtopico_variables_label2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="@string/label_subtopic_perdas_totais"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cbPT" />
 
     <EditText
         android:id="@+id/text_variaveis"
@@ -191,7 +202,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtopico_variables_label" />
 
-
+    <CheckBox
+        android:id="@+id/cbPT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/cb_perdas_totais"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_products"
+        android:layout_marginLeft="16dp" />
 
 
 </android.support.constraint.ConstraintLayout>

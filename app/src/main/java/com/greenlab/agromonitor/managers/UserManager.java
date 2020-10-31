@@ -16,6 +16,7 @@ import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.ProjectProduct;
 import com.greenlab.agromonitor.entity.SpreadsheetValues;
 import com.greenlab.agromonitor.entity.User;
+import com.greenlab.agromonitor.entity.Variables;
 import com.greenlab.agromonitor.interfaces.GetAllProjectsOfUser;
 import com.greenlab.agromonitor.interfaces.GetSpreadsheetValues;
 
@@ -46,14 +47,14 @@ public class UserManager {
         loadProjects.execute((Void) null);
     }
 
-    public long saveProject(Project project, ArrayList<String> listOfProducts){
+    public long saveProject(Project project, ArrayList<Variables> listOfProducts){
         long idProject = this.dbManager.projectDAO().insertProject(project);
 
         if (idProject != -1){
-            for(String product: listOfProducts){
+            for(Variables product: listOfProducts){
                 Product prod = new Product();
                 prod.setIdProject((int)idProject);
-                prod.setProduct(product);
+                prod.setProduct(product.getVarName());
                 this.dbManager.productDAO().insertProduct(prod);
             }
         }
@@ -110,6 +111,18 @@ public class UserManager {
             @Override
             protected Void doInBackground(Void... voids) {
                 dbManager.projectProductDAO().insertProjectProduct(projectProduct);
+                return null;
+            }
+        }.execute();
+
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void removeProjectProduct(int idProduct){
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                dbManager.projectProductDAO().removeProjectProduct(idProduct);
                 return null;
             }
         }.execute();

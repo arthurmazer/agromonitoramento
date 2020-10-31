@@ -45,6 +45,7 @@ public class BarChartActivity extends BaseActivity implements
 
     protected BarChart mChart;
     private ArrayList<Float> listOfValues;
+    private Project currentProject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,25 +81,59 @@ public class BarChartActivity extends BaseActivity implements
 
 
 
+    @SuppressLint("StaticFieldLeak")
     public void loadValuesFromProject(){
         int idProject = getOpenedProject();
 
         final Project project = new Project();
         project.setId(idProject);
         new AsyncTask<Void, Void, List<SpreadsheetValues>>() {
+
             @Override
             protected List<SpreadsheetValues> doInBackground(Void... voids) {
                 return project.getSpreadSheetValuesNotNull(getApplicationContext());
             }
             @Override
             protected void onPostExecute(List<SpreadsheetValues> spreadsheetValuesList) {
-                setData(spreadsheetValuesList);
+                loadCurrentProject(spreadsheetValuesList);
             }
         }.execute();
 
     }
 
-    private void setData(List<SpreadsheetValues> spreadsheetValuesList) {
+    @SuppressLint("StaticFieldLeak")
+    public void loadCurrentProject(List<SpreadsheetValues> spreadsheetValuesList){
+        int idProject = getOpenedProject();
+
+        final Project mProject = new Project();
+        mProject.setId(idProject);
+        new AsyncTask<Void, Void, Project>() {
+            @Override
+            protected Project doInBackground(Void... voids) {
+                return mProject.getActualProject(getApplicationContext());
+            }
+            @Override
+            protected void onPostExecute(Project proj) {
+                setData(spreadsheetValuesList, proj);
+            }
+        }.execute();
+
+    }
+
+    private float getBarValue(ArrayList<Float> barValues, Project proj){
+        float sum = 0f;
+        float areaAmostral = proj.getAreaAmostral();
+        for (float value : barValues){
+            sum += value;
+        }
+        if (proj.getMeasureUnity() == Constants.KILO){
+            return sum * 10000f / areaAmostral;
+        }else{
+            return (sum * 10000f / areaAmostral)/1000;
+        }
+    }
+
+    private void setData(List<SpreadsheetValues> spreadsheetValuesList, Project proj) {
 
         if ( spreadsheetValuesList.isEmpty()){
             Intent returnIntent = new Intent();
@@ -114,21 +149,17 @@ public class BarChartActivity extends BaseActivity implements
         ArrayList<String> arrayProductName = new ArrayList<>();
         ArrayList<Float> barValues = new ArrayList<>();
 
+
         for(Map.Entry<String, ArrayList<Float>> entry : hashValues.entrySet()) {
             String key = entry.getKey();
             ArrayList<Float> listValues = entry.getValue();
 
-            for (float value : listValues){
-                descriptiveStatistics.addValue(value);
-            }
 
-            double mean = descriptiveStatistics.getMean();
-            descriptiveStatistics.clear();
-            barValues.add((float)mean);
+            float barVal = getBarValue(listValues, proj);
+            barValues.add((float)barVal);
 
             arrayProductName.add(key);
         }
-
 
 
         IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mChart,arrayProductName);
@@ -208,6 +239,8 @@ public class BarChartActivity extends BaseActivity implements
             data.setBarWidth(0.9f);
 
             mChart.setData(data);
+            mChart.getData().notifyDataChanged();
+            mChart.notifyDataSetChanged();
         }
     }
     public HashMap<String,ArrayList<Float>> getHashValuesSpreadsheet(List<SpreadsheetValues> spreadsheetValuesList){

@@ -20,8 +20,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/subtopico_nome_projeto_label"
@@ -35,18 +34,17 @@
         android:textSize="12sp"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/informe_project_label"
-         />
+        app:layout_constraintTop_toBottomOf="@+id/informe_project_label" />
 
 
     <EditText
         android:id="@+id/name_project"
         android:layout_width="match_parent"
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
         android:ems="10"
         android:inputType="textCapCharacters"
         android:text=""
@@ -59,26 +57,26 @@
         android:id="@+id/informe_cultura_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
         android:text="@string/label_culture"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_project"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/name_project" />
 
     <RadioGroup
         android:id="@+id/radiogroup_culture"
         android:layout_width="178dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/informe_cultura_label"
-        android:layout_marginLeft="16dp">
+        app:layout_constraintTop_toBottomOf="@+id/informe_cultura_label">
 
         <RadioButton
             android:id="@+id/radio_cana_de_acucar"
@@ -90,37 +88,37 @@
         <RadioButton
             android:id="@+id/radio_soja"
             android:layout_width="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="@string/culture_soja" />
 
         <RadioButton
             android:id="@+id/radio_milho"
-            android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="@string/culture_milho" />
 
 
         <RadioButton
             android:id="@+id/radio_cafe"
-            android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="@string/culture_cafe" />
 
         <RadioButton
             android:id="@+id/radio_amendoim"
-            android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="@string/culture_amendoim" />
 
         <RadioButton
             android:id="@+id/radio_algodao"
-            android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="@string/culture_algodao" />
 
     </RadioGroup>
@@ -131,14 +129,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
         android:text="@string/label_turn"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/informe_cultura_label"
-        app:layout_constraintTop_toBottomOf="@+id/name_project"
-        android:layout_marginLeft="32dp" />
+        app:layout_constraintTop_toBottomOf="@+id/name_project" />
 
     <RadioGroup
         android:id="@+id/radiogroup_turn"
@@ -146,11 +144,11 @@
         android:layout_height="wrap_content"
 
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintStart_toEndOf="@+id/radiogroup_culture"
-        app:layout_constraintTop_toBottomOf="@+id/informe_turn_label"
-        android:layout_marginLeft="8dp">
+        app:layout_constraintTop_toBottomOf="@+id/informe_turn_label">
 
         <RadioButton
             android:id="@+id/radio_turno_diurno"
@@ -240,8 +238,8 @@
         android:id="@+id/textView"
         android:layout_width="222dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:gravity="end"
         android:maxEms="12"
         android:paddingBottom="2dp"
@@ -258,12 +256,12 @@
         android:id="@+id/imageView2"
         android:layout_width="110dp"
         android:layout_height="72dp"
-        android:layout_marginBottom="4dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/white_arrow"
-        android:layout_marginRight="24dp" />
+        app:srcCompat="@drawable/white_arrow" />
 
 
 </android.support.constraint.ConstraintLayout>

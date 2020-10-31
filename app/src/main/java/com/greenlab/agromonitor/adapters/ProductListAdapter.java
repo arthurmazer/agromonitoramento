@@ -1,13 +1,18 @@
 package com.greenlab.agromonitor.adapters;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.greenlab.agromonitor.R;
+import com.greenlab.agromonitor.entity.Variables;
+
 import java.util.ArrayList;
 
 /**
@@ -16,9 +21,10 @@ import java.util.ArrayList;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
 
-    private ArrayList<String> listProducts;
+    private ArrayList<Variables> listProducts;
+    private Context context;
 
-    public ProductListAdapter(ArrayList<String> listProducts){
+    public ProductListAdapter(ArrayList<Variables> listProducts){
         this.listProducts = listProducts;
     }
 
@@ -26,15 +32,22 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_product ,parent,false);
-        ViewHolder  myViewHolder = new ViewHolder(view);
-        return myViewHolder;
+        context = parent.getContext();
+        return new ViewHolder(view);
 
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String product = listProducts.get(position);
-        holder.productName.setText(product);
+        Variables var = listProducts.get(position);
+        holder.productName.setText(var.getVarName());
+
+        if (var.isPerdasTotais){
+            holder.productName.setBackgroundResource(R.drawable.shape_list_pt);
+            holder.removeIcon.setVisibility(View.GONE);
+        }else{
+            holder.productName.setBackgroundResource(R.drawable.shape_list_product);
+        }
     }
 
     @Override

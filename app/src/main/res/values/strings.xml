@@ -94,6 +94,7 @@
     <string name="btn_next_step_variables">Concluir</string>
     <string name="btn_back_step_variables">Voltar</string>
     <string name="label_subtopic_variable_name">* Cada variável representará uma coluna na planilha do projeto</string>
+    <string name="label_subtopic_perdas_totais">* As perdas totais será uma variável contendo a somatória das perdas de cada variável</string>
     <string name="label_measure_unity">Unidade de Medida: </string>
     <string name="duplicated_variable">Já existe uma variável com este nome</string>
 
@@ -102,5 +103,6 @@
 
     <string name="generate_excel">Gerar Planiha</string>
     <string name="generate_report">Gerar Relatório</string>
+    <string name="cb_perdas_totais">Adicionar Perdas Totais</string>
 
 </resources>

@@ -43,13 +43,14 @@ public class Project implements Parcelable {
     private String measurersName;
     private int measureUnity;
     private int areaAmostral;
+    private float umidade;
 
     @Ignore
     private List<Product> listOfProducts;
     @Ignore
     private List<SpreadsheetValues> listOfProjectProduct;
     @Ignore
-    private List<String> listOfStringProducts;
+    private List<Variables> listOfStringProducts;
     @Ignore
     public boolean isOpened;
 
@@ -104,6 +105,11 @@ public class Project implements Parcelable {
     public void insertProjectProduct(Context ctx, ProjectProduct projectProduct){
         UserManager userManager = new UserManager(ctx);
         userManager.insertProjectProduct(projectProduct);
+    }
+
+    public void removeProjectProduct(Context ctx, int idProduct){
+        UserManager userManager = new UserManager(ctx);
+        userManager.removeProjectProduct(idProduct);
     }
 
     public void updateProjectProduct(Context ctx, ProjectProduct projectProduct){
@@ -230,11 +236,11 @@ public class Project implements Parcelable {
     }
 
 
-    public List<String> getListOfStringProducts() {
+    public List<Variables> getListOfStringProducts() {
         return listOfStringProducts;
     }
 
-    public void setListOfStringProducts(List<String> listOfStringProducts) {
+    public void setListOfStringProducts(List<Variables> listOfStringProducts) {
         this.listOfStringProducts = listOfStringProducts;
     }
 
