@@ -1,25 +1,17 @@
 package com.greenlab.agromonitor.entity;
 
-import android.arch.persistence.room.Embedded;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 import android.content.Context;
-import android.util.Log;
 
 import com.google.firebase.database.Exclude;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.greenlab.agromonitor.HomeActivity;
 import com.greenlab.agromonitor.interfaces.GetAllProjectsOfUser;
-import com.greenlab.agromonitor.interfaces.UserLoginInterface;
 import com.greenlab.agromonitor.managers.UserManager;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by arthu on 09/02/2018.

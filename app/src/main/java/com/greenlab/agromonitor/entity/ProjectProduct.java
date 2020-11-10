@@ -1,11 +1,11 @@
 package com.greenlab.agromonitor.entity;
 
-import android.arch.persistence.room.Embedded;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
-import static android.arch.persistence.room.ForeignKey.CASCADE;
+import static androidx.room.ForeignKey.CASCADE;
 
 /**
  * Created by monitorapc on 22-Feb-18.
@@ -30,6 +30,7 @@ public class ProjectProduct {
 
     private int idProject;
     private int idProduct;
+    private long timestamp;
     private float value;
 
     public int getIdProject() {
@@ -62,5 +63,13 @@ public class ProjectProduct {
 
     public void setValue(float value) {
         this.value = value;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timeStamp) {
+        this.timestamp = timeStamp;
     }
 }

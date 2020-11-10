@@ -11,6 +11,7 @@ public class SpreadsheetValues {
     private int idProject;
     private String product;
     private int idProjectProduct;
+    private long timestamp;
 
     public SpreadsheetValues() {
     }
@@ -53,5 +54,13 @@ public class SpreadsheetValues {
 
     public void setIdProjectProduct(int idProjectProduct) {
         this.idProjectProduct = idProjectProduct;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }

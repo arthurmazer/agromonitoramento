@@ -48,6 +48,7 @@
     <string name="culture_cafe">Café</string>
     <string name="culture_amendoim">Amendoim</string>
     <string name="culture_algodao">Algodão</string>
+    <string name="perda_em_hectares">Sua perda foi de %1$s reais/ha</string>
 
     <string name="turno_diurno">Diurno</string>
     <string name="turno_noturno">Noturno</string>

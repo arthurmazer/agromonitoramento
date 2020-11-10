@@ -1,14 +1,17 @@
 package com.greenlab.agromonitor;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,8 +23,13 @@ import com.greenlab.agromonitor.utils.Constants;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import jxl.Workbook;
 import jxl.WorkbookSettings;
@@ -119,6 +127,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+
+    @SuppressLint("StaticFieldLeak")
     public void getExcel(){
         int idProject = getOpenedProject();
 
@@ -131,7 +141,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(List<SpreadsheetValues> spreadsheetValuesList) {
-                exportToExcel(spreadsheetValuesList);
+                loadCurrentProject(spreadsheetValuesList);
             }
         }.execute();
 
@@ -139,7 +149,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void sendEmail(File file){
         //File filelocation = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
-        Uri path = Uri.fromFile(file);
+        //Uri path = Uri.fromFile(file);
+        Uri path = FileProvider.getUriForFile(
+                BaseActivity.this,
+                "com.greenlab.agromonitor.provider",
+                file);
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 // set the type to 'email'
         emailIntent .setType("vnd.android.cursor.dir/email");
@@ -173,7 +187,26 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    public void exportToExcel(List<SpreadsheetValues> spreadsheetValuesList){
+    @SuppressLint("StaticFieldLeak")
+    public void loadCurrentProject(List<SpreadsheetValues> spreadsheetValuesList){
+        int idProject = getOpenedProject();
+
+        final Project mProject = new Project();
+        mProject.setId(idProject);
+        new AsyncTask<Void, Void, Project>() {
+            @Override
+            protected Project doInBackground(Void... voids) {
+                return mProject.getActualProject(getApplicationContext());
+            }
+            @Override
+            protected void onPostExecute(Project proj) {
+                exportToExcel(spreadsheetValuesList, proj);
+            }
+        }.execute();
+
+    }
+
+    public void exportToExcel(List<SpreadsheetValues> spreadsheetValuesList, Project project){
 
         final String fileName = getNameProjectOpened()+".xls";
 
@@ -208,40 +241,50 @@ public abstract class BaseActivity extends AppCompatActivity {
             try {
                 int idProduct = -1;
                 int column = 0;
-                int row = 0;
+                int row = 5;
+
+                sheet.addCell(new Label(0,0, "Projeto:"));
+                sheet.addCell(new Label(1,0, project.getProjectName()));
+
+                sheet.addCell(new Label(0,1, "Área Amostral (m²):"));
+                sheet.addCell(new Label(1,1, String.valueOf(project.getAreaAmostral())));
+
+                sheet.addCell(new Label(0,2, "Umidade de colheita:"));
+                sheet.addCell(new Label(1,2, String.valueOf(project.getUmidade())));
+
+                sheet.addCell(new Label(0,3, "Umidade Cooperativa:"));
+                sheet.addCell(new Label(1,3, String.valueOf(project.getUmidadeCoop())));
+
+                sheet.getColumnView(0).setAutosize(true);
+                for (int i = 0; i < sheet.getColumns(); i++){
+                    sheet.getColumnView(i).setAutosize(true);
+                }
+
+
                 for(int i = 0; i < spreadsheetValuesList.size(); i++){
                     SpreadsheetValues sp = spreadsheetValuesList.get(i);
 
                     if ( i == 0) {
                         idProduct = sp.getId();
-                        sheet.addCell(new Label(column,row, sp.getProduct()));
+                        sheet.addCell(new Label(column,row, sp.getProduct() + " (kg/ha)"));
                         row++;
                     }
 
 
                     if ( idProduct != sp.getId()){
                         idProduct = sp.getId();
-                        column++;
-                        row = 0;
-                        sheet.addCell(new Label(column,row, sp.getProduct()));
+                        column += 3;
+                        row = 5;
+                        sheet.addCell(new Label(column,row, sp.getProduct() + " (kg/ha)"));
                         row++;
                     }
 
 
-                    sheet.addCell(new Label(column,row, ""+sp.getValue()));
+                    sheet.addCell(new Label(column,row, ""+getKgHaValue(sp.getValue(), project)));
+                    sheet.addCell(new Label(column+1,row, "" + convertTime(sp.getTimestamp())));
                     row++;
                 }
 
-                /**if (cursor.moveToFirst()) {
-                    do {
-                        String title ="1"; //cursor.getString(cursor.getColumnIndex(DatabaseHelper.TODO_SUBJECT));
-                        String desc = "22";//cursor.getString(cursor.getColumnIndex(DatabaseHelper.TODO_DESC));
-
-                        int i = cursor.getPosition() + 1;
-                        sheet.addCell(new Label(0, i, title));
-                        sheet.addCell(new Label(1, i, desc));
-                    } while (true);
-                }**/
                 //closing cursor
                 //cursor.close();
             } catch (RowsExceededException e) {
@@ -266,6 +309,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    private float getKgHaValue(Float value, Project proj) {
+        float areaAmostral = proj.getAreaAmostral();
+         if (proj.getMeasureUnity() == Constants.KILO) {
+             return getValueCorrigidoUmidade(value * 10000f / areaAmostral, proj);
+        } else {
+             return getValueCorrigidoUmidade((value * 10000f / areaAmostral) / 1000, proj);
+        }
+    }
+
+    private  float getValueCorrigidoUmidade(float value, Project proj) {
+        float umidade = proj.getUmidade();
+        float umidadeCoop = proj.getUmidadeCoop();
+        return value * ((100 - umidade) / (100 - umidadeCoop));
+    }
+
+    public String convertTime(long time){
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getTimeZone("GMT-3"));
+        cal.setTimeInMillis(time);
+
+        return (cal.get(Calendar.DAY_OF_MONTH)+ "/" + (cal.get(Calendar.MONTH) + 1) + "/"
+                + cal.get(Calendar.YEAR) + " " + cal.get(Calendar.HOUR_OF_DAY) + ":"
+                + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND));
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {

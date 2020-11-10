@@ -153,6 +153,30 @@ public class UserManager {
 
     }
 
+    @SuppressLint("StaticFieldLeak")
+    public void updateProjectUmidade(final int idProject,final float umidade){
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                dbManager.projectDAO().updateUmidade(idProject,umidade);
+                return null;
+            }
+        }.execute();
+
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void updateProjectUmidadeCoop(final int idProject,final float umidade){
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                dbManager.projectDAO().updateUmidadeCoop(idProject,umidade);
+                return null;
+            }
+        }.execute();
+
+    }
+
 
 
 

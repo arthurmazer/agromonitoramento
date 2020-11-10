@@ -122,12 +122,58 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_below="@id/layout_umidade_colheita"
+        android:id="@+id/layout_umidade_coop"
+        android:layout_marginLeft="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <android.support.v7.widget.RecyclerView
+        <TextView
+            android:id="@+id/text_umidade_coop"
+            android:text="Umidade da cooperativa:"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="0px"
+            android:layout_height="0px"/>
+
+
+        <EditText
+            android:gravity="center"
+            android:id="@+id/umidade_coop"
+            android:inputType="number"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:nextFocusUp="@id/area_amostral"
+            android:nextFocusLeft="@id/area_amostral"
+            android:layout_marginStart="4dp" />
+
+        <TextView
+            android:text="%"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_spreadsheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/layout_umidade_colheita"
+        android:layout_below="@id/layout_umidade_coop"
         android:layout_marginTop="8dp" />
 
 

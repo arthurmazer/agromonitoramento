@@ -1,14 +1,13 @@
 package com.greenlab.agromonitor.interfaces;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.OnConflictStrategy;
-import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
+import androidx.room.Update;
 
 import com.greenlab.agromonitor.entity.Project;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,5 +32,12 @@ public interface ProjectDAO {
 
     @Query("UPDATE project SET areaAmostral=:areaAmostral, measureUnity=:measureUnity WHERE id=:idProject")
     void updateProjectAreaAndUnity(int idProject, int areaAmostral, int measureUnity);
+
+    @Query("UPDATE project SET umidade=:umidade WHERE id=:idProject")
+    void updateUmidade(int idProject, float umidade);
+
+
+    @Query("UPDATE project SET umidadeCoop=:umidade WHERE id=:idProject")
+    void updateUmidadeCoop(int idProject, float umidade);
 
 }

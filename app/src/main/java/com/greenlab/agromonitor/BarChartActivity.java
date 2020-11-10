@@ -79,7 +79,11 @@ public class BarChartActivity extends BaseActivity implements
         // mChart.setDrawLegend(false);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mChart.performClick();
+    }
 
     @SuppressLint("StaticFieldLeak")
     public void loadValuesFromProject(){
@@ -95,14 +99,14 @@ public class BarChartActivity extends BaseActivity implements
             }
             @Override
             protected void onPostExecute(List<SpreadsheetValues> spreadsheetValuesList) {
-                loadCurrentProject(spreadsheetValuesList);
+                loadMyCurrentProject(spreadsheetValuesList);
             }
         }.execute();
 
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void loadCurrentProject(List<SpreadsheetValues> spreadsheetValuesList){
+    public void loadMyCurrentProject(List<SpreadsheetValues> spreadsheetValuesList){
         int idProject = getOpenedProject();
 
         final Project mProject = new Project();
@@ -127,10 +131,17 @@ public class BarChartActivity extends BaseActivity implements
             sum += value;
         }
         if (proj.getMeasureUnity() == Constants.KILO){
-            return sum * 10000f / areaAmostral;
+            return getValueCorrigidoUmidade(sum * 10000f / areaAmostral, proj);
         }else{
-            return (sum * 10000f / areaAmostral)/1000;
+            return getValueCorrigidoUmidade((sum * 10000f / areaAmostral)/1000, proj);
         }
+    }
+
+    private float getValueCorrigidoUmidade(float value, Project proj){
+        float umidade = proj.getUmidade();
+        float umidadeCoop = proj.getUmidadeCoop();
+
+        return value * ((100-umidade)/(100-umidadeCoop));
     }
 
     private void setData(List<SpreadsheetValues> spreadsheetValuesList, Project proj) {
@@ -142,7 +153,6 @@ public class BarChartActivity extends BaseActivity implements
         }
 
         HashMap<String, ArrayList<Float>> hashValues = new HashMap<>();
-        DescriptiveStatistics descriptiveStatistics = new DescriptiveStatistics();
 
         hashValues = getHashValuesSpreadsheet(spreadsheetValuesList);
 

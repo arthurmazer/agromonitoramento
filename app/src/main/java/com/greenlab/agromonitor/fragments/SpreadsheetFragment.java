@@ -5,9 +5,9 @@ import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -25,7 +25,6 @@ import com.greenlab.agromonitor.entity.Product;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.SpreadsheetValues;
 import com.greenlab.agromonitor.interfaces.GetSpreadsheetValues;
-import com.greenlab.agromonitor.managers.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +40,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
     RecyclerView recyclerSpreadsheet;
     EditText areaAmostral;
     EditText umidade;
+    EditText umidadeCooperativa;
 
 
     public static Fragment newInstance(){
@@ -76,6 +76,7 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
 
         areaAmostral = mView.findViewById(R.id.area_amostral);
         umidade = mView.findViewById(R.id.umidade_colheita);
+        umidadeCooperativa = mView.findViewById(R.id.umidade_coop);
         recyclerSpreadsheet = mView.findViewById(R.id.recycler_spreadsheet);
         spreadsheetAdapter = new SpreadsheetAdapter(spreadsheetList);
         recyclerSpreadsheet.setHasFixedSize(true);
@@ -126,6 +127,8 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
             protected void onPostExecute(Project mProject) {
                 spinnerUnity.setSelection(mProject.getMeasureUnity());
                 areaAmostral.setText(""+mProject.getAreaAmostral());
+                umidade.setText(""+mProject.getUmidade());
+                umidadeCooperativa.setText(""+mProject.getUmidadeCoop());
             }
         }.execute();
 
@@ -147,6 +150,63 @@ public class SpreadsheetFragment extends Fragment implements GetSpreadsheetValue
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        umidadeCooperativa.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                final String num = editable.toString();
+                if (!num.isEmpty()) {
+                    float umy = Float.valueOf(num);
+                    if (umy > 100){
+                        umy = 100;
+                        umidadeCooperativa.setText("100");
+                    }
+                    int idProject = mActivity.getOpenedProject();
+                    Project mProject = new Project();
+                    mProject.setId(idProject);
+                    mProject.updateUmidadeCoop(mActivity.getApplicationContext(), umy);
+                }
+            }
+        });
+
+
+        umidade.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                final String num = editable.toString();
+                if (!num.isEmpty()) {
+                    float umy = Float.valueOf(num);
+                    if (umy > 100){
+                        umy = 100;
+                        umidade.setText("100");
+                    }
+                    int idProject = mActivity.getOpenedProject();
+                    Project mProject = new Project();
+                    mProject.setId(idProject);
+                    mProject.updateUmidade(mActivity.getApplicationContext(), umy);
+                }
             }
         });
 

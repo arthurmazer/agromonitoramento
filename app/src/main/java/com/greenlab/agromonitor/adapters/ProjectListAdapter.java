@@ -1,8 +1,7 @@
 package com.greenlab.agromonitor.adapters;
 
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,6 @@ import com.greenlab.agromonitor.R;
 import com.greenlab.agromonitor.entity.Product;
 import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.utils.Constants;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

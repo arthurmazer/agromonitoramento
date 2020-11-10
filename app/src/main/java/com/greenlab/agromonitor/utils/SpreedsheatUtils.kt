@@ -7,6 +7,21 @@ import kotlin.collections.HashMap
 
 object SpreedsheatUtils {
 
+    @JvmStatic fun getPTArray(myList: ArrayList<Any>): ArrayList<Float>{
+        var flagPT = false
+        var arrayResult = ArrayList<Float>()
+        myList.forEach {
+            if ( it is Product){
+                //categoria
+                flagPT = it.product.toLowerCase(Locale.getDefault()) == "pt"
+            }else if (it is SpreadsheetValues){
+                if (flagPT) {
+                   arrayResult.add(it.value)
+                }
+            }
+        }
+        return arrayResult
+    }
 
 
     @JvmStatic fun getSubArrays(myList: ArrayList<Any>): HashMap<Int, ArrayList<Float>>{

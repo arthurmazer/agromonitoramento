@@ -3,23 +3,19 @@ package com.greenlab.agromonitor;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputFilter;
 import android.util.Log;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.greenlab.agromonitor.adapters.ProductListAdapter;
@@ -28,8 +24,6 @@ import com.greenlab.agromonitor.entity.User;
 import com.greenlab.agromonitor.entity.Variables;
 import com.greenlab.agromonitor.managers.UserManager;
 import com.greenlab.agromonitor.utils.Constants;
-
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -65,7 +59,6 @@ public class CreateVariables extends BaseActivity {
         btnAddProduct = findViewById(R.id.btn_add_variable);
         btnBackToStep3 = findViewById(R.id.btn_back_to_step3);
         btnFinish = findViewById(R.id.btn_finish_project);
-        rootLayout = findViewById(R.id.root_layout);
         ctPT = findViewById(R.id.cbPT);
         listProducts = new ArrayList<>();
         userManager =  new UserManager(getApplicationContext());
@@ -84,9 +77,13 @@ public class CreateVariables extends BaseActivity {
             if (!product.isEmpty()){
 
                 if (!containsVar(listProducts, product)) {
+                    Boolean hasPt = removePTFromList(false);
                     Variables var = new Variables();
                     var.setVarName(product);
                     listProducts.add(var);
+                    if (hasPt) {
+                        addPt();
+                    }
                     productListAdapter.notifyDataSetChanged();
                     textVariaveis.setText("");
                 }else{
@@ -100,13 +97,10 @@ public class CreateVariables extends BaseActivity {
 
         ctPT.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked){
-                Variables var = new Variables();
-                var.setPerdasTotais(true);
-                var.setVarName("PT");
-                listProducts.add(var);
+                addPt();
                 productListAdapter.notifyDataSetChanged();
             }else{
-                removePTFromList();
+                removePTFromList(true);
             }
         });
 
@@ -137,7 +131,14 @@ public class CreateVariables extends BaseActivity {
 
     }
 
-    private void removePTFromList() {
+    private void addPt(){
+        Variables var = new Variables();
+        var.setPerdasTotais(true);
+        var.setVarName("PT");
+        listProducts.add(var);
+    }
+
+    private Boolean removePTFromList(Boolean notify) {
         int index = -1;
         for (int i = 0; i < listProducts.size(); i++){
             if (listProducts.get(i).isPerdasTotais()){
@@ -146,7 +147,12 @@ public class CreateVariables extends BaseActivity {
         }
         if (index != -1) {
             listProducts.remove(index);
-            productListAdapter.notifyDataSetChanged();
+            if (notify) {
+                productListAdapter.notifyDataSetChanged();
+            }
+            return true;
+        }else{
+            return false;
         }
     }
 
@@ -203,6 +209,8 @@ public class CreateVariables extends BaseActivity {
         String dateNow = dateFormat.format(date);
 
         project.setCreationDate(dateNow);
+        project.setUmidade(0f);
+        project.setUmidadeCoop(0f);
       //  project.setIdUser(user.getId());
 
         CreateVariables.ProjectSave projectSave = new CreateVariables.ProjectSave(user,project,this.listProducts);

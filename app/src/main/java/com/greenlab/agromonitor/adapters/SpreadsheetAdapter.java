@@ -1,10 +1,8 @@
 package com.greenlab.agromonitor.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +23,6 @@ import com.greenlab.agromonitor.utils.SpreedsheatUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by arthu on 2/5/2018.
@@ -158,6 +155,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             projectProduct.setIdProduct(prod.getId());
             projectProduct.setIdProject(prod.getIdProject());
             projectProduct.setValue(value);
+            projectProduct.setTimestamp(System.currentTimeMillis());
             project.insertProjectProduct( this.mContext, projectProduct);
 
             spreadsheetList.add(index, spreadsheetValues);
@@ -264,6 +262,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             projectProduct.setIdProduct(idProduct);
             projectProduct.setIdProject(idProject);
             projectProduct.setValue(Float.valueOf(newValue));
+            projectProduct.setTimestamp(System.currentTimeMillis());
             project.updateProjectProduct(this.ctx, projectProduct);
 
             ((SpreadsheetValues) spreadsheetList.get(position)).setValue(Float.valueOf(newValue));
@@ -334,6 +333,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             projectProduct.setIdProduct(idProduct);
             projectProduct.setIdProject(idProject);
             projectProduct.setValue(Float.valueOf(value));
+            projectProduct.setTimestamp(System.currentTimeMillis());
             project.insertProjectProduct(this.ctx, projectProduct);
 
             spreadsheetList.add(index,spreadsheetValues);

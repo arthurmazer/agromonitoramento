@@ -1,22 +1,20 @@
 package com.greenlab.agromonitor.entity;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.greenlab.agromonitor.interfaces.GetSpreadsheetValues;
 import com.greenlab.agromonitor.managers.UserManager;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static android.arch.persistence.room.ForeignKey.CASCADE;
+import static androidx.room.ForeignKey.CASCADE;
 
 /**
  * Created by mazer on 1/19/2018.
@@ -44,6 +42,7 @@ public class Project implements Parcelable {
     private int measureUnity;
     private int areaAmostral;
     private float umidade;
+    private float umidadeCoop;
 
     @Ignore
     private List<Product> listOfProducts;
@@ -86,6 +85,16 @@ public class Project implements Parcelable {
         userManager.updateProjectAreaAndUnity(this.id,areaAmostral,measureUnity);
     }
 
+    public void updateUmidade(Context ctx, float umidade){
+        UserManager userManager = new UserManager(ctx);
+        userManager.updateProjectUmidade(this.id,umidade);
+    }
+
+    public void updateUmidadeCoop(Context ctx, float umidade){
+        UserManager userManager = new UserManager(ctx);
+        userManager.updateProjectUmidadeCoop(this.id,umidade);
+    }
+
     public List<SpreadsheetValues> getSpreadSheetValuesNotNull(Context ctx){
         UserManager userManager = new UserManager(ctx);
         return userManager.getSpreadsheetValuesNotNull(this.id);
@@ -105,6 +114,22 @@ public class Project implements Parcelable {
     public void insertProjectProduct(Context ctx, ProjectProduct projectProduct){
         UserManager userManager = new UserManager(ctx);
         userManager.insertProjectProduct(projectProduct);
+    }
+
+    public float getUmidade() {
+        return umidade;
+    }
+
+    public void setUmidade(float umidade) {
+        this.umidade = umidade;
+    }
+
+    public float getUmidadeCoop() {
+        return umidadeCoop;
+    }
+
+    public void setUmidadeCoop(float umidadeCoop) {
+        this.umidadeCoop = umidadeCoop;
     }
 
     public void removeProjectProduct(Context ctx, int idProduct){

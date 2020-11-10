@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -27,6 +28,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.ChartTouchListener;
@@ -111,7 +113,7 @@ public class LineChartActivity extends BaseActivity  implements
 
         loadValuesFromProject(idProduct);
 
-        fab.setVisibility(View.VISIBLE);
+        fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,12 +175,8 @@ public class LineChartActivity extends BaseActivity  implements
 
                         .positiveText("OK")
                         .show();
-
-
             }
         });
-
-
     }
 
 
@@ -319,6 +317,26 @@ public class LineChartActivity extends BaseActivity  implements
         return newSPList;
     }
 
+    private float getBarValue(ArrayList<Float> barValues, Project proj){
+        float sum = 0f;
+        float areaAmostral = proj.getAreaAmostral();
+        for (float value : barValues){
+            sum += value;
+        }
+        if (proj.getMeasureUnity() == Constants.KILO){
+            return getValueCorrigidoUmidade(sum * 10000f / areaAmostral, proj);
+        }else{
+            return getValueCorrigidoUmidade((sum * 10000f / areaAmostral)/1000, proj);
+        }
+    }
+
+    private float getValueCorrigidoUmidade(float value, Project proj){
+        float umidade = proj.getUmidade();
+        float umidadeCoop = proj.getUmidadeCoop();
+
+        return value * ((100-umidade)/(100-umidadeCoop));
+    }
+
     @SuppressLint("StaticFieldLeak")
     private void setData(Project project, List<SpreadsheetValues> spreadsheetValuesList) {
 
@@ -400,7 +418,7 @@ public class LineChartActivity extends BaseActivity  implements
             leftAxis.addLimitLine(meanLL);
 
             leftAxis.setAxisMaximum(ceilLimit + 10);
-            leftAxis.setAxisMinimum(floorLimit - 10);
+            leftAxis.setAxisMinimum(0);
             //leftAxis.setYOffset(20f);
             leftAxis.enableGridDashedLine(10f, 10f, 0f);
             leftAxis.setDrawZeroLine(false);
@@ -408,7 +426,15 @@ public class LineChartActivity extends BaseActivity  implements
             // limit lines are drawn behind data (and not on top)
             leftAxis.setDrawLimitLinesBehindData(true);
             mChart.getAxisRight().setEnabled(false);
-
+            mChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            mChart.getXAxis().setLabelCount(spreadsheetValuesList.size());
+            mChart.getXAxis().setGranularity(1);
+            mChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    return String.valueOf((int)value);
+                }
+            });
             mChart.animateX(2500);
             //mChart.invalidate();
 

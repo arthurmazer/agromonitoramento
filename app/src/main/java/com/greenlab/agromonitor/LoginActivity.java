@@ -5,14 +5,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.textfield.TextInputLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatDelegate;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -23,13 +22,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.firebase.FirebaseApp;
-import com.greenlab.agromonitor.entity.Project;
 import com.greenlab.agromonitor.entity.User;
 import com.greenlab.agromonitor.managers.SessionManager;
 import com.greenlab.agromonitor.managers.UserManager;
-
-import java.util.ArrayList;
 
 /**
  * A login screen that offers login via email/password.
