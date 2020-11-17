@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.greenlab.agromonitor.NewProjectActivityStep3">
+    tools:context="com.mazer.agromonitor.NewProjectActivityStep3">
 
 
     <TextView
         android:id="@+id/informe_talhao_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/name_project"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
@@ -45,7 +44,6 @@
         android:id="@+id/informe_id_machine_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/name_project"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
@@ -62,7 +60,6 @@
         android:id="@+id/subtopico_machine_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/name_project"
         android:layout_marginStart="18dp"
         android:text="@string/label_subtopic_machine_name"
 
@@ -92,7 +89,6 @@
         android:id="@+id/informe_frente_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/name_project"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"

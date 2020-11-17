@@ -82,11 +82,12 @@
             android:id="@+id/radio_cana_de_acucar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
+            android:visibility="gone"
             android:text="@string/culture_cana" />
 
         <RadioButton
             android:id="@+id/radio_soja"
+            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -97,6 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:visibility="gone"
             android:text="@string/culture_milho" />
 
 
@@ -104,12 +106,14 @@
             android:id="@+id/radio_cafe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginTop="4dp"
             android:text="@string/culture_cafe" />
 
         <RadioButton
             android:id="@+id/radio_amendoim"
             android:layout_width="wrap_content"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/culture_amendoim" />
@@ -118,6 +122,7 @@
             android:id="@+id/radio_algodao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginTop="4dp"
             android:text="@string/culture_algodao" />
 
@@ -238,7 +243,6 @@
         android:id="@+id/textView"
         android:layout_width="222dp"
         android:layout_height="50dp"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:gravity="end"
         android:maxEms="12"
@@ -248,9 +252,7 @@
         android:textSize="16sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/radiogroup_culture"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toStartOf="@+id/imageView2" />
 
     <ImageView
         android:id="@+id/imageView2"

@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:focusableInTouchMode="true"
     android:background="@color/colorPrimary"
-    tools:context="com.greenlab.agromonitor.LoginActivity">
+    tools:context="com.mazer.agromonitor.LoginActivity">
 
     <!-- Login progress -->
     <ProgressBar

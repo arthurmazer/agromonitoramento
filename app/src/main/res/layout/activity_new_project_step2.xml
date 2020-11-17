@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.greenlab.agromonitor.NewProjectActivityStep2">
+    tools:context="com.mazer.agromonitor.NewProjectActivityStep2">
 
 
     <TextView
         android:id="@+id/informe_farm_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/name_project"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
@@ -27,7 +26,6 @@
         android:id="@+id/subtopico_farm_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/name_project"
         android:layout_marginLeft="18dp"
         android:layout_marginStart="18dp"
         android:text="@string/label_subtopic_farm_name"
@@ -57,7 +55,6 @@
         android:id="@+id/informe_operator_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/name_project"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
@@ -87,7 +84,6 @@
         android:id="@+id/informe_measurer_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/name_project"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"

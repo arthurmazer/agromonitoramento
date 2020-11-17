@@ -335,8 +335,7 @@
                 android:layout_marginLeft="4dp"
                 android:layout_marginStart="4dp"
                 android:layout_below="@id/imageView"
-                android:text="Abrir"
-                android:textAlignment="center" />
+                android:text="Abrir" />
 
 
             <TextView
